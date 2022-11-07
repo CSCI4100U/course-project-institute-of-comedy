@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'ShoppingCart.dart';
+import 'SignIn.dart';
+import 'SignUp.dart';
+import 'WishList.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -10,11 +15,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Zamazon Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Zamazon Demo Home Page'),
+      routes: {//Routes to other pages
+        '/SignIn': (context) => SignInWidget(title:'SignIn'),
+        '/SignUp': (context) => SignUpWidget(title:'SignUp'),
+        '/ShoppingCart': (context) => CartWidget(title:'Shopping Cart'),
+        '/WishList': (context) => WishWidget(title:'Wish List'),
+      },
     );
   }
 }
@@ -34,18 +45,13 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(//Button to access Shopping Cart
+              onPressed: (){
+              Navigator.pushNamed(context, '/ShoppingCart');},
+              icon: Icon(Icons.shopping_cart))
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
