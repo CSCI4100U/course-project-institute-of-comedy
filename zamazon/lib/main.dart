@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/ProductPage.dart';
+import 'package:zamazon/models/productsListBLoC.dart';
+import 'package:zamazon/pages/ProductPage.dart';
 import 'pages/homePage.dart';
 import 'pages/ShoppingCart.dart';
 import 'pages/SignUp.dart';
 import 'pages/WishList.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProductsListBLoc()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

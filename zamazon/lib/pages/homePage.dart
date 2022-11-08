@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:zamazon/models/productsListBLoC.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/widgets/createDrawer.dart';
 import 'package:zamazon/customSearchDelegate.dart';
 import 'package:zamazon/zamazonLogo.dart';
 import 'package:zamazon/notifications.dart';
+import 'package:provider/provider.dart';
 
 import '../Product.dart';
 
@@ -77,6 +79,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ProductsListBLoc productsListBLoc = context.watch<ProductsListBLoc>();
+
     return Scaffold(
       appBar: createAppBar(context, zamazonLogo),
       drawer: createDrawer(context),
