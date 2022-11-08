@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zamazon/createAppBar.dart';
 
-class SignUpWidget extends StatefulWidget{
+class SignUpWidget extends StatefulWidget {
   SignUpWidget({Key? key, this.title}) : super(key: key);
 
   final String? title;
@@ -8,45 +9,74 @@ class SignUpWidget extends StatefulWidget{
   State<SignUpWidget> createState() => _SignUpWidgetState();
 }
 
-class _SignUpWidgetState extends State<SignUpWidget>{
-  Widget build(BuildContext context){
+class _SignUpWidgetState extends State<SignUpWidget> {
+  final zamazonLogo = 'https://i.imgur.com/Ty5m1io.png';
+  final formKey = GlobalKey<FormState>();
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Sign Up Page'),
-      ),
-      body: Column(
-        children: [
-          Padding(padding: EdgeInsets.only(top:150, bottom: 10),
-            child: Text('Signing Up',style: TextStyle(fontSize: 50),),
-          ),
-          Padding(//Input form for Email
-            padding: EdgeInsets.only(top:0),
-            child: TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: 'Email',
-                  hintText: 'Email example: abc@gmail.com'
+      appBar: createAppBar(context, zamazonLogo),
+      body: Form(
+        key: formKey,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
+              child: Text(
+                '${widget.title}',
+                style: const TextStyle(fontSize: 50),
               ),
             ),
-          ),
-          Padding(//Input form for Password
-            padding: EdgeInsets.only(bottom:0),
-            child: TextField(
+            TextFormField(
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Email',
+                hintText: 'Email example: abc@gmail.com',
+              ),
+              validator: (value) {
+                //validateEmail(value);   //AT THE BOTTOM, NEED REGEX
+              },
+            ),
+            TextFormField(
               obscureText: true,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Password',
-                  hintText: 'Atleast 6 letters with 1 number.'
-              ),
+                  hintText: 'Atleast 6 letters with 1 number.'),
+              validator: (value) {
+                //validatePassword(value);   //AT THE BOTTOM, NEED REGEX
+              },
             ),
-          ),
-          ElevatedButton(//Confirmed sign up and return to home page as logged in user
-              onPressed: (){Navigator.of(context).popUntil((route) => route.isFirst);},
-              child: Text('Continue')
-          )
-        ],
+            ElevatedButton(
+                //Confirmed sign up and return to home page as logged in user
+                onPressed: () {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                },
+                child: Text('Continue'))
+          ],
+        ),
       ),
     );
+  }
+
+  String? validateEmail(String value) {
+    // regex currently wrong, need to fix.
+    RegExp regExp = RegExp(r'');
+  }
+
+  String? validatePassword(String value) {
+    // regex currently wrong, need to fix.
+    RegExp regExp = RegExp(r'(?=.*[A-Z])(?=.*[a-z]).{8,}(?=.*[0-9])');
+    if (value.isEmpty) {
+      return 'Please enter a password';
+    } else {
+      if (!regExp.hasMatch(value)) {
+        return 'Password must have atleast 6 letters and 1 number.';
+      } else {
+        return null;
+      }
+    }
   }
 }

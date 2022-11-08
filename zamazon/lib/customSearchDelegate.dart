@@ -58,16 +58,20 @@ class CustomSearchDelegate extends SearchDelegate {
 
     //after finding matches, build a listview of all matches
     return ListView.builder(
-      itemCount: matches.length,
+      itemCount: (matches.isNotEmpty) ? matches.length : 1,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(matches[index]),
-          onTap: () {
-            // when item is tapped, close the search bar and return user choice
-            query = matches[index];
-            close(context, query);
-          },
-        );
+        return (matches.isNotEmpty)
+            ? ListTile(
+                title: Text(matches[index]),
+                onTap: () {
+                  // when item is tapped, close the search bar and return user choice
+                  query = matches[index];
+                  close(context, query);
+                },
+              )
+            : ListTile(
+                title: Text("No Terms/Products Found"),
+              );
       },
     );
   }
@@ -84,16 +88,20 @@ class CustomSearchDelegate extends SearchDelegate {
 
     //after finding matches, build a listview of all matches
     return ListView.builder(
-      itemCount: matches.length,
+      itemCount: (matches.isNotEmpty) ? matches.length : 1,
       itemBuilder: (context, index) {
-        return ListTile(
-          title: Text(matches[index]),
-          onTap: () {
-            // when item is tapped, close the search bar and return user choice
-            query = matches[index];
-            close(context, query);
-          },
-        );
+        return (matches.isNotEmpty)
+            ? ListTile(
+                title: Text(matches[index]),
+                onTap: () {
+                  // when item is tapped, close the search bar and return user choice
+                  query = matches[index];
+                  close(context, query);
+                },
+              )
+            : ListTile(
+                title: Text("No Terms/Products Found"),
+              );
       },
     );
   }

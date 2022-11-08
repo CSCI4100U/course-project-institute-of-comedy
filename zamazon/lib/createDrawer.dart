@@ -6,24 +6,35 @@ import 'package:flutter/material.dart';
     sign in button,
     wish list button,
   */
-Widget createDrawer() {
+Widget createDrawer(BuildContext context) {
+  final zamazonLogo = 'https://i.imgur.com/Ty5m1io.png';
+
   return Drawer(
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+      topRight: Radius.circular(50),
+      bottomRight: Radius.circular(50),
+    )),
     child: ListView(
       children: [
-        ListTile(
-          title: const Text('Home Page'),
-          // Takes to homepage if not already there
-          onTap: () {},
+        DrawerHeader(
+          child: Image.network(zamazonLogo),
         ),
         ListTile(
+          leading: Icon(Icons.login),
           title: const Text('Sign In'),
           // Takes to wish list page
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, '/SignIn');
+          },
         ),
         ListTile(
+          leading: Icon(Icons.favorite),
           title: const Text('Wish List'),
           // Takes to wish list page
-          onTap: () {},
+          onTap: () {
+            Navigator.pushNamed(context, '/WishList');
+          },
         )
       ],
     ),
