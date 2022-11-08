@@ -24,10 +24,10 @@ class _HomePageState extends State<HomePage> {
       // below that will be a horizontal list view of products.
       //TODO make it so once the end of the list is hit, more products will be loaded.
       body: CustomScrollView(
-        slivers: const [
+        slivers: [
           //TODO
           //Will select a random item to be featured on sale?
-          //featuredItem()
+          featuredItem(context),
 
           //Will build a horizontal listview of n products
           //buildProductList(10)
@@ -39,5 +39,15 @@ class _HomePageState extends State<HomePage> {
   //TODO
   // Widget createAppbar()
   // Widget buildProductList()
-  // Widget featuredItem()
+  Widget featuredItem(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushNamed(context, routeName)
+      },
+      child: Container(
+        decoration: BoxDecoration,
+
+      ),
+    )
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamazon/ProductPage.dart';
 import 'homePage.dart';
 import 'ShoppingCart.dart';
 import 'SignUp.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         '/SignUp': (context) => SignUpWidget(title: 'Sign Up'),
         '/ShoppingCart': (context) => CartWidget(title: 'Shopping Cart'),
         '/WishList': (context) => WishWidget(title: 'Wish List'),
+        '/ProductPage' : (context) => ProductPage(title: 'Product'),
       },
     );
   }

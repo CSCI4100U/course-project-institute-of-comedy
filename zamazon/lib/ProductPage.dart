@@ -3,7 +3,9 @@ import 'package:zamazon/Product.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProductPage extends StatefulWidget {
-  const ProductPage({Key? key}) : super(key: key);
+  const ProductPage({Key? key, this.title}) : super(key: key);
+
+  final String? title;
 
   @override
   State<ProductPage> createState() => _ProductPageState();
