@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/createAppBar.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignUpWidget extends StatefulWidget {
   SignUpWidget({Key? key, this.title}) : super(key: key);
@@ -36,7 +37,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 hintText: 'Email example: abc@gmail.com',
               ),
               validator: (value) {
-                //validateEmail(value);   //AT THE BOTTOM, NEED REGEX
+                validateEmail(value!);   //AT THE BOTTOM, NEED REGEX
               },
             ),
             TextFormField(
@@ -46,13 +47,21 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   labelText: 'Password',
                   hintText: 'Atleast 6 letters with 1 number.'),
               validator: (value) {
-                //validatePassword(value);   //AT THE BOTTOM, NEED REGEX
+                validatePassword(value!);   //AT THE BOTTOM, NEED REGEX
               },
             ),
             ElevatedButton(
               //Confirmed sign up and return to home page as logged in user
                 onPressed: () {
-                  Navigator.of(context).popUntil((route) => route.isFirst);
+                  if (formKey.currentState!.validate()){
+                    formKey.currentState!.save();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Succeed'))
+                    );
+                  }else {
+                    print('Failed');
+                    //Navigator.of(context).popUntil((route) => route.isFirst);
+                  }
                 },
                 child: Text('Continue'))
           ],
@@ -63,17 +72,28 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   String? validateEmail(String value) {
     // regex currently wrong, need to fix.
-    RegExp regExp = RegExp(r'');
+    RegExp regExp = RegExp(
+        "r'^[a-zA-Z0-9.a-zA-Z0-9.!#\$%&'*+=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+'");
+    if (value.isEmpty) {
+      return 'Please enter a Email';
+    } else {
+      if (!regExp.hasMatch(value)) {
+        return 'Please enter a valid Email';
+      } else {
+        return null;
+      }
+    }
   }
 
   String? validatePassword(String value) {
     // regex currently wrong, need to fix.
-    RegExp regExp = RegExp(r'(?=.*[A-Z])(?=.*[a-z]).{8,}(?=.*[0-9])');
+    RegExp regExp = RegExp(r'^(?=.?[A-Z])(?=.?[a-z])(?=.?[0-9])(?=.?[!@#$&*~]).{6,}$');
     if (value.isEmpty) {
       return 'Please enter a password';
     } else {
       if (!regExp.hasMatch(value)) {
-        return 'Password must have atleast 6 letters and 1 number.';
+        return 'Password requires 1 upper case, 1 lower case, 1 number, 1 special character'
+                'and at least 6 characters total';
       } else {
         return null;
       }

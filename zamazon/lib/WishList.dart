@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class WishWidget extends StatefulWidget{
+class WishWidget extends StatefulWidget {
   WishWidget({Key? key, this.title}) : super(key: key);
 
   final String? title;
@@ -8,15 +8,19 @@ class WishWidget extends StatefulWidget{
   State<WishWidget> createState() => _WishWidgetState();
 }
 
-class _WishWidgetState extends State<WishWidget>{
+class _WishWidgetState extends State<WishWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title!),
       ),
-      body: Container(//Empty
+      body: Container(
+        //Empty
         alignment: Alignment.center,
-        child: Text('Wish list is empty',style: TextStyle(fontSize: 30),),
+        child: Text(
+          'Wish list is empty',
+          style: TextStyle(fontSize: 30),
+        ),
       ),
     );
   }
