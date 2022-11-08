@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
       shippingPrice: 3.12,
       shippingPriceInfo: "free",
       savings: "You Save: \$59.58 (43%)",
-      features: ["Premium SOLID Stainless Steel"],
+      features: ["Premium SOLID Stainless Steel steel steel steel steel"],
       imageUrlList: [
         "https://images-na.ssl-images-amazon.com/images/I/71itkDwgyyL._SL1500_.jpg",
         "https://images-na.ssl-images-amazon.com/images/I/716b2w17%2BPL._SL1500_.jpg"
@@ -103,6 +103,8 @@ class _HomePageState extends State<HomePage> {
   //TODO
   // Widget createAppbar()
   // Widget buildProductList()
+
+  // TODO: add checkers for all values in case they do not exist
   Widget featuredItem(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -120,22 +122,31 @@ class _HomePageState extends State<HomePage> {
                 "${product.features![0]}",
                 style:
                     const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.center,
               ),
             ),
             Container(
                 padding: const EdgeInsets.all(10),
-                child: Text("${product.title}",
-                    style: const TextStyle(fontSize: 20))),
+                child: Text(
+                  "${product.title}",
+                  style: const TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                )),
             Container(
               padding: const EdgeInsets.all(10),
-              child: Text("\$${product.dealPrice}",
-                  style: const TextStyle(fontSize: 30)),
+              child: Text(
+                "\$${product.dealPrice}",
+                style: const TextStyle(fontSize: 30),
+                textAlign: TextAlign.center,
+              ),
             ),
             Container(
               padding: const EdgeInsets.all(10),
               child: Text(
-                  "${product.savings!.substring(18, 21)} off. Limited time offer",
-                  style: const TextStyle(fontSize: 10)),
+                "${product.savings!.substring(18, 21)} off. Limited time offer",
+                style: const TextStyle(fontSize: 15),
+                textAlign: TextAlign.center,
+              ),
             ),
             SizedBox(width: 250, child: Image.network(product.imageUrlList![0]))
           ],

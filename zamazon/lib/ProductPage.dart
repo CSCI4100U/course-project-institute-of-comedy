@@ -141,6 +141,7 @@ class _ProductPageState extends State<ProductPage> {
                   : Container(
                       height: 0,
                     ),
+              // TODO: add checker for deals/sales
               Row(
                 children: [
                   Container(
