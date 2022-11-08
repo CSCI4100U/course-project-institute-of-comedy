@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'homePage.dart';
-import 'ShoppingCart.dart';
-import 'SignUp.dart';
-import 'WishList.dart';
+import 'pages/homePage.dart';
+import 'pages/ShoppingCart.dart';
+import 'pages/SignUp.dart';
+import 'pages/WishList.dart';
 
 void main() {
   runApp(const MyApp());

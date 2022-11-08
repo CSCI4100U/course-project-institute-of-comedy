@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/createAppBar.dart';
-import 'package:zamazon/createDrawer.dart';
+import 'package:zamazon/widgets/createAppBar.dart';
+import 'package:zamazon/widgets/createDrawer.dart';
 import 'package:zamazon/customSearchDelegate.dart';
+import 'package:zamazon/zamazonLogo.dart';
+import 'package:zamazon/notifications.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
 
   final String title;
-  final zamazonLogo = 'https://i.imgur.com/Ty5m1io.png';
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: createAppBar(context, widget.zamazonLogo),
+      appBar: createAppBar(context, zamazonLogo),
       drawer: createDrawer(context),
 
       // featured item will be a random item that is displayed very big,
