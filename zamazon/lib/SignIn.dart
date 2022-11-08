@@ -9,6 +9,8 @@ class SignInWidget extends StatefulWidget{
 }
 
 class _SignInWidgetState extends State<SignInWidget>{
+  final _formKey = GlobalKey<FormState>();
+
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
