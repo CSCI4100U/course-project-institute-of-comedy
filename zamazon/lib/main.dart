@@ -1,6 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:/zamazon/CustomerAddress.dart';
+import 'SignIn.dart';
+import 'package:zamazon/views/homePage.dart';
+import 'package:zamazon/views/ShoppingCart.dart';
+import 'package:zamazon/controllers/SignUp.dart';
+import 'package:zamazon/views/WishList.dart';
 import 'package:zamazon/models/productModel.dart';
 import 'views/homePage.dart';
 import 'views/ShoppingCart.dart';

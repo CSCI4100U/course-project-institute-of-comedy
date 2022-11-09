@@ -85,6 +85,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+<<<<<<< HEAD
+  email_validator:
+    dependency: "direct main"
+    description:
+      name: email_validator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.17"
+=======
   dbus:
     dependency: transitive
     description:
@@ -92,6 +101,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.8"
+>>>>>>> 5f53fac7a9a50f3bf4ca70988850526aff6a306e
   fake_async:
     dependency: transitive
     description:
