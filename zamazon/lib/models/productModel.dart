@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zamazon/models/Product.dart';
 
-class ProductStreamProvider {
+class ProductModel {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   //Returns a stream containing the list of all products in the cloud

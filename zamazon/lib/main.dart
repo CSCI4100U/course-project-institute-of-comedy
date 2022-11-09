@@ -1,6 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:zamazon/models/productStreamProvider.dart';
+import 'package:zamazon/models/productModel.dart';
 import 'views/homePage.dart';
 import 'views/ShoppingCart.dart';
 import 'controllers/SignUp.dart';
@@ -14,7 +15,7 @@ void main() {
       providers: [
         // PROVIDES LIST OF ALL PRODUCTS FROM FIRESTORE
         StreamProvider<List<Product>>(
-          create: (context) => ProductStreamProvider().getProducts(),
+          create: (context) => ProductModel().getProducts(),
           initialData: const [],
         ),
       ],

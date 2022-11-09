@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/widgets/createDrawer.dart';
@@ -18,6 +19,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     List<Product> products = Provider.of<List<Product>>(context);
+    //List<DocumentReference> wishList =
+    //    Provider.of<List<DocumentReference>>(context);
 
     return Scaffold(
       appBar: createAppBar(context, zamazonLogo) as PreferredSizeWidget,
@@ -28,12 +31,12 @@ class _HomePageState extends State<HomePage> {
       //TODO make it so once the end of the list is hit, more products will be loaded.
 
       //REPLACE THIS WITH REAL BODY
-      // body: ListView.builder(
-      //   itemCount: products.length,
-      //   itemBuilder: (context, index) {
-      //     return _buildtile(context, products[index]);
-      //   },
-      // ),
+      body: ListView.builder(
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          return _buildtile(context, products[index]);
+        },
+      ),
     );
   }
 
@@ -42,14 +45,12 @@ class _HomePageState extends State<HomePage> {
   // Widget buildProductList()
   // Widget featuredItem()
 
-/*
   Widget _buildtile(BuildContext context, Product product) {
     print('id: ${product.id}, savings: ${product.savings}');
 
     return ListTile(
       title: Text(product.title!),
-      subtitle: Text(product.dealPrice.toString()),
+      subtitle: Text(product.price.toString()),
     );
   }
-  */
 }
