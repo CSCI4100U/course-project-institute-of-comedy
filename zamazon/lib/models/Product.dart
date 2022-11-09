@@ -24,6 +24,7 @@ class Product {
   double? dealPrice;
   double? salePrice;
   List? reviews;
+  List? categories;
   Map? currency;
 
   Product(
@@ -47,6 +48,7 @@ class Product {
       this.dealPrice,
       this.salePrice,
       this.reviews,
+      this.categories,
       this.currency});
 
   Product.fromMap(var map, {required this.docRef}) {
@@ -73,6 +75,7 @@ class Product {
     this.dealPrice = (map['dealPrice'] == 0) ? 0.0 : map['dealPrice'];
     this.salePrice = (map['salePrice'] == 0) ? 0.0 : map['dealPrice'];
     this.reviews = map['reviews'];
+    this.categories = map['categories'];
     this.currency = map['currency'];
   }
 
@@ -98,6 +101,7 @@ class Product {
       'dealPrice': this.dealPrice,
       'salePrice': this.salePrice,
       'reviews': this.reviews,
+      'categories': this.categories,
       'currency': this.currency
     };
   }
@@ -125,6 +129,7 @@ class Product {
         'dealPrice: $dealPrice, '
         'salePrice: $salePrice, '
         'reviews: $reviews, '
+        'categories: $categories, '
         'currency: $currency}';
   }
 }
