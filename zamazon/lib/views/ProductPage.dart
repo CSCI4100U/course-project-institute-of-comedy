@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/Product.dart';
+import 'package:zamazon/models/Product.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProductPage extends StatefulWidget {

@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/models/productsListBLoC.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/widgets/createDrawer.dart';
-import 'package:zamazon/customSearchDelegate.dart';
 import 'package:zamazon/zamazonLogo.dart';
-import 'package:zamazon/notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:zamazon/models/Product.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -19,25 +17,23 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    ProductsListBLoc productsListBLoc = context.watch<ProductsListBLoc>();
+    List<Product> products = Provider.of<List<Product>>(context);
 
     return Scaffold(
-      appBar: createAppBar(context, zamazonLogo),
+      appBar: createAppBar(context, zamazonLogo) as PreferredSizeWidget,
       drawer: createDrawer(context),
 
       // featured item will be a random item that is displayed very big,
       // below that will be a horizontal list view of products.
       //TODO make it so once the end of the list is hit, more products will be loaded.
-      body: CustomScrollView(
-        slivers: const [
-          //TODO
-          //Will select a random item to be featured on sale?
-          //featuredItem()
 
-          //Will build a horizontal listview of n products
-          //buildProductList(10)
-        ],
-      ),
+      //REPLACE THIS WITH REAL BODY
+      // body: ListView.builder(
+      //   itemCount: products.length,
+      //   itemBuilder: (context, index) {
+      //     return _buildtile(context, products[index]);
+      //   },
+      // ),
     );
   }
 
@@ -45,4 +41,15 @@ class _HomePageState extends State<HomePage> {
   // Widget createAppbar()
   // Widget buildProductList()
   // Widget featuredItem()
+
+/*
+  Widget _buildtile(BuildContext context, Product product) {
+    print('id: ${product.id}, savings: ${product.savings}');
+
+    return ListTile(
+      title: Text(product.title!),
+      subtitle: Text(product.dealPrice.toString()),
+    );
+  }
+  */
 }
