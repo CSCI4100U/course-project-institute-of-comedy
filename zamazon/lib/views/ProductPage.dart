@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/models/Product.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:zamazon/models/productModel.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
-import 'package:zamazon/zamazonLogo.dart';
+import 'package:zamazon/imgurLinks.dart';
 
 class ProductPage extends StatefulWidget {
-  const ProductPage({Key? key, this.title, required this.product}) : super(key: key);
+  const ProductPage({Key? key, this.title, required this.product})
+      : super(key: key);
 
   final String? title;
   final Product product;
@@ -25,6 +27,7 @@ class _ProductPageState extends State<ProductPage> {
 
   bool _isAddToCartButtonPressed = false;
   int? _selectedSizeValue;
+  ProductModel productModel = ProductModel();
 
   @override
   Widget build(BuildContext context) {
@@ -94,8 +97,9 @@ class _ProductPageState extends State<ProductPage> {
                       height: 0,
                     ),
               // TODO: add checker for deals/sales
-              product!.dealPrice != 0.0 ? buildDealWidget(context) :
-              buildPriceWidget(context),
+              product!.dealPrice != 0.0
+                  ? buildDealWidget(context)
+                  : buildPriceWidget(context),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: Text(
@@ -176,51 +180,47 @@ class _ProductPageState extends State<ProductPage> {
   }
 
   Widget buildDealWidget(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            buildPriceWidget(context),
-            Container(
-              padding: const EdgeInsets.all(10),
-              // ${product!.savings!.substring(18,21)}
-              child: Text("${product!.savings}",
-                  style:
-                  const TextStyle(fontSize: 25, color: Colors.red)),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-              // ${product!.savings!.substring(18,21)}
-              child: const Text("Was: ",
-                  style: TextStyle(
+    return Column(children: [
+      Row(
+        children: [
+          buildPriceWidget(context),
+          Container(
+            padding: const EdgeInsets.all(10),
+            // ${product!.savings!.substring(18,21)}
+            child: Text("${product!.savings}",
+                style: const TextStyle(fontSize: 25, color: Colors.red)),
+          ),
+        ],
+      ),
+      Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
+            // ${product!.savings!.substring(18,21)}
+            child: const Text("Was: ",
+                style: TextStyle(
                     // fontSize: 25
                     // decoration: TextDecoration.lineThrough
-                  )),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
-              // ${product!.savings!.substring(18,21)} // percentage off
-              child: Text("\$${product!.retailPrice}",
-                  style: const TextStyle(
+                    )),
+          ),
+          Container(
+            padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
+            // ${product!.savings!.substring(18,21)} // percentage off
+            child: Text("\$${product!.retailPrice}",
+                style: const TextStyle(
                     // fontSize: 25
-                      decoration: TextDecoration.lineThrough)),
-            ),
-          ],
-        )
-    ]
-    );
+                    decoration: TextDecoration.lineThrough)),
+          ),
+        ],
+      )
+    ]);
   }
 
   Widget buildPriceWidget(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10) ,
+      padding: const EdgeInsets.all(10),
       // ${product!.savings!.substring(18,21)}
-      child: Text("\$${product!.price}",
-          style: const TextStyle(fontSize: 25)),
+      child: Text("\$${product!.price}", style: const TextStyle(fontSize: 25)),
     );
   }
 
@@ -234,6 +234,7 @@ class _ProductPageState extends State<ProductPage> {
       ),
       // TODO: make "add to cart" and "remove from cart" functionality
       onPressed: () {
+        productModel.insertProduct(product!);
         setState(() {
           _isAddToCartButtonPressed = _isAddToCartButtonPressed ? false : true;
         });

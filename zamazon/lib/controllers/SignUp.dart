@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
-import 'package:zamazon/zamazonLogo.dart';
+import 'package:zamazon/imgurLinks.dart';
 
 class SignUpWidget extends StatefulWidget {
   SignUpWidget({Key? key, this.title}) : super(key: key);

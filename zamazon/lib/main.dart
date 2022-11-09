@@ -47,17 +47,15 @@ class MyApp extends StatelessWidget {
               var arguments = settings.arguments as ProductPage;
 
               switch (settings.name) {
-                case '/ProductPage' :
-                  return MaterialPageRoute(
-                      builder: (context) {
-                        // Product product = arguments;
-                        return ProductPage(
-                          title: arguments.title,
-                          product: arguments.product,
-                        );
-                      }
-                  );
-                default :
+                case '/ProductPage':
+                  return MaterialPageRoute(builder: (context) {
+                    // Product product = arguments;
+                    return ProductPage(
+                      title: arguments.title,
+                      product: arguments.product,
+                    );
+                  });
+                default:
                   return MaterialPageRoute(
                       builder: (context) => const HomePage(title: 'Zamazon'));
               }
@@ -71,7 +69,7 @@ class MyApp extends StatelessWidget {
             },
           );
         } else {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/zamazonLogo.dart';
+import 'package:zamazon/imgurLinks.dart';
 import 'package:zamazon/notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;

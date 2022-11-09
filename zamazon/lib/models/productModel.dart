@@ -16,4 +16,8 @@ class ProductModel {
       }).toList();
     });
   }
+
+  Future insertProduct(Product product) async {
+    await _db.collection('products').doc().set(product.toMap());
+  }
 }

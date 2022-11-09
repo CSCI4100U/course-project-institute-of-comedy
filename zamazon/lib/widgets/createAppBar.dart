@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/customSearchDelegate.dart';
+import 'package:zamazon/views/ProductPage.dart';
 
 PreferredSizeWidget createAppBar(BuildContext context, String zamazonLogo) {
   return AppBar(
@@ -20,8 +21,15 @@ PreferredSizeWidget createAppBar(BuildContext context, String zamazonLogo) {
       IconButton(
           onPressed: () async {
             // when a user taps a result, it will be returned here.
-            var result = await showSearch(
+            final nav = Navigator.of(context);
+            final product = await showSearch(
                 context: context, delegate: CustomSearchDelegate());
+
+            nav.pushNamed("/ProductPage",
+                arguments: ProductPage(
+                  title: 'Product',
+                  product: product,
+                ));
           },
           icon: const Icon(Icons.search)),
     ],
