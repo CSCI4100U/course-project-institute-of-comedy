@@ -86,7 +86,7 @@ class _CustomerAddressState extends State<CustomerAddressWidget>{
                 hintText: 'Postal Code Example: A1A 1A1 ',
               ),
               validator: (value){
-                RegExp regExp = RegExp(r'/^[ABCEGHJ-NPRSTVXY]\d[ABCEGHJ-NPRSTV-Z][ -]?\d[ABCEGHJ-NPRSTV-Z]\d/i');
+                RegExp regExp = RegExp(r'/^(?=.*?[A-Z]).{1,}(?=.*?[0-9]).{1,}(?=.*?[A-Z]).{1,}(?=.*?[0-9]).{1,}(?=.*?[A-Z]).{1,}(?=.*?[0-9]).{1,}$');
                 if (value == null || value.isEmpty) {
                   return 'Please enter a Postal Code';
                 }

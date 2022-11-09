@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
-  List<String> searchTerms = [
+  final searchTerms = const [
     'ivan',
     'burger',
     'fries',
@@ -69,7 +69,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   close(context, query);
                 },
               )
-            : ListTile(
+            : const ListTile(
                 title: Text("No Terms/Products Found"),
               );
       },
@@ -99,7 +99,7 @@ class CustomSearchDelegate extends SearchDelegate {
                   close(context, query);
                 },
               )
-            : ListTile(
+            : const ListTile(
                 title: Text("No Terms/Products Found"),
               );
       },
