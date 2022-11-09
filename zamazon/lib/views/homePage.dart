@@ -1,16 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:zamazon/models/productsListBLoC.dart';
-import 'package:zamazon/pages/ProductPage.dart';
+import 'package:zamazon/views/ProductPage.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/widgets/createDrawer.dart';
-import 'package:zamazon/customSearchDelegate.dart';
 import 'package:zamazon/zamazonLogo.dart';
-import 'package:zamazon/notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:zamazon/models/Product.dart';
 
-import '../Product.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -24,8 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    ProductsListBLoc productsListBLoc = context.watch<ProductsListBLoc>();
-    List productList = productsListBLoc.products;
+    List<Product> productList = Provider.of<List<Product>>(context);
 
     return Scaffold(
       appBar: createAppBar(context, zamazonLogo),
