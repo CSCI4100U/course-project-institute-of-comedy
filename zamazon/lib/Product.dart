@@ -19,10 +19,11 @@ class Product {
   double? dealPrice;
   double? salePrice;
   List? reviews;
+  List? categories;
   Map? currency;
 
-  Product({
-      this.title,
+  Product(
+      {this.title,
       this.manufacturer,
       this.numReviews,
       this.rating,
@@ -42,8 +43,8 @@ class Product {
       this.dealPrice,
       this.salePrice,
       this.reviews,
-      this.currency
-  });
+      this.categories,
+      this.currency});
 
   Product.fromMap(Map map) {
     this.title = map['title'];
@@ -66,32 +67,34 @@ class Product {
     this.dealPrice = map['dealPrice'];
     this.salePrice = map['salePrice'];
     this.reviews = map['reviews'];
+    this.categories = map['categories'];
     this.currency = map['currency'];
   }
 
   Map<String, Object?> toMap() {
     return {
-      'title' : this.title,
-      'manufacturer' : this.manufacturer,
-      'numReviews' : this.numReviews,
-      'rating' : this.rating,
-      'sizeSelection' : this.sizeSelection,
-      'seller' : this.seller,
-      'fulfiller' : this.fulfiller,
-      'warehouseAvailability' : this.warehouseAvailability,
-      'retailPrice' : this.retailPrice,
-      'price' : this.price,
-      'shippingPrice' : this.shippingPrice,
-      'shippingPriceInfo' : this.shippingPriceInfo,
-      'savings' : this.savings,
-      'features' : this.features,
-      'imageUrlList' : this.imageUrlList,
-      'productDescription' : this.productDescription,
-      'productDetails' : this.productDetails,
-      'dealPrice' : this.dealPrice,
-      'salePrice' : this.salePrice,
-      'reviews' : this.reviews,
-      'currency' : this.currency
+      'title': this.title,
+      'manufacturer': this.manufacturer,
+      'numReviews': this.numReviews,
+      'rating': this.rating,
+      'sizeSelection': this.sizeSelection,
+      'seller': this.seller,
+      'fulfiller': this.fulfiller,
+      'warehouseAvailability': this.warehouseAvailability,
+      'retailPrice': this.retailPrice,
+      'price': this.price,
+      'shippingPrice': this.shippingPrice,
+      'shippingPriceInfo': this.shippingPriceInfo,
+      'savings': this.savings,
+      'features': this.features,
+      'imageUrlList': this.imageUrlList,
+      'productDescription': this.productDescription,
+      'productDetails': this.productDetails,
+      'dealPrice': this.dealPrice,
+      'salePrice': this.salePrice,
+      'reviews': this.reviews,
+      'categories': this.categories,
+      'currency': this.currency
     };
   }
 
@@ -118,6 +121,7 @@ class Product {
         'dealPrice: $dealPrice, '
         'salePrice: $salePrice, '
         'reviews: $reviews, '
+        'categories: $categories, '
         'currency: $currency}';
   }
 }

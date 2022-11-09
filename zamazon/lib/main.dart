@@ -27,13 +27,31 @@ class MyApp extends StatelessWidget {
       title: 'Zamazon Demo',
       theme: ThemeData.light(),
       home: const HomePage(title: 'Zamazon'),
+      onGenerateRoute: (settings) {
+        var arguments = settings.arguments as ProductPage;
+
+        switch (settings.name) {
+          case '/ProductPage' :
+            return MaterialPageRoute(
+                builder: (context) {
+                  // Product product = arguments;
+                  return ProductPage(
+                    title: arguments.title,
+                    product: arguments.product,
+                  );
+                }
+            );
+          default :
+            return MaterialPageRoute(
+                builder: (context) => HomePage(title: 'Zamazon'));
+        }
+      },
       routes: {
         //Routes to other pages
         '/SignIn': (context) => SignUpWidget(title: 'Sign In'),
         '/SignUp': (context) => SignUpWidget(title: 'Sign Up'),
         '/ShoppingCart': (context) => CartWidget(title: 'Shopping Cart'),
         '/WishList': (context) => WishWidget(title: 'Wish List'),
-        '/ProductPage' : (context) => ProductPage(title: 'Product'),
       },
     );
   }

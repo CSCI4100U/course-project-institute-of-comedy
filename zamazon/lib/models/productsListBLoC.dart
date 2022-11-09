@@ -18,10 +18,7 @@ class ProductsListBLoc with ChangeNotifier {
         shippingPriceInfo: "free",
         savings: "You Save: \$59.58 (43%)",
         features: ["Premium SOLID Stainless Steel"],
-        imageUrlList: [
-          "https://images-na.ssl-images-amazon.com/images/I/71itkDwgyyL._SL1500_.jpg",
-          "https://images-na.ssl-images-amazon.com/images/I/716b2w17%2BPL._SL1500_.jpg"
-        ],
+        imageUrlList: ["https://i.imgur.com/Ty5m1io.png"],
         productDescription: "PS4 Pro 4K TV GAMING & MORE The most advanced "
             "PlayStation system ever. PS4 Pro is designed to take your"
             " favorite PS4 games and add to them with more power for graphics",
@@ -45,7 +42,7 @@ class ProductsListBLoc with ChangeNotifier {
                 "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
           }
         ],
-        dealPrice: 71.42,
+        dealPrice: 0.0,
         salePrice: 0.0,
         reviews: [
           {
@@ -61,7 +58,7 @@ class ProductsListBLoc with ChangeNotifier {
         ],
         currency: {"code": "USD", "symbol": "\$"}),
     Product(
-        title: "Product title descriptions",
+        title: "Product 2",
         manufacturer: "Sony",
         numReviews: 19,
         rating: "4.4 out of 5 stars",
@@ -116,9 +113,10 @@ class ProductsListBLoc with ChangeNotifier {
                 "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
           }
         ],
+        categories: ["Video Games", "PlayStation 4", "Consoles"],
         currency: {"code": "USD", "symbol": "\$"}),
     Product(
-        title: "Product title descriptions",
+        title: "Product 3",
         manufacturer: "Sony",
         numReviews: 19,
         rating: "4.4 out of 5 stars",
@@ -173,9 +171,10 @@ class ProductsListBLoc with ChangeNotifier {
                 "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
           }
         ],
+        categories: ["Video Games", "PlayStation 4", "Consoles"],
         currency: {"code": "USD", "symbol": "\$"}),
     Product(
-        title: "Product title descriptions",
+        title: "Product 4",
         manufacturer: "Sony",
         numReviews: 19,
         rating: "4.4 out of 5 stars",
@@ -230,9 +229,10 @@ class ProductsListBLoc with ChangeNotifier {
                 "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
           }
         ],
+        categories: ["Video Games", "PlayStation 4", "Consoles"],
         currency: {"code": "USD", "symbol": "\$"}),
     Product(
-        title: "Product title descriptions",
+        title: "Product 5",
         manufacturer: "Sony",
         numReviews: 19,
         rating: "4.4 out of 5 stars",
@@ -287,9 +287,10 @@ class ProductsListBLoc with ChangeNotifier {
                 "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
           }
         ],
+        categories: ["Video Games", "PlayStation 4", "Consoles"],
         currency: {"code": "USD", "symbol": "\$"}),
     Product(
-        title: "Product title descriptions",
+        title: "Product 6",
         manufacturer: "Sony",
         numReviews: 19,
         rating: "4.4 out of 5 stars",
@@ -344,9 +345,10 @@ class ProductsListBLoc with ChangeNotifier {
                 "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
           }
         ],
+        categories: ["Video Games", "PlayStation 4", "Consoles"],
         currency: {"code": "USD", "symbol": "\$"}),
     Product(
-        title: "Product title descriptions",
+        title: "Product 7",
         manufacturer: "Sony",
         numReviews: 19,
         rating: "4.4 out of 5 stars",
@@ -401,9 +403,10 @@ class ProductsListBLoc with ChangeNotifier {
                 "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
           }
         ],
+        categories: ["Video Games", "PlayStation 4", "Consoles"],
         currency: {"code": "USD", "symbol": "\$"}),
     Product(
-        title: "Product title descriptions",
+        title: "Product 8",
         manufacturer: "Sony",
         numReviews: 19,
         rating: "4.4 out of 5 stars",
@@ -458,9 +461,10 @@ class ProductsListBLoc with ChangeNotifier {
                 "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
           }
         ],
+        categories: ["Video Games", "PlayStation 4", "Consoles"],
         currency: {"code": "USD", "symbol": "\$"}),
     Product(
-        title: "Product title descriptions",
+        title: "Product 9",
         manufacturer: "Sony",
         numReviews: 19,
         rating: "4.4 out of 5 stars",
@@ -515,6 +519,7 @@ class ProductsListBLoc with ChangeNotifier {
                 "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
           }
         ],
+        categories: ["Video Games", "PlayStation 4", "Consoles"],
         currency: {"code": "USD", "symbol": "\$"}),
   ];
 
