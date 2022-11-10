@@ -21,106 +21,118 @@ class _SignInWidgetState extends State<SignInWidget> {
       body: SingleChildScrollView(
         child: Form(
           key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                child: Text(
-                  '${widget.title}',
-                  style: const TextStyle(fontSize: 30),
-                ),
-              ),
-              //TODO Change this to validate existing Email
-              Container(
-                margin: const EdgeInsets.all(10),
-                child: TextFormField(
-                  //Email Validator
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                    labelText: 'Email',
-                    hintText: 'Email example: abc@gmail.com',
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.75,
+            width: MediaQuery.of(context).size.width * 0.9,
+            margin: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  child: Text(
+                    'Welcome Back',
+                    style: TextStyle(fontSize: 30),
                   ),
-                  validator: (value) {
-                    RegExp regExp = RegExp(
-                        r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)');
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a Email';
-                    } else if (!regExp.hasMatch(value)) {
-                      return 'Please enter a valid Email';
-                    }
-                    return null;
-                  },
                 ),
-              ),
-              //TODO Change this to validate existing Password
-              Container(
-                margin: const EdgeInsets.all(10),
-                child: TextFormField(
-                  //Password Validator
-                  obscureText: true,
-                  decoration: const InputDecoration(
-                      errorMaxLines: 10,
+                //TODO Change this to validate existing Email
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    //Email Validator
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      labelText: 'Password',
-                      hintText: 'At least 6 letters:'
-                          ' 1 Uppercase, 1 Lowercase, 1 num'),
-                  validator: (value) {
-                    RegExp regExp =
-                        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a Password';
-                    } else if (!regExp.hasMatch(value)) {
-                      return 'Valid password requires 1 Uppercase, 1 Lowercase, and 1 Number';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              Container(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/SignUp');
-                  },
-                  style: TextButton.styleFrom(
-                      surfaceTintColor: Colors.blue,
-                      textStyle: TextStyle(fontSize: 15)),
-                  child: const Text('No Account? Make one now.'),
-                ),
-              ),
-              //TODO Change this to validate accounts
-              Container(
-                width: 350,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.deepOrangeAccent),
-                child: TextButton(
-                    //Confirmed sign up and return to home page as logged in user
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                            "Log in successfully",
-                            style: TextStyle(fontSize: 20),
-                          )),
-                        );
-                        Navigator.of(context)
-                            .popUntil((route) => route.isFirst);
+                      labelText: 'Email',
+                    ),
+                    validator: (value) {
+                      RegExp regExp = RegExp(
+                          r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)');
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a Email';
+                      } else if (!regExp.hasMatch(value)) {
+                        return 'Email example: abc@gmail.com';
                       }
+                      return null;
+                    },
+                  ),
+                ),
+                //TODO Change this to validate existing Password
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  child: TextFormField(
+                    //Password Validator
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.key),
+                        errorMaxLines: 10,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        labelText: 'Password'),
+                    validator: (value) {
+                      RegExp regExp = RegExp(
+                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a Password';
+                      } else if (!regExp.hasMatch(value)) {
+                        return 'At least 6 letters:'
+                            ' 1 Uppercase, 1 Lowercase, 1 Number';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                //TODO Change this to validate accounts
+                Container(
+                  width: 350,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.deepOrangeAccent),
+                  child: TextButton(
+                      //Confirmed sign up and return to home page as logged in user
+                      onPressed: () {
+                        if (formKey.currentState!.validate()) {
+                          formKey.currentState!.save();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                              "Log in successfully",
+                              style: TextStyle(fontSize: 20),
+                            )),
+                          );
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
+                        }
+                      },
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('Continue',
+                          style: TextStyle(fontSize: 30))),
+                ),
+                Container(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/SignUp');
                     },
                     style: TextButton.styleFrom(
-                      foregroundColor: Colors.white,
+                      surfaceTintColor: Colors.blue,
+                      textStyle: TextStyle(fontSize: 15),
                     ),
-                    child:
-                        const Text('Continue', style: TextStyle(fontSize: 30))),
-              ),
-            ],
+                    child: const Text('No Account? Make one now.'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
