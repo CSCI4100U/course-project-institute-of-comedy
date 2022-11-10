@@ -3,7 +3,7 @@ import 'package:zamazon/models/Product.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/zamazonLogo.dart';
-
+/*
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, this.title, required this.product}) : super(key: key);
 
@@ -286,3 +286,4 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 }
+*/

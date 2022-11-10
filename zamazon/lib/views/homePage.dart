@@ -21,7 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    List<Product> productList = Provider.of<List<Product>>(context);
+    //List<Product> productList = Provider.of<List<Product>>(context);
 
     return Scaffold(
       appBar: createAppBar(context, zamazonLogo),
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
               delegate: SliverChildListDelegate([
             //TODO
             //Will select a random item to be featured on sale?
-            featuredItem(context, productList),
+            //featuredItem(context, productList),
 
             //Will build a horizontal listview of n products
             //buildProductList(10)
@@ -57,15 +57,17 @@ class _HomePageState extends State<HomePage> {
     Random random = Random();
 
     // Product product = productList[random.nextInt(productList.length)];
-    Product product = productList[0];
+    //Product product = productList[0];
 
     return GestureDetector(
-      onTap: () {
+      /*
+        onTap: () {
         Navigator.pushNamed(context, "/ProductPage", arguments: ProductPage(
           title: 'Product',
-          product: product,
+          //product: product,
         ) );
       },
+    */
       child: Container(
         decoration:  BoxDecoration(
           gradient: LinearGradient(
@@ -88,20 +90,22 @@ class _HomePageState extends State<HomePage> {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          /*
           children: [
             Container(
               padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-              child: Text(
+              child:Text(
                 "${product.features![0]}",
                 style:
                     const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),
+
             Container(
                 padding: const EdgeInsets.all(10),
                 child: Text(
-                  "${product.title}",
+                  /"${product.title}",
                   style: const TextStyle(fontSize: 20),
                   textAlign: TextAlign.center,
                 )),
@@ -124,7 +128,9 @@ class _HomePageState extends State<HomePage> {
             SizedBox(width: 250, child: Image.network(product.imageUrlList![0]))
           ],
         ),
+    */
       ),
+    )
     );
   }
 }

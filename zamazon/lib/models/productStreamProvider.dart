@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zamazon/models/Product.dart';
-
+/*
 class ProductStreamProvider {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
@@ -17,3 +17,4 @@ class ProductStreamProvider {
     });
   }
 }
+*/

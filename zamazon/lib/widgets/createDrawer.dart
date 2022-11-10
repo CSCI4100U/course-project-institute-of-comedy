@@ -48,6 +48,14 @@ Widget createDrawer(BuildContext context) {
           },
         ),
         ListTile(
+          leading: const Icon(Icons.login),
+          title: const Text('Address'),
+          // Takes to wish list page
+          onTap: () {
+            Navigator.pushNamed(context, '/CustomerAddress');
+          },
+        ),
+        ListTile(
           leading: const Icon(Icons.favorite),
           title: const Text('Wish List'),
           // Takes to wish list page
