@@ -22,26 +22,32 @@ class _SignInWidgetState extends State<SignInWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Form(
-            key: formKey,
+        child: Form(
+          key: formKey,
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.75,
+            width: MediaQuery.of(context).size.width * 0.9,
+            margin: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    '${widget.title}',
-                    style: const TextStyle(fontSize: 30),
+                    'Welcome Back',
+                    style: TextStyle(fontSize: 30),
                   ),
                 ),
-
-                // EMAIL FIELD
+                //TODO Change this to validate existing Email
                 Container(
                   margin: const EdgeInsets.all(10),
                   child: TextFormField(
                     //Email Validator
                     decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
@@ -70,6 +76,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                     //Password Validator
                     obscureText: true,
                     decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.key),
                       errorMaxLines: 10,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -90,6 +97,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                       return null;
                     },
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 //TODO Change this to validate accounts
                 Container(
@@ -126,8 +136,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                       Navigator.pushNamed(context, '/SignUp');
                     },
                     style: TextButton.styleFrom(
-                        surfaceTintColor: Colors.blue,
-                        textStyle: TextStyle(fontSize: 15)),
+                      surfaceTintColor: Colors.blue,
+                      textStyle: TextStyle(fontSize: 15),
+                    ),
                     child: const Text('No Account? Make one now.'),
                   ),
                 ),
