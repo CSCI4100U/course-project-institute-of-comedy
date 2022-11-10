@@ -5,6 +5,20 @@ import '../views/ProductPage.dart';
 import 'createPriceWidget.dart';
 import 'createRatingWidget.dart';
 
+class CreateProductViewWidget extends StatelessWidget {
+  const CreateProductViewWidget({Key? key, required this.product}) : super(key: key);
+
+  final Product product;
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+
+    return Container();
+  }
+}
+
+
 Widget buildHomeProductView(BuildContext context, List<Product> productList) {
   double height = MediaQuery.of(context).size.height;
   return Container(

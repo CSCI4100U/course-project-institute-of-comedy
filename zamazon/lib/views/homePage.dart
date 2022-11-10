@@ -8,8 +8,7 @@ import 'package:zamazon/zamazonLogo.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
 
-import '../widgets/createHomeProductView.dart';
-import '../zamazonLogo.dart';
+import '../widgets/createProductViewWidget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
