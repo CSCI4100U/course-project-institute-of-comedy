@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:zamazon/controllers/CustomerAddressForm.dart';
@@ -35,36 +36,45 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Zamazon Demo',
-      theme: ThemeData.light(),
-      home: const HomePage(title: 'Zamazon'),
-      onGenerateRoute: (settings) {
-        var arguments = settings.arguments as ProductPage;
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        return MaterialApp(
+          title: 'Zamazon Demo',
+          theme: ThemeData.light(),
+          home: (snapshot.hasData)
+              ? const HomePage(title: 'Zamazon')
+              : const SignInWidget(
+                  title: 'Welcome \n Please Sign In',
+                ),
+          onGenerateRoute: (settings) {
+            var arguments = settings.arguments as ProductPage;
 
-        switch (settings.name) {
-          case '/ProductPage':
-            return MaterialPageRoute(builder: (context) {
-              // Product product = arguments;
-              return ProductPage(
-                title: arguments.title,
-                product: arguments.product,
-              );
-            });
-          default:
-            return MaterialPageRoute(
-                builder: (context) => const HomePage(title: 'Zamazon'));
-        }
-      },
-      routes: {
-        //Routes to other pages
-        '/CustomerAddress': (context) => CustomerAddressWidget(
-              title: 'Enter Address Info',
-            ),
-        '/SignIn': (context) => SignUpWidget(title: 'Sign In'),
-        '/SignUp': (context) => SignUpWidget(title: 'Sign Up'),
-        '/ShoppingCart': (context) => CartWidget(title: 'Shopping Cart'),
-        '/WishList': (context) => WishWidget(title: 'Wish List'),
+            switch (settings.name) {
+              case '/ProductPage':
+                return MaterialPageRoute(builder: (context) {
+                  // Product product = arguments;
+                  return ProductPage(
+                    title: arguments.title,
+                    product: arguments.product,
+                  );
+                });
+              default:
+                return MaterialPageRoute(
+                    builder: (context) => const HomePage(title: 'Zamazon'));
+            }
+          },
+          routes: {
+            //Routes to other pages
+            '/CustomerAddress': (context) => CustomerAddressWidget(
+                  title: 'Enter Address Info',
+                ),
+            '/SignIn': (context) => SignInWidget(title: 'Sign In'),
+            '/SignUp': (context) => SignUpWidget(title: 'Sign Up'),
+            '/ShoppingCart': (context) => CartWidget(title: 'Shopping Cart'),
+            '/WishList': (context) => WishWidget(title: 'Wish List'),
+          },
+        );
       },
     );
   }

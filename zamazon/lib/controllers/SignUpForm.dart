@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
+import 'package:zamazon/links.dart';
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({Key? key, this.title}) : super(key: key);
@@ -11,13 +13,14 @@ class SignUpWidget extends StatefulWidget {
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
-  final zamazonLogo = 'https://i.imgur.com/Ty5m1io.png';
   final formKey = GlobalKey<FormState>();
+  String? _name;
+  String? _email;
+  String? _password;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: createAppBar(context, zamazonLogo),
       body: SingleChildScrollView(
         child: Form(
           key: formKey,
@@ -40,14 +43,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     labelText: 'Name',
-                    hintText: 'Input your name',
                   ),
+                  onSaved: (name) {
+                    _name = name;
+                  },
                   validator: (value) {
                     RegExp regExp = RegExp(r'^[a-z A-Z,.\-]+$');
                     if (value == null || value.isEmpty) {
                       return 'Please enter a Name';
                     } else if (!regExp.hasMatch(value)) {
-                      return 'Please enter a valid Name';
+                      return 'Please enter a valid name (No numbers)';
                     }
                     return null;
                   },
@@ -65,15 +70,17 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       borderRadius: BorderRadius.all(Radius.circular(20)),
                     ),
                     labelText: 'Email',
-                    hintText: 'Email example: abc@gmail.com',
                   ),
+                  onSaved: (email) {
+                    _email = email;
+                  },
                   validator: (value) {
                     RegExp regExp = RegExp(
                         r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)');
                     if (value == null || value.isEmpty) {
                       return 'Please enter a Email';
                     } else if (!regExp.hasMatch(value)) {
-                      return 'Please enter a valid Email';
+                      return 'Email example: abc@gmail.com';
                     }
                     return null;
                   },
@@ -88,20 +95,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   //Password Validator
                   obscureText: true,
                   decoration: const InputDecoration(
-                      errorMaxLines: 10,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      labelText: 'Password',
-                      hintText: 'At least 6 letters:'
-                          ' 1 Uppercase, 1 Lowercase, 1 num'),
+                    errorMaxLines: 10,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                    labelText: 'Password',
+                  ),
+                  onSaved: (password) {
+                    _password = password;
+                  },
                   validator: (value) {
                     RegExp regExp =
                         RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
                     if (value == null || value.isEmpty) {
                       return 'Please enter a Password';
                     } else if (!regExp.hasMatch(value)) {
-                      return 'Valid password requires 1 Uppercase, 1 Lowercase, and 1 Number';
+                      return 'At least 6 letters: 1 Uppercase, 1 Lowercase, 1 num';
                     }
                     return null;
                   },
@@ -117,14 +126,18 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         formKey.currentState!.save();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text(
-                            "User Registered!",
-                            style: TextStyle(fontSize: 20),
-                          )),
-                        );
-                        Navigator.pushNamed(context, '/CustomerAddress');
+
+                        signUp(context, _name, _email, _password).then((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                              "User Registered, Welcome!",
+                              style: TextStyle(fontSize: 20),
+                            )),
+                          );
+                        });
+
+                        //Navigator.pushNamed(context, '/CustomerAddress');
                       }
                     },
                     style: TextButton.styleFrom(

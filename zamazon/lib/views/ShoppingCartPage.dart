@@ -37,16 +37,6 @@ class _CartWidgetState extends State<CartWidget> {
                 child: Text('Sign in to your Account'),
               ),
             ),
-            Padding(
-              //Button to access Sign Up Page
-              padding: const EdgeInsets.only(left: 100),
-              child: OutlinedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/SignUp');
-                },
-                child: Text('Sign up now'),
-              ),
-            ),
           ],
         )))
       ]),
