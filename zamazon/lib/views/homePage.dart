@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:zamazon/views/ProductPage.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/widgets/createDrawer.dart';
-import 'package:zamazon/imgurLinks.dart';
+import 'package:zamazon/links.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/widgets/createFeaturedItem.dart';
@@ -25,8 +25,8 @@ class _HomePageState extends State<HomePage> {
     List<Product> productList = Provider.of<List<Product>>(context);
 
     return Scaffold(
-      appBar: createAppBar(context, zamazonLogo),
-      drawer: createDrawer(context),
+      appBar: CreateAppBar(context),
+      drawer: CreateDrawer(),
 
       // featured item will be a random item that is displayed very big,
       // below that will be a horizontal list view of products.

@@ -3,7 +3,7 @@ import 'package:zamazon/models/Product.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:zamazon/models/productModel.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
-import 'package:zamazon/imgurLinks.dart';
+import 'package:zamazon/links.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, this.title, required this.product})
@@ -36,7 +36,7 @@ class _ProductPageState extends State<ProductPage> {
     ScrollController scrollController = ScrollController();
     double fontSize = 17;
     return Scaffold(
-      appBar: createAppBar(context, zamazonLogo),
+      appBar: CreateAppBar(context),
       body: CustomScrollView(
         controller: scrollController,
         slivers: [

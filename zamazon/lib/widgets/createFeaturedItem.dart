@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/views/ProductPage.dart';
-import 'package:zamazon/imgurLinks.dart';
+import 'package:zamazon/links.dart';
 
 //TODO
 // Widget createAppbar()
 // Widget buildProductList()
 
 // TODO: add checkers for all values in case they do not exist
+
 Widget featuredItem(BuildContext context, List productList) {
   Random random = Random();
   if (productList.isNotEmpty) {
@@ -90,8 +91,8 @@ Widget featuredItem(BuildContext context, List productList) {
       ),
     );
   } else {
-    return CircularProgressIndicator(
-      strokeWidth: 2.0,
+    return const Center(
+      child: CircularProgressIndicator(),
     );
   }
 }
