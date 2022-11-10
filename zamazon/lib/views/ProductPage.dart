@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter_material_pickers/helpers/show_number_picker.dart';
 import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/models/productModel.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/widgets/createRatingWidget.dart';
-import 'package:zamazon/zamazonLogo.dart';
 
 import 'package:zamazon/widgets/createDealWidget.dart';
 import 'package:zamazon/widgets/createPriceWidget.dart';
@@ -33,6 +33,7 @@ class _ProductPageState extends State<ProductPage> {
 
   bool _isAddToCartButtonPressed = false;
   bool _isWishListButtonPressed = false;
+  ProductModel productModel = ProductModel();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class _ProductPageState extends State<ProductPage> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: createAppBar(context, zamazonLogo),
+      appBar: CreateAppBar(context),
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
@@ -245,6 +246,7 @@ class _ProductPageState extends State<ProductPage> {
         if (!_isAddToCartButtonPressed) {
           showNumberPickerDialog(context);
         }
+        productModel.insertProduct(product!);
         setState(() {
           if (_isAddToCartButtonPressed) {
             _isAddToCartButtonPressed = false;

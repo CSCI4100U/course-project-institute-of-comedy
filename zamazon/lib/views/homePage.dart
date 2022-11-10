@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:zamazon/views/ProductPage.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/widgets/createDrawer.dart';
-import 'package:zamazon/zamazonLogo.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/widgets/createFeaturedItem.dart';
 
 import '../widgets/createProductViewWidget.dart';
 
@@ -45,8 +42,8 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       child: Scaffold(
-        appBar: createAppBar(context, zamazonLogo),
-        drawer: createDrawer(context),
+        appBar: CreateAppBar(context),
+        drawer: CreateDrawer(),
         backgroundColor: Colors.transparent,
         // featured item will be a random item that is displayed very big,
         // below that will be a horizontal list view of products.
@@ -73,62 +70,4 @@ class _HomePageState extends State<HomePage> {
   //TODO
   // Widget createAppbar()
 
-  // TODO: add checkers for all values in case they do not exist
-  Widget featuredItem(BuildContext context, List productList) {
-    Random random = Random();
-
-    // Product product = productList[random.nextInt(productList.length)];
-    Product product = productList[0];
-
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, "/ProductPage",
-            arguments: ProductPage(
-              title: 'Product',
-              product: product,
-            ));
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-            child: Text(
-              "${product.features![0]}",
-              style:
-                  const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Container(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                "${product.title}",
-                style: const TextStyle(fontSize: 20),
-                textAlign: TextAlign.center,
-              )),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              "\$${product.dealPrice}",
-              style: const TextStyle(fontSize: 30),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: Text(
-              "${product.savings!.substring(18, 21)} off. Limited time offer",
-              style: const TextStyle(fontSize: 15),
-              textAlign: TextAlign.center,
-            ),
-          ),
-          Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-              width: 250,
-              child: Image.network(featuredImgs[0]))
-        ],
-      ),
-    );
-  }
 }

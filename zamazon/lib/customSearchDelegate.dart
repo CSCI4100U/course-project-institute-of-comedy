@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:zamazon/models/Product.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   final searchTerms = const [
-    'ivan',
-    'burger',
-    'fries',
-    'drink',
-    'monkey',
-    'monkey1',
-    'monkey2',
-    'monkey3',
-    'monkey4',
-    'monkey5',
-    'ape',
-    'pear',
-    'apple',
-    'orange',
+    'Computer',
+    'Electronics',
+    'Hardware',
+    'Burger',
+    'Food',
+    'Edible',
+    'Clothing',
+    'School',
+    'Gym',
   ];
 
   // New actions built on the right of search bar
@@ -44,29 +41,34 @@ class CustomSearchDelegate extends SearchDelegate {
     );
   }
 
-  // results of the user's search
-  //TODO
-  // Build list view of products, picture and product name.
+  // results of the user's search, shows up after presses button to complete typing, or
+  // if user chooses a tag.
   @override
   Widget buildResults(BuildContext context) {
-    List<String> matches = [];
-    for (var term in searchTerms) {
-      if (term.toLowerCase().contains(query.toLowerCase())) {
-        matches.add(term);
+    List<Product> productList = Provider.of<List<Product>>(context);
+
+    List<Product> matches = [];
+    for (var product in productList) {
+      List lowers =
+          product.categories!.map((cat) => cat.toLowerCase()).toList();
+
+      if (lowers.any((cat) => cat.contains(query.toLowerCase()))) {
+        matches.add(product);
       }
     }
 
-    //after finding matches, build a listview of all matches
+    //after finding matches, build a listview of all matched products
     return ListView.builder(
       itemCount: (matches.isNotEmpty) ? matches.length : 1,
       itemBuilder: (context, index) {
         return (matches.isNotEmpty)
             ? ListTile(
-                title: Text(matches[index]),
+                title: Image.network(matches[index].imageUrlList![0]),
+                subtitle: Text(matches[index].title!),
                 onTap: () {
                   // when item is tapped, close the search bar and return user choice
-                  query = matches[index];
-                  close(context, query);
+                  query = matches[index].title!;
+                  close(context, matches[index]);
                 },
               )
             : const ListTile(
@@ -96,7 +98,7 @@ class CustomSearchDelegate extends SearchDelegate {
                 onTap: () {
                   // when item is tapped, close the search bar and return user choice
                   query = matches[index];
-                  close(context, query);
+                  showResults(context);
                 },
               )
             : const ListTile(
