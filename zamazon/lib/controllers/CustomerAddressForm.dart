@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 
 class CustomerAddressWidget extends StatefulWidget {
-  CustomerAddressWidget({Key? key, this.title}) : super(key: key);
+  const CustomerAddressWidget({Key? key, this.title}) : super(key: key);
 
   final String? title;
   @override
@@ -13,6 +13,7 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
   final zamazonLogo = 'https://i.imgur.com/Ty5m1io.png';
   final formKey = GlobalKey<FormState>();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CreateAppBar(context),
@@ -20,7 +21,6 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
         child: Form(
           key: formKey,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.75,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(

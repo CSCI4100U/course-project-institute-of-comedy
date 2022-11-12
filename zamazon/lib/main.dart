@@ -71,7 +71,7 @@ class MyApp extends StatelessWidget {
                 ),
             '/SignIn': (context) => SignInWidget(title: 'Sign In'),
             '/SignUp': (context) => SignUpWidget(title: 'Sign Up'),
-            '/ShoppingCart': (context) => CartWidget(title: 'Shopping Cart'),
+            '/ShoppingCart': (context) => ShoppingCartPage(title: 'Shopping Cart'),
             '/WishList': (context) => WishWidget(title: 'Wish List'),
           },
         );
