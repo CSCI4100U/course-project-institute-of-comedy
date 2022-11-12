@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
 
+// class needed for searchBar, responsible for building the searchBar and
+// showing relevant search terms/products when a user makes a query.
+
 class CustomSearchDelegate extends SearchDelegate {
   final searchTerms = const [
     'Computer',

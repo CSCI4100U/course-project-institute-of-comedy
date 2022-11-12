@@ -19,6 +19,7 @@ class ProductModel {
 
   //Insert product into data, just to easily fill firestore with sample data.
   //Data is inserted when you try to add product to cart.
+  //TODO USERS CAN SELL ITEMS
   Future insertProduct(Product product) async {
     await _db.collection('products').doc().set(product.toMap());
   }

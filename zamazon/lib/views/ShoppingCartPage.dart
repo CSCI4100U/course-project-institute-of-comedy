@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+//IN PROGRESS, users should be able to add/remove items to their shopping carts
+// and they will be displayed in this page. IN PROGRESS, checking out items.
+
 class CartWidget extends StatefulWidget {
   CartWidget({Key? key, this.title}) : super(key: key);
 
@@ -9,6 +12,7 @@ class CartWidget extends StatefulWidget {
 }
 
 class _CartWidgetState extends State<CartWidget> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -19,27 +23,20 @@ class _CartWidgetState extends State<CartWidget> {
               onPressed: () {
                 Navigator.pushNamed(context, '/WishList');
               },
-              icon: Icon(Icons.favorite))
+              icon: const Icon(Icons.favorite))
         ],
       ),
-      body: Column(children: [
-        Expanded(
-            child: SingleChildScrollView(
-                child: Column(
-          children: [
-            Padding(
-              //Button to access Sign In Page
-              padding: const EdgeInsets.only(left: 100, top: 250),
-              child: OutlinedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/SignIn');
-                },
-                child: Text('Sign in to your Account'),
-              ),
-            ),
-          ],
-        )))
-      ]),
+      body: Container(
+        //Empty
+        alignment: Alignment.center,
+
+        //TODO listview of wishlist items
+        child: const Text(
+          'Shopping cart is empty - WIP',
+          softWrap: true,
+          style: TextStyle(fontSize: 30),
+        ),
+      ),
     );
   }
 }

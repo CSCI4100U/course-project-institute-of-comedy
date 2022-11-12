@@ -3,6 +3,9 @@ import 'package:zamazon/customSearchDelegate.dart';
 import 'package:zamazon/views/ProductPage.dart';
 import 'package:zamazon/links.dart';
 
+// helper function to create appbar. Used in multiple pages so I made it
+// a class
+
 class CreateAppBar extends StatelessWidget with PreferredSizeWidget {
   const CreateAppBar(BuildContext context, {super.key});
 

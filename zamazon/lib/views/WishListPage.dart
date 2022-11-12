@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+// IN PROGRESS, similar to shopping cart page, except users will only be able to
+// add wishlist items to shopping cart, they will not be able to check out items
+// from this page.
+
 class WishWidget extends StatefulWidget {
   WishWidget({Key? key, this.title}) : super(key: key);
 
@@ -25,7 +29,7 @@ class _WishWidgetState extends State<WishWidget> {
 
         //TODO listview of wishlist items
         child: const Text(
-          'Wish list is empty',
+          'Wish list is empty - WIP',
           style: TextStyle(fontSize: 30),
         ),
       ),

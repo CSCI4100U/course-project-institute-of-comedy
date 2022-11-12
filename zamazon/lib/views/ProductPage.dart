@@ -5,6 +5,10 @@ import 'package:zamazon/models/productModel.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/links.dart';
 
+// When a product is tapped, user will be navigated to its respective
+// page. This class is responsible for creating that page. From here, user's can
+// add products to their shopping cart/wish list.
+
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, this.title, required this.product})
       : super(key: key);
@@ -234,16 +238,16 @@ class _ProductPageState extends State<ProductPage> {
       ),
       // TODO: make "add to cart" and "remove from cart" functionality
       onPressed: () {
-        productModel.insertProduct(product!);
+        //productModel.insertProduct(product!);  //testing
         setState(() {
           _isAddToCartButtonPressed = _isAddToCartButtonPressed ? false : true;
         });
       },
       child: _isAddToCartButtonPressed
-          ? const Text("Remove from Cart",
+          ? const Text("Remove from Cart - WIP",
               style: TextStyle(color: Colors.black))
           : const Text(
-              "Add to Cart",
+              "Add to Cart - WIP",
               style: TextStyle(color: Colors.black),
             ),
     );

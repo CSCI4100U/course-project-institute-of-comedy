@@ -1,14 +1,12 @@
-import 'dart:math';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:zamazon/views/ProductPage.dart';
+import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/widgets/createDrawer.dart';
-import 'package:zamazon/links.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/widgets/createFeaturedItem.dart';
+
+// Homepage of our digital store front. Presented after successful sign in/ sign up
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});

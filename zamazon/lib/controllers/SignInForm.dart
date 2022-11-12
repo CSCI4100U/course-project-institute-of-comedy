@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:zamazon/widgets/createAppBar.dart';
-import 'package:zamazon/links.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
+import 'package:zamazon/links.dart';
+
+//Form that lets registered user's sign in.
 
 class SignInWidget extends StatefulWidget {
   const SignInWidget({Key? key, this.title}) : super(key: key);
@@ -25,23 +25,23 @@ class _SignInWidgetState extends State<SignInWidget> {
         child: Form(
           key: formKey,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.75,
+            height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
+                Image.network(zamazonLogo),
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    'Welcome Back',
+                    'Welcome!',
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
-                //TODO Change this to validate existing Email
                 Container(
                   margin: const EdgeInsets.all(10),
                   child: TextFormField(
@@ -101,9 +101,8 @@ class _SignInWidgetState extends State<SignInWidget> {
                 const SizedBox(
                   height: 20,
                 ),
-                //TODO Change this to validate accounts
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.95,
+                  width: MediaQuery.of(context).size.width * 0.85,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.deepOrangeAccent),
@@ -128,18 +127,24 @@ class _SignInWidgetState extends State<SignInWidget> {
                         foregroundColor: Colors.white,
                       ),
                       child: const Text('Continue',
-                          style: TextStyle(fontSize: 30))),
+                          style: TextStyle(fontSize: 20))),
                 ),
-                Container(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/SignUp');
-                    },
-                    style: TextButton.styleFrom(
-                      surfaceTintColor: Colors.blue,
-                      textStyle: TextStyle(fontSize: 15),
+                TextButton(
+                  onPressed: () {
+                    // removes cursor on previous page
+                    FocusScope.of(context).unfocus();
+                    Navigator.pushNamed(context, '/SignUp');
+                  },
+                  style: TextButton.styleFrom(
+                    surfaceTintColor: Colors.blue,
+                    textStyle: const TextStyle(fontSize: 15),
+                  ),
+                  child: const Text(
+                    'Create an account',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
                     ),
-                    child: const Text('No Account? Make one now.'),
                   ),
                 ),
               ],

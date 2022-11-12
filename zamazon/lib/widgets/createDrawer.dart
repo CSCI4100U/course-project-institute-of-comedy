@@ -1,10 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zamazon/links.dart';
 import 'package:zamazon/notifications.dart';
-import 'package:timezone/timezone.dart' as tz;
-import 'package:timezone/data/latest.dart' as tz;
+// import 'package:timezone/timezone.dart' as tz;
+// import 'package:timezone/data/latest.dart' as tz;
 import 'package:zamazon/authentication/authFunctions.dart';
+
+// helper function, to create a drawer. I made it a seperate file for cleanliness.
 
 class CreateDrawer extends StatelessWidget {
   CreateDrawer({super.key});
@@ -18,8 +19,8 @@ class CreateDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _notifications.init();
-    tz.initializeTimeZones();
+    //_notifications.init();
+    //tz.initializeTimeZones();
 
     return Drawer(
       shape: const RoundedRectangleBorder(
@@ -27,25 +28,28 @@ class CreateDrawer extends StatelessWidget {
         topRight: Radius.circular(50),
         bottomRight: Radius.circular(50),
       )),
-      child: ListView(
+      child: Column(
         children: [
           DrawerHeader(
             child: Image.network(zamazonLogo),
           ),
+          const Divider(
+            thickness: 2,
+          ),
+
+          //TODO USER PROFILE
           ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text('Home'),
+            leading: const Icon(Icons.person),
+            title: const Text('Profile - WIP'),
             // Takes to wish list page
-            onTap: () {
-              Navigator.popUntil(context, (route) => route.isFirst);
-            },
+            onTap: () {},
           ),
           ListTile(
-            leading: const Icon(Icons.login),
-            title: const Text('Address'),
+            leading: const Icon(Icons.shopping_cart),
+            title: const Text('Shopping Cart'),
             // Takes to wish list page
             onTap: () {
-              Navigator.pushNamed(context, '/CustomerAddress');
+              Navigator.pushNamed(context, '/ShoppingCart');
             },
           ),
           ListTile(
@@ -76,6 +80,20 @@ class CreateDrawer extends StatelessWidget {
           // ),
           //const Spacer(),
           //const Divider(),
+          const Spacer(),
+          const Divider(
+            thickness: 2,
+          ),
+          const Divider(
+            thickness: 0.55,
+          ),
+
+          //TODO SETTINGS
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Settings - WIP'),
+            onTap: () {},
+          ),
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
@@ -92,6 +110,9 @@ class CreateDrawer extends StatelessWidget {
               });
             },
           ),
+          const SizedBox(
+            height: 10,
+          )
         ],
       ),
     );

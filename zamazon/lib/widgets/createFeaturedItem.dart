@@ -4,11 +4,7 @@ import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/views/ProductPage.dart';
 import 'package:zamazon/links.dart';
 
-//TODO
-// Widget createAppbar()
-// Widget buildProductList()
-
-// TODO: add checkers for all values in case they do not exist
+// helper function, to create a big banner for a randomly featured item.
 
 Widget featuredItem(BuildContext context, List productList) {
   Random random = Random();

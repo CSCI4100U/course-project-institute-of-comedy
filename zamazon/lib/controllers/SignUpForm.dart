@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
-import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/links.dart';
+
+// Form for registering a new user to firebase.
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({Key? key, this.title}) : super(key: key);
@@ -25,49 +26,22 @@ class _SignUpWidgetState extends State<SignUpWidget> {
         child: Form(
           key: formKey,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.75,
+            height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
             decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10, bottom: 10),
+                Image.network(zamazonLogo),
+                const Padding(
+                  padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    '${widget.title}',
-                    style: const TextStyle(fontSize: 30),
+                    'Sign Up',
+                    style: TextStyle(fontSize: 30),
                   ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  child: TextFormField(
-                    //Name Validator
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      labelText: 'Name',
-                    ),
-                    onSaved: (name) {
-                      _name = name;
-                    },
-                    validator: (value) {
-                      RegExp regExp = RegExp(r'^[a-z A-Z,.\-]+$');
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Name';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'Please enter a valid name (No numbers)';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 Container(
                   margin: const EdgeInsets.all(10),
@@ -94,9 +68,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       return null;
                     },
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 Container(
                   margin: const EdgeInsets.all(10),
@@ -130,7 +101,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   height: 20,
                 ),
                 Container(
-                  width: 350,
+                  width: MediaQuery.of(context).size.width * 0.85,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.deepOrangeAccent),
@@ -141,6 +112,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           formKey.currentState!.save();
 
                           signUp(context, _name, _email, _password).then((_) {
+                            Navigator.pushNamed(context, '/CustomerInfo');
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text(
@@ -157,7 +130,24 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         foregroundColor: Colors.white,
                       ),
                       child: const Text('Continue',
-                          style: TextStyle(fontSize: 30))),
+                          style: TextStyle(fontSize: 20))),
+                ),
+                TextButton(
+                  onPressed: () {
+                    FocusScope.of(context).unfocus();
+                    Navigator.of(context).pop();
+                  },
+                  style: TextButton.styleFrom(
+                    surfaceTintColor: Colors.blue,
+                    textStyle: const TextStyle(fontSize: 15),
+                  ),
+                  child: const Text(
+                    'Already have an account?',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
                 ),
               ],
             ),
