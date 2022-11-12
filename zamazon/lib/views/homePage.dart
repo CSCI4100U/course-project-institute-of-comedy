@@ -8,6 +8,8 @@ import 'package:zamazon/widgets/createFeaturedItem.dart';
 
 // Homepage of our digital store front. Presented after successful sign in/ sign up
 
+import '../widgets/createProductViewWidget.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
 
@@ -43,4 +45,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  //TODO
+  // Widget createAppbar()
+
 }
