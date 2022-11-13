@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
-import 'package:zamazon/links.dart';
+import 'package:zamazon/globals.dart';
 
 // Form for registering a new user to firebase.
 
@@ -14,7 +14,9 @@ class SignUpWidget extends StatefulWidget {
 }
 
 class _SignUpWidgetState extends State<SignUpWidget> {
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  final _auth = Auth();
+
   String? _name;
   String? _email;
   String? _password;
@@ -24,7 +26,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: Container(
             height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.9,
@@ -108,10 +110,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   child: TextButton(
                       //Confirmed sign up and return to home page as logged in user
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          formKey.currentState!.save();
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
 
-                          signUp(context, _name, _email, _password).then((_) {
+                          _auth
+                              .signUp(context, _name, _email, _password)
+                              .then((_) {
                             Navigator.pushNamed(context, '/CustomerInfo');
 
                             ScaffoldMessenger.of(context).showSnackBar(

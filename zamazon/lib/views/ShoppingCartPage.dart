@@ -127,6 +127,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black,
+          elevation: 0,
           title: Text(widget.title!),
           actions: [
             IconButton(

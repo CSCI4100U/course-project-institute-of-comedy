@@ -3,11 +3,11 @@ import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter_material_pickers/helpers/show_number_picker.dart';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/models/productModel.dart';
-import 'package:zamazon/widgets/createAppBar.dart';
-import 'package:zamazon/widgets/createRatingWidget.dart';
+import 'package:zamazon/widgets/homePageAppBar.dart';
+import 'package:zamazon/widgets/ratingWidget.dart';
 
-import 'package:zamazon/widgets/createDealWidget.dart';
-import 'package:zamazon/widgets/createPriceWidget.dart';
+import 'package:zamazon/widgets/dealWidget.dart';
+import 'package:zamazon/widgets/priceWidget.dart';
 
 // When a product is tapped, user will be navigated to its respective
 // page. This class is responsible for creating that page. From here, user's can
@@ -93,12 +93,6 @@ class _ProductPageState extends State<ProductPage> {
                       .toList(),
                 ),
               ),
-              // if sizeSelection list isn't empty, creates size list widget
-              // product!.sizeSelection!.isNotEmpty
-              //     ? buildSizeWidget(context)
-              //     : Container(
-              //   height: 0,
-              // ),
               product!.dealPrice != 0.0
                   ? CreateDealWidget(product: product!)
                   : CreatePriceWidget(product: product!),
@@ -187,13 +181,11 @@ class _ProductPageState extends State<ProductPage> {
                 ),
               // button that scrolls back to top of page
               ElevatedButton(
-                  style:
-                      // TODO: use media query
-                      ElevatedButton.styleFrom(
-                          fixedSize: Size(width, 50),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero),
-                          backgroundColor: Colors.blueGrey),
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: Size(width, 50),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero),
+                      backgroundColor: Colors.blueGrey),
                   onPressed: () {
                     setState(() {
                       scrollController.animateTo(0.0,

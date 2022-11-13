@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 // add wishlist items to shopping cart, they will not be able to check out items
 // from this page.
 
-class WishWidget extends StatefulWidget {
-  WishWidget({Key? key, this.title}) : super(key: key);
+class WishListPage extends StatefulWidget {
+  WishListPage({Key? key, this.title}) : super(key: key);
 
   final String? title;
   @override
-  State<WishWidget> createState() => _WishWidgetState();
+  State<WishListPage> createState() => _WishListPageState();
 }
 
-class _WishWidgetState extends State<WishWidget> {
+class _WishListPageState extends State<WishListPage> {
   //TODO
   // might track shopping cart and wishlist using provider?
   // List<Product> wishList = ...
@@ -21,6 +21,9 @@ class _WishWidgetState extends State<WishWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        elevation: 0,
         title: Text(widget.title!),
       ),
       body: Container(

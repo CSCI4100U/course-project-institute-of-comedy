@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/customSearchDelegate.dart';
+import 'package:zamazon/widgets/customSearchDelegate.dart';
 import 'package:zamazon/views/ProductPage.dart';
-import 'package:zamazon/links.dart';
+import 'package:zamazon/globals.dart';
 
 // helper function to create appbar. Used in multiple pages so I made it
 // a class
@@ -12,10 +12,13 @@ class CreateAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: Image.network(
-        zamazonLogo, //VERY GOOD LOGO
-        width: 125,
-      ),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      foregroundColor: Colors.black,
+      // title: Image.network(
+      //   zamazonLogo, //VERY GOOD LOGO
+      //   width: 125,
+      // ),
       actions: [
         // Send to shopping cart when tapped
         IconButton(

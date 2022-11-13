@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/views/ProductPage.dart';
-import 'package:zamazon/links.dart';
 
 // helper function, to create a big banner for a randomly featured item.
 
 Widget featuredItem(BuildContext context, List productList) {
-  Random random = Random();
   if (productList.isNotEmpty) {
     // Product product = productList[random.nextInt(productList.length)];
     Product product = productList[0];

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/links.dart';
+import 'package:zamazon/globals.dart';
 import 'package:zamazon/notifications.dart';
 // import 'package:timezone/timezone.dart' as tz;
 // import 'package:timezone/data/latest.dart' as tz;
@@ -10,9 +10,10 @@ import 'package:zamazon/authentication/authFunctions.dart';
 class CreateDrawer extends StatelessWidget {
   CreateDrawer({super.key});
 
-  final _notifications = Notifications();
+  final _auth = Auth();
 
   // JUST FOR TESTING NOTIFICATIONS, WILL BE CHANGED LATER
+  final _notifications = Notifications();
   final String? title = 'titleeee';
   final String? body = 'boooooody';
   final String? payload = 'payloooooad';
@@ -42,23 +43,19 @@ class CreateDrawer extends StatelessWidget {
             leading: const Icon(Icons.person),
             title: const Text('Profile - WIP'),
             // Takes to wish list page
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, '/Profile'),
           ),
           ListTile(
             leading: const Icon(Icons.shopping_cart),
             title: const Text('Shopping Cart'),
             // Takes to wish list page
-            onTap: () {
-              Navigator.pushNamed(context, '/ShoppingCart');
-            },
+            onTap: () => Navigator.pushNamed(context, '/ShoppingCart'),
           ),
           ListTile(
             leading: const Icon(Icons.favorite),
             title: const Text('Wish List'),
             // Takes to wish list page
-            onTap: () {
-              Navigator.pushNamed(context, '/WishList');
-            },
+            onTap: () => Navigator.pushNamed(context, '/WishList'),
           ),
           // ListTile(
           //   leading: const Icon(Icons.notification_add),
@@ -85,7 +82,7 @@ class CreateDrawer extends StatelessWidget {
             thickness: 2,
           ),
           const Divider(
-            thickness: 0.55,
+            thickness: 0.6,
           ),
 
           //TODO SETTINGS
@@ -98,7 +95,7 @@ class CreateDrawer extends StatelessWidget {
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),
             onTap: () {
-              signOut().then((value) {
+              _auth.signOut().then((value) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
