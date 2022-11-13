@@ -24,8 +24,8 @@ class _HomePageState extends State<HomePage> {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
           // stops: [
           //   0.1,
           //   0.4,
@@ -55,10 +55,10 @@ class _HomePageState extends State<HomePage> {
               //TODO
 
               //Will select a random item to be featured on sale?
-              featuredItem(context, productList),
+              CreateFeaturedItem(productList: productList),
 
               //Will build a horizontal listview of n products
-              buildHomeProductView(context, productList),
+              CreateProductViewWidget(productList: productList),
                   // Container(height: 300,)
             ]))
           ],

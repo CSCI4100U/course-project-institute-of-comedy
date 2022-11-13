@@ -10,40 +10,26 @@ import 'package:zamazon/links.dart';
 
 // TODO: add checkers for all values in case they do not exist
 
-Widget featuredItem(BuildContext context, List productList) {
-  Random random = Random();
-  if (productList.isNotEmpty) {
-    // Product product = productList[random.nextInt(productList.length)];
-    Product product = productList[0];
+class CreateFeaturedItem extends StatelessWidget {
+  const CreateFeaturedItem({Key? key, required this.productList}) : super(key: key);
 
-    return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, "/ProductPage",
-            arguments: ProductPage(
-              title: 'Product',
-              product: product,
-            ));
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            // stops: [
-            //   0.1,
-            //   0.4,
-            //   0.6,
-            //   0.9,
-            // ],
-            colors: [
-              Colors.blue.shade300,
-              Colors.blue.shade400,
-              Colors.blue.shade500,
-              Colors.blue.shade600,
-              Colors.blue.shade700,
-            ],
-          ),
-        ),
+  final List<Product> productList;
+
+  @override
+  Widget build(BuildContext context) {
+    Random random = Random();
+    if (productList.isNotEmpty) {
+      Product product = productList[random.nextInt(productList.length)];
+      // Product product = productList[0];
+
+      return GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, "/ProductPage",
+              arguments: ProductPage(
+                title: 'Product',
+                product: product,
+              ));
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -52,7 +38,7 @@ Widget featuredItem(BuildContext context, List productList) {
               child: Text(
                 "${product.features![0]}",
                 style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -88,11 +74,12 @@ Widget featuredItem(BuildContext context, List productList) {
                 ))
           ],
         ),
-      ),
-    );
-  } else {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
+      );
+    } else {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
   }
 }
+

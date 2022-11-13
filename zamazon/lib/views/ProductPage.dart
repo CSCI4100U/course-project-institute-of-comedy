@@ -35,6 +35,8 @@ class _ProductPageState extends State<ProductPage> {
   bool _isWishListButtonPressed = false;
   ProductModel productModel = ProductModel();
 
+  // TODO: let users rate product?
+
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(); // for pageView
@@ -210,7 +212,6 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  // TODO: add snackbar
   Widget buildAddToWishListButton(BuildContext context) {
     return OutlinedButton(
         style: OutlinedButton.styleFrom(shape: const CircleBorder()),
