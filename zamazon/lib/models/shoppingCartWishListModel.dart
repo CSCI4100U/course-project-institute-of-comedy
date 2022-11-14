@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
+import 'package:zamazon/models/Product.dart';
 
 class SCWLModel {
   final _db = FirebaseFirestore.instance;

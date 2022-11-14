@@ -7,32 +7,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ShoppingCartWishListItem {
   DocumentReference? docRef;
-  String? title;
-  String? imageURL;
   int? quantity;
   int? size;
   double? price;
 
-  ShoppingCartWishListItem(
-      {this.docRef,
-      this.title,
-      this.imageURL,
-      this.quantity,
-      this.size,
-      this.price});
+  ShoppingCartWishListItem({this.docRef, this.quantity, this.size, this.price});
 
   ShoppingCartWishListItem.fromMap(Map map, {required this.docRef}) {
-    this.title = map['title'];
-    this.imageURL = map['imageURL'];
     this.quantity = map['quantity'];
     this.size = map['size'];
     this.price = map['price'];
   }
 
-  Map<String, Object?> fromMap() {
+  Map<String, Object?> toMap() {
     return {
-      'title': this.title,
-      'imageURL': this.imageURL,
       'quantity': this.quantity,
       'size': this.size,
       'price': this.price,
@@ -42,8 +30,6 @@ class ShoppingCartWishListItem {
   @override
   String toString() {
     return 'ShoppingCartWishListItem{'
-        'title: $title, '
-        'imageURL: $imageURL, '
         'quantity: $quantity, '
         'size: $size, '
         'price: $price}';

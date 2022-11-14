@@ -133,9 +133,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           title: Text(widget.title!),
           actions: [
             IconButton(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
                 //Access the Wishlist Page
                 onPressed: () {
-                  Navigator.pushNamed(context, '/WishList');
+                  Navigator.pushReplacementNamed(context, '/WishList');
                 },
                 icon: Icon(Icons.favorite))
           ],

@@ -21,10 +21,18 @@ class _WishListPageState extends State<WishListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(widget.title!),
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.black,
         elevation: 0,
-        title: Text(widget.title!),
+        actions: [
+          IconButton(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, '/ShoppingCart'),
+            icon: const Icon(Icons.shopping_cart),
+          )
+        ],
       ),
       body: Container(
         //Empty

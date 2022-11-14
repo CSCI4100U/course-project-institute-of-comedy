@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
+import 'package:zamazon/authentication/regexValidation.dart';
 
 //Form that lets registered user's sign in.
 
@@ -59,14 +60,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                       _email = email!.trim();
                     },
                     validator: (value) {
-                      RegExp regExp = RegExp(
-                          r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)');
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Email';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'Email example: abc@gmail.com';
-                      }
-                      return null;
+                      return RegexValidation().validateEmail(value);
                     },
                   ),
                 ),
@@ -135,6 +129,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                   onPressed: () {
                     // removes cursor on previous page
                     FocusScope.of(context).unfocus();
+                    _formKey.currentState!.reset();
                     Navigator.pushNamed(context, '/SignUp');
                   },
                   style: TextButton.styleFrom(

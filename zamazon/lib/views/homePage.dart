@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                   SliverList(
                     delegate: SliverChildListDelegate([
                       //testing user switching.
-                      Text('${snapshot.data}'),
+                      Text(snapshot.data.toString()),
                       //random featured item on sale
                       featuredItem(context, productList),
 
@@ -73,8 +73,4 @@ class _HomePageState extends State<HomePage> {
           );
         });
   }
-
-  //TODO
-  // Widget createAppbar()
-
 }

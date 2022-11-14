@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-// Functions for creating and authenticating user's of our app
+// class for creating and authenticating user's of our app
 
 class Auth {
   final _auth = FirebaseAuth.instance;
@@ -14,8 +13,7 @@ class Auth {
   }
 
   // firebase creating and authenticating new users
-  Future signUp(BuildContext context, String? name, String? email,
-      String? password) async {
+  Future signUp(String? name, String? email, String? password) async {
     await _auth.createUserWithEmailAndPassword(
         email: email!, password: password!);
 

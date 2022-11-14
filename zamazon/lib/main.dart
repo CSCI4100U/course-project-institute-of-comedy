@@ -3,8 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:zamazon/controllers/CustomerInfoForm.dart';
 import 'package:zamazon/controllers/SignInForm.dart';
-import 'package:zamazon/globals.dart';
-import 'package:zamazon/models/userModel.dart'; // INPROGRSS
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ShoppingCartPage.dart';
 import 'package:zamazon/controllers/SignUpForm.dart';
