@@ -1,49 +1,69 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import 'Product.dart';
+// Class for the items in someone's shoppingcart or wishlist.
+// Only some information about the product is required for this so
+// we chose to make it a new class specifically for populating the ui of
+// the shopping cart and wishlist. dunno if this is a good way to do this.
 
 class ShoppingCartWishListItem {
   DocumentReference? docRef;
   String? productId;
+  String? title;
   int? quantity;
   int? size;
-  double? price;
+  double? pricePerUnit;
+  double? totalPrice;
+  List? sizeSelection;
 
   ShoppingCartWishListItem(
-      {this.docRef, this.productId, this.quantity, this.size, this.price});
+      {this.docRef,
+      this.productId,
+      this.title,
+      this.quantity,
+      this.size,
+      this.pricePerUnit,
+      this.totalPrice,
+      this.sizeSelection,
+      });
 
   ShoppingCartWishListItem.fromMap(Map map, {required this.docRef}) {
     this.productId = map['productId'];
+    this.title = map['title'];
     this.quantity = map['quantity'];
     this.size = map['size'];
-    this.price = map['price'];
+    this.pricePerUnit = map['pricePerUnit'];
+    this.totalPrice = map['totalPrice'];
+    this.sizeSelection = map['sizeSelection'];
   }
 
-  Map<String, Object?> fromMap() {
+  Map<String, Object?> toMap() {
     return {
       'productId': this.productId,
+      'title': this.title,
       'quantity': this.quantity,
       'size': this.size,
-      'price': this.price,
+      'pricePerUnit' : this.pricePerUnit,
+      'totalPrice': this.totalPrice,
+      'sizeSelection' : this.sizeSelection,
     };
   }
 
   @override
   String toString() {
-    return 'ShoppingCartWishListProduct{docRef: $docRef,'
-        ' productId: $productId, '
+    return 'ShoppingCartWishListItem{'
+        'productId: $productId, '
+        'title: $title, '
         'quantity: $quantity, '
         'size: $size, '
-        'price: $price}';
+        'pricePerUnit: $pricePerUnit, '
+        'totalPrice: $totalPrice'
+        'sizeSelection: $sizeSelection}';
   }
 
-  // Product findProduct(BuildContext context) {
-  //   List<Product> productList = Provider.of<List<Product>>(context);
-  //
-  //   return;
-  // }
-
+// Product findProduct(BuildContext context) {
+//   List<Product> productList = Provider.of<List<Product>>(context);
+//
+//   return;
+// }
 
 }

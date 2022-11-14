@@ -1,372 +1,174 @@
 import 'package:flutter/material.dart';
-import 'package:zamazon/widgets/createRatingWidget.dart';
+import 'package:zamazon/models/shoppingCartWishListItem.dart';
+import 'package:zamazon/models/shoppingCartWishListModel.dart';
 
 import '../models/Product.dart';
+import '../widgets/numberPickerDialog.dart';
+import '../widgets/ratingWidget.dart';
 import 'ProductPage.dart';
 
-class WishWidget extends StatefulWidget {
-  WishWidget({Key? key, this.title}) : super(key: key);
+// IN PROGRESS, similar to shopping cart page, except users will only be able to
+// add wishlist items to shopping cart, they will not be able to check out items
+// from this page.
+
+class WishListPage extends StatefulWidget {
+  const WishListPage({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
-  State<WishWidget> createState() => _WishWidgetState();
+  State<WishListPage> createState() => _WishListPageState();
 }
 
-class _WishWidgetState extends State<WishWidget> {
+class _WishListPageState extends State<WishListPage> {
   //TODO
   // might track shopping cart and wishlist using provider?
   // List<Product> wishList = ...
+
+  final SCWLModel _scwlModel = SCWLModel();
+
   @override
   Widget build(BuildContext context) {
-    List<Product> productList = [];
-
-    productList.add(
-      Product(
-          title: "Prod1",
-          manufacturer: "Sony",
-          numReviews: 19,
-          rating: "4.4 out of 5 stars",
-          sizeSelection: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-          seller: "Sony",
-          fulfiller: "Amazon",
-          warehouseAvailability: "In Stock.",
-          retailPrice: 137.55,
-          price: 77.42,
-          shippingPrice: 3.12,
-          shippingPriceInfo: "free",
-          savings: "You Save: \$59.58 (43%)",
-          features: ["Premium SOLID Stainless Steel"],
-          imageUrlList: [
-            "https://images-na.ssl-images-amazon.com/images/I/71itkDwgyyL._SL1500_.jpg",
-            "https://images-na.ssl-images-amazon.com/images/I/716b2w17%2BPL._SL1500_.jpg"
-          ],
-          productDescription: "PS4 Pro 4K TV GAMING & MORE The most advanced "
-              "PlayStation system ever. PS4 Pro is designed to take your"
-              " favorite PS4 games and add to them with more power for graphics",
-          productDetails: [
-            {"name": "Item Weight", "value": "2.46 Kg"},
-            {
-              "name": "Amazon Bestsellers Rank",
-              "value":
-                  "392,852 in Home & Kitchen (See Top 100 in Home & Kitchen) #336 in Dinner Sets"
-            }
-          ],
-          dealPrice: 71.42,
-          salePrice: 0.0,
-          reviews: [
-            {
-              "text":
-                  "Purchased New, received Used, already registered to another owner, with a game disc in the tray.",
-              "date": "Reviewed in the United States on September 11, 2018",
-              "rating": "1.0 out of 5 stars",
-              "title": "Used Goods.",
-              "userName": "John Redman",
-              "url":
-                  "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
-            }
-          ],
-          currency: {"code": "USD", "symbol": "\$"}),
-    );
-
-    productList.add(
-      Product(
-          title: "prod2",
-          manufacturer: "Sony",
-          numReviews: 19,
-          rating: "4.4 out of 5 stars",
-          sizeSelection: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-          seller: "Sony",
-          fulfiller: "Amazon",
-          warehouseAvailability: "In Stock.",
-          retailPrice: 137.55,
-          price: 77.42,
-          shippingPrice: 3.12,
-          shippingPriceInfo: "free",
-          savings: "You Save: \$59.58 (43%)",
-          features: ["Premium SOLID Stainless Steel"],
-          imageUrlList: [
-            "https://images-na.ssl-images-amazon.com/images/I/71itkDwgyyL._SL1500_.jpg",
-            "https://images-na.ssl-images-amazon.com/images/I/716b2w17%2BPL._SL1500_.jpg"
-          ],
-          productDescription: "PS4 Pro 4K TV GAMING & MORE The most advanced "
-              "PlayStation system ever. PS4 Pro is designed to take your"
-              " favorite PS4 games and add to them with more power for graphics",
-          productDetails: [
-            {"name": "Item Weight", "value": "2.46 Kg"},
-            {
-              "name": "Amazon Bestsellers Rank",
-              "value":
-                  "392,852 in Home & Kitchen (See Top 100 in Home & Kitchen) #336 in Dinner Sets"
-            }
-          ],
-          dealPrice: 71.42,
-          salePrice: 0.0,
-          reviews: [
-            {
-              "text":
-                  "Purchased New, received Used, already registered to another owner, with a game disc in the tray.",
-              "date": "Reviewed in the United States on September 11, 2018",
-              "rating": "1.0 out of 5 stars",
-              "title": "Used Goods.",
-              "userName": "John Redman",
-              "url":
-                  "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
-            }
-          ],
-          currency: {"code": "USD", "symbol": "\$"}),
-    );
-    productList.add(
-      Product(
-          title: "prod3",
-          manufacturer: "Sony",
-          numReviews: 19,
-          rating: "4.4 out of 5 stars",
-          sizeSelection: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-          seller: "Sony",
-          fulfiller: "Amazon",
-          warehouseAvailability: "In Stock.",
-          retailPrice: 137.55,
-          price: 77.42,
-          shippingPrice: 3.12,
-          shippingPriceInfo: "free",
-          savings: "You Save: \$59.58 (43%)",
-          features: ["Premium SOLID Stainless Steel"],
-          imageUrlList: [
-            "https://images-na.ssl-images-amazon.com/images/I/71itkDwgyyL._SL1500_.jpg",
-            "https://images-na.ssl-images-amazon.com/images/I/716b2w17%2BPL._SL1500_.jpg"
-          ],
-          productDescription: "PS4 Pro 4K TV GAMING & MORE The most advanced "
-              "PlayStation system ever. PS4 Pro is designed to take your"
-              " favorite PS4 games and add to them with more power for graphics",
-          productDetails: [
-            {"name": "Item Weight", "value": "2.46 Kg"},
-            {
-              "name": "Amazon Bestsellers Rank",
-              "value":
-                  "392,852 in Home & Kitchen (See Top 100 in Home & Kitchen) #336 in Dinner Sets"
-            }
-          ],
-          dealPrice: 71.42,
-          salePrice: 0.0,
-          reviews: [
-            {
-              "text":
-                  "Purchased New, received Used, already registered to another owner, with a game disc in the tray.",
-              "date": "Reviewed in the United States on September 11, 2018",
-              "rating": "1.0 out of 5 stars",
-              "title": "Used Goods.",
-              "userName": "John Redman",
-              "url":
-                  "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
-            }
-          ],
-          currency: {"code": "USD", "symbol": "\$"}),
-    );
-    productList.add(
-      Product(
-          title: "prod4",
-          manufacturer: "Sony",
-          numReviews: 19,
-          rating: "4.4 out of 5 stars",
-          sizeSelection: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-          seller: "Sony",
-          fulfiller: "Amazon",
-          warehouseAvailability: "In Stock.",
-          retailPrice: 137.55,
-          price: 77.42,
-          shippingPrice: 3.12,
-          shippingPriceInfo: "free",
-          savings: "You Save: \$59.58 (43%)",
-          features: ["Premium SOLID Stainless Steel"],
-          imageUrlList: [
-            "https://images-na.ssl-images-amazon.com/images/I/71itkDwgyyL._SL1500_.jpg",
-            "https://images-na.ssl-images-amazon.com/images/I/716b2w17%2BPL._SL1500_.jpg"
-          ],
-          productDescription: "PS4 Pro 4K TV GAMING & MORE The most advanced "
-              "PlayStation system ever. PS4 Pro is designed to take your"
-              " favorite PS4 games and add to them with more power for graphics",
-          productDetails: [
-            {"name": "Item Weight", "value": "2.46 Kg"},
-            {
-              "name": "Amazon Bestsellers Rank",
-              "value":
-                  "392,852 in Home & Kitchen (See Top 100 in Home & Kitchen) #336 in Dinner Sets"
-            }
-          ],
-          dealPrice: 71.42,
-          salePrice: 0.0,
-          reviews: [
-            {
-              "text":
-                  "Purchased New, received Used, already registered to another owner, with a game disc in the tray.",
-              "date": "Reviewed in the United States on September 11, 2018",
-              "rating": "1.0 out of 5 stars",
-              "title": "Used Goods.",
-              "userName": "John Redman",
-              "url":
-                  "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
-            }
-          ],
-          currency: {"code": "USD", "symbol": "\$"}),
-    );
-    productList.add(
-      Product(
-          title: "prod5",
-          manufacturer: "Sony",
-          numReviews: 19,
-          rating: "4.4 out of 5 stars",
-          sizeSelection: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
-          seller: "Sony",
-          fulfiller: "Amazon",
-          warehouseAvailability: "In Stock.",
-          retailPrice: 137.55,
-          price: 77.42,
-          shippingPrice: 3.12,
-          shippingPriceInfo: "free",
-          savings: "You Save: \$59.58 (43%)",
-          features: ["Premium SOLID Stainless Steel"],
-          imageUrlList: [
-            "https://images-na.ssl-images-amazon.com/images/I/71itkDwgyyL._SL1500_.jpg",
-            "https://images-na.ssl-images-amazon.com/images/I/716b2w17%2BPL._SL1500_.jpg"
-          ],
-          productDescription: "PS4 Pro 4K TV GAMING & MORE The most advanced "
-              "PlayStation system ever. PS4 Pro is designed to take your"
-              " favorite PS4 games and add to them with more power for graphics",
-          productDetails: [
-            {"name": "Item Weight", "value": "2.46 Kg"},
-            {
-              "name": "Amazon Bestsellers Rank",
-              "value":
-                  "392,852 in Home & Kitchen (See Top 100 in Home & Kitchen) #336 in Dinner Sets"
-            }
-          ],
-          dealPrice: 71.42,
-          salePrice: 0.0,
-          reviews: [
-            {
-              "text":
-                  "Purchased New, received Used, already registered to another owner, with a game disc in the tray.",
-              "date": "Reviewed in the United States on September 11, 2018",
-              "rating": "1.0 out of 5 stars",
-              "title": "Used Goods.",
-              "userName": "John Redman",
-              "url":
-                  "/gp/customer-reviews/RDHY3HUVO55FH/ref=cm_cr_dp_d_rvw_ttl?ie=UTF8&ASIN=B01LOP8EZC"
-            }
-          ],
-          currency: {"code": "USD", "symbol": "\$"}),
-    );
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title!),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(10),
-          // TODO: add more information to each product in list
-          child: ListView.builder(
-              itemCount: productList.length,
-              itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: () {
-                    //TODO: should go to product's page
-                    Navigator.pushNamed(context, "/ProductPage",
-                        arguments: ProductPage(
-                          title: 'Product',
-                          product: productList[index],
-                        ));
-                  },
-                  // change these if needed
-                  // splashColor : Colors.blue,
-                  // highlightColor: Colors.black,
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Dismissible(
-                        // TODO: change this to a read ID
-                        key: Key(productList[index].title!),
-                        direction: DismissDirection.endToStart,
-                        onDismissed: (direction) {
-                          // TODO: implement this
-                        },
-                        background: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: width - 110,
-                              ),
-                              // TODO: add real trashcan icon
-                              const Icon(Icons.delete)
-                            ],
-                          ),
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: width / 2.5,
-                              margin:
-                                  const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade100,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Image.network(
-                                // productList[index].imageUrlList![0],
-                                'https://imgur.com/u5fYc4r.png',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            const SizedBox(width: 20),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    'sssssssssssssssssssssssssssssssssssssssssssssssssssssssss',
-                                    style: TextStyle(fontSize: 17),
-                                    softWrap: false,
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  CreateRatingWidget(product: productList[index]),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    "\$${productList[index].price}",
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    productList[index].warehouseAvailability!
-                                  ),
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )),
+    return StreamBuilder(
+        stream: SCWLModel().getUserShoppingCartWishList("wishList"),
+        initialData: const [],
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return Scaffold(
+              appBar: AppBar(
+                title: Text(widget.title!),
+              ),
+              body: snapshot.data.isEmpty
+                  ? const Center(
+                      child: Text(
+                      "Your Wish List is Empty.",
+                      style: TextStyle(fontSize: 25),
+                    ))
+                  : Padding(
+                      padding: const EdgeInsets.all(10),
+                      // TODO: add more information to each product in list
+                      child: ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) {
+                            ShoppingCartWishListItem scwlItem =
+                                snapshot.data[index];
+                            return buildWishListItem(scwlItem, width);
+                          }),
+                    ));
+        });
+  }
+
+  Widget buildWishListItem(ShoppingCartWishListItem scwlItem, double width) {
+    return InkWell(
+      onTap: () async {
+        //TODO: should go to product's page
+        Navigator.pushNamed(context, "/ProductPage",
+            arguments: ProductPage(
+                title: 'Product',
+                product: await SCWLModel().getProduct(scwlItem.productId!)));
+      },
+      // change these if needed
+      // splashColor : Colors.blue,
+      // highlightColor: Colors.black,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        child: Dismissible(
+            key: UniqueKey(),
+            direction: DismissDirection.endToStart,
+            onDismissed: (direction) {
+              _scwlModel.deleteCartWishList(scwlItem);
+            },
+            background: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: width - 110,
                   ),
-                );
-              }),
-        ));
+                  // TODO: add real trashcan icon
+                  const Icon(Icons.delete)
+                ],
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: width / 2.5,
+                  margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Image.network(
+                    // productList[index].imageUrlList![0],
+                    'https://imgur.com/u5fYc4r.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        scwlItem.title!,
+                        style: const TextStyle(fontSize: 17),
+                        softWrap: false,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        "\$${scwlItem.totalPrice!}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.yellow,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20)),
+                            fixedSize: Size(width/2,20)
+                          ),
+                          onPressed: () async {
+                            int? value = await showNumberPickerDialog(
+                                context, scwlItem.sizeSelection!);
+                            if (value != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text("Added to Cart")));
+                              Product product = await SCWLModel()
+                                  .getProduct(scwlItem.productId!);
+                              _scwlModel.addToCartWishList(
+                                  product, "shoppingCart",
+                                  size: value);
+                            }
+                          },
+                          child: const Text(
+                            "Add to Cart",
+                            style: TextStyle(color: Colors.black),
+                          )),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            )),
+      ),
+    );
   }
 }

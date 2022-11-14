@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CreateCheckoutWidget extends StatelessWidget {
-  const CreateCheckoutWidget({Key? key}) : super(key: key);
+class CheckoutWidget extends StatelessWidget {
+  const CheckoutWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

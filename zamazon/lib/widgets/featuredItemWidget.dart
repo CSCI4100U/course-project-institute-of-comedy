@@ -2,16 +2,11 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/views/ProductPage.dart';
-import 'package:zamazon/links.dart';
 
-//TODO
-// Widget createAppbar()
-// Widget buildProductList()
+// helper function, to create a big banner for a randomly featured item.
 
-// TODO: add checkers for all values in case they do not exist
-
-class CreateFeaturedItem extends StatelessWidget {
-  const CreateFeaturedItem({Key? key, required this.productList}) : super(key: key);
+class FeaturedItemWidget extends StatelessWidget {
+  const FeaturedItemWidget({Key? key, required this.productList}) : super(key: key);
 
   final List<Product> productList;
 
@@ -38,7 +33,7 @@ class CreateFeaturedItem extends StatelessWidget {
               child: Text(
                 "${product.features![0]}",
                 style:
-                const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
             ),

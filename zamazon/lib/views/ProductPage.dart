@@ -3,11 +3,19 @@ import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter_material_pickers/helpers/show_number_picker.dart';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/models/productModel.dart';
-import 'package:zamazon/widgets/createAppBar.dart';
-import 'package:zamazon/widgets/createRatingWidget.dart';
+import 'package:zamazon/models/shoppingCartWishListItem.dart';
+import 'package:zamazon/models/shoppingCartWishListModel.dart';
+import 'package:zamazon/widgets/homePageAppBar.dart';
+import 'package:zamazon/widgets/ratingWidget.dart';
 
-import 'package:zamazon/widgets/createDealWidget.dart';
-import 'package:zamazon/widgets/createPriceWidget.dart';
+import 'package:zamazon/widgets/dealWidget.dart';
+import 'package:zamazon/widgets/priceWidget.dart';
+
+import '../widgets/numberPickerDialog.dart';
+
+// When a product is tapped, user will be navigated to its respective
+// page. This class is responsible for creating that page. From here, user's can
+// add products to their shopping cart/wish list.
 
 class ProductPage extends StatefulWidget {
   const ProductPage({Key? key, this.title, required this.product})
@@ -34,6 +42,7 @@ class _ProductPageState extends State<ProductPage> {
   bool _isAddToCartButtonPressed = false;
   bool _isWishListButtonPressed = false;
   ProductModel productModel = ProductModel();
+  final SCWLModel _scwlModel = SCWLModel();
 
   // TODO: let users rate product?
 
@@ -47,7 +56,7 @@ class _ProductPageState extends State<ProductPage> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: CreateAppBar(context),
+      appBar: HomePageAppBarWidget(context),
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
@@ -65,7 +74,7 @@ class _ProductPageState extends State<ProductPage> {
                       children: [
                         // creates star rating widget
                         // requires to be run with "flutter run --no-sound-null-safety"
-                        CreateRatingWidget(product: product!),
+                        RatingWidget(product: product!),
                         Text(
                           "${product!.numReviews}",
                           style: TextStyle(fontSize: fontSize),
@@ -91,15 +100,9 @@ class _ProductPageState extends State<ProductPage> {
                       .toList(),
                 ),
               ),
-              // if sizeSelection list isn't empty, creates size list widget
-              // product!.sizeSelection!.isNotEmpty
-              //     ? buildSizeWidget(context)
-              //     : Container(
-              //   height: 0,
-              // ),
               product!.dealPrice != 0.0
-                  ? CreateDealWidget(product: product!)
-                  : CreatePriceWidget(product: product!),
+                  ? DealWidget(product: product!)
+                  : PriceWidget(product: product!),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: Text(
@@ -185,13 +188,11 @@ class _ProductPageState extends State<ProductPage> {
                 ),
               // button that scrolls back to top of page
               ElevatedButton(
-                  style:
-                      // TODO: use media query
-                      ElevatedButton.styleFrom(
-                          fixedSize: Size(width, 50),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero),
-                          backgroundColor: Colors.blueGrey),
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: Size(width, 50),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero),
+                      backgroundColor: Colors.blueGrey),
                   onPressed: () {
                     setState(() {
                       scrollController.animateTo(0.0,
@@ -215,78 +216,88 @@ class _ProductPageState extends State<ProductPage> {
   Widget buildAddToWishListButton(BuildContext context) {
     return OutlinedButton(
         style: OutlinedButton.styleFrom(shape: const CircleBorder()),
-        onPressed: () {
+        onPressed:  () {
           setState(() {
-            _isWishListButtonPressed ? ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Removed from Wishlist."))) :
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Added to Wishlist.")));
-            _isWishListButtonPressed = _isWishListButtonPressed ? false : true;
+
+            // if(_isWishListButtonPressed) {
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //     const SnackBar(content: Text("Removed from Wishlist.")));
+              // _isWishListButtonPressed = false;
+            // }
+            // TODO: let users remove from list here?
+            if(!_isWishListButtonPressed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Added to Wishlist.")));
+              _isWishListButtonPressed = true;
+              _scwlModel.addToCartWishList(product!, "wishList");
+            }
+
+            // _isWishListButtonPressed
+            //     ? ScaffoldMessenger.of(context).showSnackBar(
+            //         const SnackBar(content: Text("Removed from Wishlist.")))
+            //     : ScaffoldMessenger.of(context).showSnackBar(
+            //         const SnackBar(content: Text("Added to Wishlist.")));
+            // _isWishListButtonPressed = _isWishListButtonPressed ? false : true;
           });
         },
-        child: _isWishListButtonPressed
-            ? const Icon(
+        child:
+             const Icon(
                 Icons.favorite,
                 color: Colors.red,
               )
-            : const Icon(Icons.favorite_border));
+    );
+            // : const Icon(Icons.favorite_border));
   }
 
   Widget buildAddToCartButton(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor:
-            _isAddToCartButtonPressed ? Colors.deepOrange[300] : Colors.yellow,
+        backgroundColor: Colors.yellow,
+            // _isAddToCartButtonPressed ? Colors.deepOrange[300] : Colors.yellow,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         // TODO: use media query
         fixedSize: Size(width - 80, 40),
       ),
       // TODO: make "add to cart" and "remove from cart" functionality
-      onPressed: () {
-        if (!_isAddToCartButtonPressed) {
-          showNumberPickerDialog(context);
-        }
-        productModel.insertProduct(product!);
+      onPressed: () async {
+        //productModel.insertProduct(product!);  //testing
+        // if (!_isAddToCartButtonPressed) {
+        int? value = await showNumberPickerDialog(context, product!.sizeSelection!);
         setState(() {
-          if (_isAddToCartButtonPressed) {
-            _isAddToCartButtonPressed = false;
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Removed from Cart.")));
-          }
+          _selectedSizeValue = value;
         });
-      },
-      child: _isAddToCartButtonPressed
-          ? const Text("Remove from Cart",
-              style: TextStyle(color: Colors.black))
-          : const Text(
-              "Add to Cart",
-              style: TextStyle(color: Colors.black),
-            ),
-    );
-  }
-
-  Future showNumberPickerDialog(BuildContext context) async {
-    await showMaterialNumberPicker(
-      maxLongSide: MediaQuery.of(context).size.height / 2,
-      context: context,
-      title: 'Pick a Size',
-      maxNumber: product!.sizeSelection![product!.sizeSelection!.length - 1],
-      minNumber: product!.sizeSelection![0],
-      confirmText: 'Confirm',
-      cancelText: "Cancel",
-      selectedNumber: _selectedSizeValue,
-    ).then((value) {
-      setState(() {
-        _selectedSizeValue = value;
         if (value != null) {
           ScaffoldMessenger.of(context)
               .showSnackBar(const SnackBar(content: Text("Added to Cart")));
           _isAddToCartButtonPressed = _isAddToCartButtonPressed ? false : true;
+          _scwlModel.addToCartWishList(product!, "shoppingCart", size: _selectedSizeValue!);
         }
-      });
-    });
+          // await showNumberPickerDialog(context);
+            // }
+        // productModel.insertProduct(product!);
+        // setState(() {
+        //   if (_isAddToCartButtonPressed) {
+        //     _isAddToCartButtonPressed = false;
+        //     ScaffoldMessenger.of(context).showSnackBar(
+        //         const SnackBar(content: Text("Removed from Cart.")));
+        //   }
+        // });
+      },
+        child: const Text(
+          "Add to Cart",
+          style: TextStyle(color: Colors.black),
+        )
+      // child: _isAddToCartButtonPressed
+      //     ? const Text("Remove from Cart - WIP",
+      //         style: TextStyle(color: Colors.black))
+      //     : const Text(
+      //         "Add to Cart - WIP",
+      //         style: TextStyle(color: Colors.black),
+      //       ),
+    );
   }
+
 
 // builds the size list widget
   Widget buildSizeWidget(BuildContext context) {

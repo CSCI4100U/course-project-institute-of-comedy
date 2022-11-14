@@ -1,5 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// Product class contains all information about a product.
+// used for displaying products and populating ProductPages with pictures and
+// information
+
 class Product {
   DocumentReference? docRef;
   String? id;
