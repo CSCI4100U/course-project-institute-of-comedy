@@ -41,7 +41,7 @@ class HomePageDrawerWidget extends StatelessWidget {
           //TODO USER PROFILE
           ListTile(
             leading: const Icon(Icons.person),
-            title: const Text('Profile - WIP'),
+            title: const Text('Profile'),
             // Takes to wish list page
             onTap: () => Navigator.pushNamed(context, '/Profile'),
           ),

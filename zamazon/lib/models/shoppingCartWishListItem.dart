@@ -60,10 +60,4 @@ class ShoppingCartWishListItem {
         'sizeSelection: $sizeSelection}';
   }
 
-// Product findProduct(BuildContext context) {
-//   List<Product> productList = Provider.of<List<Product>>(context);
-//
-//   return;
-// }
-
 }

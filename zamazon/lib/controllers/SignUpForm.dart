@@ -113,9 +113,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          _auth
-                              .signUp(context, _name, _email, _password)
-                              .then((_) {
+                          _auth.signUp(_name, _email, _password).then((_) {
                             Navigator.pushNamed(context, '/CustomerInfo');
 
                             ScaffoldMessenger.of(context).showSnackBar(
