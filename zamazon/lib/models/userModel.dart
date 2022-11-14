@@ -1,28 +1,29 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:zamazon/models/CusUser.dart';
 
-//INPROGRESS
-// model class to retrieve user information: name, adress, shoppingcart and wishlist.
+//TODO
+// MAKE PROFILE PAGE WHERE USER CAN UPDATE THEIR INFORMATION
+// MAKE FUNCTIONS THAT WILL UPDATE CHANGED INFORMATION.
+
+// model class to retrieve user information: name, email, address.
+// information will be displayed and can be updated in profile page.
 
 class UserModel {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final currUser = FirebaseAuth.instance.currentUser!;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  //Stream the current user's information.
-  //TODO USE THIS INFO TO POPULATE AND UPDATE SHOPPINGCART/WISHLIST
-  Stream<Map<String, dynamic>> getCurrentUserMap() {
-    return getCurrentUserMap();
-  }
+  //Stream the current user's personal information.
+  Stream<CusUser> getUserInformation() {
+    User? currUser = _auth.currentUser;
 
-  // problems with this returning a Future<DocumentSnap<Map<String, dynamic>>
-  // so I had to put it in its own function
-  // May not be working properly yet.
-  Future getCurrentUserDoc() async {
     return _db
         .collection('users')
-        .doc(currUser.uid)
-        .get()
-        .then((value) => value.data());
+        .doc(currUser!.uid)
+        .snapshots()
+        .map((docSnap) {
+      return CusUser.fromMap(docSnap.data());
+    });
   }
 }

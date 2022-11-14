@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
-import 'package:zamazon/links.dart';
+import 'package:zamazon/globals.dart';
+import 'package:zamazon/authentication/regexValidation.dart';
 
 //Form that lets registered user's sign in.
 
@@ -14,7 +15,9 @@ class SignInWidget extends StatefulWidget {
 }
 
 class _SignInWidgetState extends State<SignInWidget> {
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  final _auth = Auth();
+
   String? _email;
   String? _password;
 
@@ -23,7 +26,7 @@ class _SignInWidgetState extends State<SignInWidget> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
-          key: formKey,
+          key: _formKey,
           child: Container(
             height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.9,
@@ -57,14 +60,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                       _email = email!.trim();
                     },
                     validator: (value) {
-                      RegExp regExp = RegExp(
-                          r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)');
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Email';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'Email example: abc@gmail.com';
-                      }
-                      return null;
+                      return RegexValidation().validateEmail(value);
                     },
                   ),
                 ),
@@ -109,10 +105,10 @@ class _SignInWidgetState extends State<SignInWidget> {
                   child: TextButton(
                       //Confirmed sign up and return to home page as logged in user
                       onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          formKey.currentState!.save();
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
 
-                          signIn(_email, _password).then((_) {
+                          _auth.signIn(_email, _password).then((_) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text(
@@ -133,6 +129,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                   onPressed: () {
                     // removes cursor on previous page
                     FocusScope.of(context).unfocus();
+                    _formKey.currentState!.reset();
                     Navigator.pushNamed(context, '/SignUp');
                   },
                   style: TextButton.styleFrom(
