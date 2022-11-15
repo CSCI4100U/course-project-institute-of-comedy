@@ -13,7 +13,7 @@ class HomePageAppBarWidget extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.orange,
       foregroundColor: Colors.black,
       // title: Image.network(
       //   zamazonLogo, //VERY GOOD LOGO
@@ -36,11 +36,15 @@ class HomePageAppBarWidget extends StatelessWidget with PreferredSizeWidget {
               final product = await showSearch(
                   context: context, delegate: CustomSearchDelegate());
 
-              nav.pushNamed("/ProductPage",
-                  arguments: ProductPage(
-                    title: 'Product',
-                    product: product,
-                  ));
+              if (product != null) {
+                nav.pushNamed(
+                  "/ProductPage",
+                  arguments: {
+                    'title': 'Product',
+                    'product': product,
+                  },
+                );
+              }
             },
             icon: const Icon(Icons.search)),
       ],

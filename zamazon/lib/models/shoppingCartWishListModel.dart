@@ -25,8 +25,8 @@ class SCWLModel {
     });
   }
 
-  Future<void> addToCartWishList(
-      Product product, String collName, {int size  = 0}) async {
+  Future<void> addToCartWishList(Product product, String collName,
+      {int size = 0}) async {
     // String? docId;
     //
     // if(collName == "wishList"){
@@ -35,6 +35,7 @@ class SCWLModel {
 
     ShoppingCartWishListItem scwlItem = ShoppingCartWishListItem(
       title: product.title,
+      imageUrl: product.imageUrlList![0],
       productId: product.id,
       quantity: 1,
       size: size,

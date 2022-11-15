@@ -95,6 +95,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     child: (snapshot.data.name != 'Default')
                         ? Column(
                             children: [
+                              const Text('Ability to change these - WIP'),
                               createTextFormField('Name', snapshot.data.name),
                               createTextFormField(
                                   'Country', snapshot.data.country),
