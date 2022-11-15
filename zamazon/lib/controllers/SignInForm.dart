@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
 import 'package:zamazon/zamazonLogo.dart';
+
+import '../themes.dart';
 
 class SignInWidget extends StatefulWidget {
   const SignInWidget({Key? key, this.title}) : super(key: key);
@@ -14,8 +17,13 @@ class SignInWidget extends StatefulWidget {
 class _SignInWidgetState extends State<SignInWidget> {
   final formKey = GlobalKey<FormState>();
 
+
   @override
   Widget build(BuildContext context) {
+    final ContainerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        ? Colors.grey[900]
+        : Colors.white;
+
     return Scaffold(
       appBar: createAppBar(context, zamazonLogo),
       body: SingleChildScrollView(
@@ -25,8 +33,8 @@ class _SignInWidgetState extends State<SignInWidget> {
             height: MediaQuery.of(context).size.height * 0.75,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-                color: Colors.white,
+            decoration: BoxDecoration(
+                color: ContainerTheme,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -125,10 +133,11 @@ class _SignInWidgetState extends State<SignInWidget> {
                       Navigator.pushNamed(context, '/SignUp');
                     },
                     style: TextButton.styleFrom(
-                      surfaceTintColor: Colors.blue,
-                      textStyle: TextStyle(fontSize: 15),
+                      surfaceTintColor: Colors.red,
+                      textStyle: const TextStyle(
+                          fontSize: 15, decoration: TextDecoration.underline),
                     ),
-                    child: const Text('No Account? Make one now.'),
+                    child: const Text('Create a account'),
                   ),
                 ),
               ],

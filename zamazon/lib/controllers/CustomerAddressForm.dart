@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/widgets/createAppBar.dart';
+
+import '../themes.dart';
 
 class CustomerAddressWidget extends StatefulWidget {
   const CustomerAddressWidget({Key? key, this.title}) : super(key: key);
@@ -16,6 +19,10 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final ContainerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        ? Colors.grey[900]
+        : Colors.white;
+
     return Scaffold(
       appBar: createAppBar(context, zamazonLogo),
       body: SingleChildScrollView(
@@ -27,7 +34,7 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.white),
+                color: ContainerTheme),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,

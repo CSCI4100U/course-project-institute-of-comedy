@@ -80,6 +80,14 @@ Widget createDrawer(BuildContext context) {
             _notifications.sendNotificationLater(title, body, payload, when);
           },
         ),
+        ListTile(
+          leading: const Icon(Icons.settings),
+          title: const Text('Settings'),
+          // Takes to Settings page
+          onTap: () {
+            Navigator.pushNamed(context, '/SettingsPage');
+          },
+        ),
       ],
     ),
   );
