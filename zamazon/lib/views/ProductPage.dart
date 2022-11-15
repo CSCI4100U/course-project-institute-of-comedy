@@ -216,16 +216,15 @@ class _ProductPageState extends State<ProductPage> {
   Widget buildAddToWishListButton(BuildContext context) {
     return OutlinedButton(
         style: OutlinedButton.styleFrom(shape: const CircleBorder()),
-        onPressed:  () {
+        onPressed: () {
           setState(() {
-
             // if(_isWishListButtonPressed) {
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //     const SnackBar(content: Text("Removed from Wishlist.")));
-              // _isWishListButtonPressed = false;
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //     const SnackBar(content: Text("Removed from Wishlist.")));
+            // _isWishListButtonPressed = false;
             // }
             // TODO: let users remove from list here?
-            if(!_isWishListButtonPressed) {
+            if (!_isWishListButtonPressed) {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Added to Wishlist.")));
               _isWishListButtonPressed = true;
@@ -240,64 +239,63 @@ class _ProductPageState extends State<ProductPage> {
             // _isWishListButtonPressed = _isWishListButtonPressed ? false : true;
           });
         },
-        child:
-             const Icon(
-                Icons.favorite,
-                color: Colors.red,
-              )
-    );
-            // : const Icon(Icons.favorite_border));
+        child: const Icon(
+          Icons.favorite,
+          color: Colors.red,
+        ));
+    // : const Icon(Icons.favorite_border));
   }
 
   Widget buildAddToCartButton(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.yellow,
-            // _isAddToCartButtonPressed ? Colors.deepOrange[300] : Colors.yellow,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        // TODO: use media query
-        fixedSize: Size(width - 80, 40),
-      ),
-      // TODO: make "add to cart" and "remove from cart" functionality
-      onPressed: () async {
-        //productModel.insertProduct(product!);  //testing
-        // if (!_isAddToCartButtonPressed) {
-        int? value = await showNumberPickerDialog(context, product!.sizeSelection!);
-        setState(() {
-          _selectedSizeValue = value;
-        });
-        if (value != null) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(const SnackBar(content: Text("Added to Cart")));
-          _isAddToCartButtonPressed = _isAddToCartButtonPressed ? false : true;
-          _scwlModel.addToCartWishList(product!, "shoppingCart", size: _selectedSizeValue!);
-        }
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.yellow,
+          // _isAddToCartButtonPressed ? Colors.deepOrange[300] : Colors.yellow,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          fixedSize: Size(width - 80, 40),
+        ),
+        onPressed: () async {
+          //productModel.insertProduct(product!);  //testing
+          // if (!_isAddToCartButtonPressed) {
+          int? value =
+              await showNumberPickerDialog(context, product!.sizeSelection!);
+          setState(() {
+            _selectedSizeValue = value;
+          });
+          if (value != null) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text("Added to Cart")));
+            _isAddToCartButtonPressed =
+                _isAddToCartButtonPressed ? false : true;
+            _scwlModel.addToCartWishList(product!, "shoppingCart",
+                size: _selectedSizeValue!);
+          }
           // await showNumberPickerDialog(context);
-            // }
-        // productModel.insertProduct(product!);
-        // setState(() {
-        //   if (_isAddToCartButtonPressed) {
-        //     _isAddToCartButtonPressed = false;
-        //     ScaffoldMessenger.of(context).showSnackBar(
-        //         const SnackBar(content: Text("Removed from Cart.")));
-        //   }
-        // });
-      },
+          // }
+          // productModel.insertProduct(product!);
+          // setState(() {
+          //   if (_isAddToCartButtonPressed) {
+          //     _isAddToCartButtonPressed = false;
+          //     ScaffoldMessenger.of(context).showSnackBar(
+          //         const SnackBar(content: Text("Removed from Cart.")));
+          //   }
+          // });
+        },
         child: const Text(
           "Add to Cart",
           style: TextStyle(color: Colors.black),
         )
-      // child: _isAddToCartButtonPressed
-      //     ? const Text("Remove from Cart - WIP",
-      //         style: TextStyle(color: Colors.black))
-      //     : const Text(
-      //         "Add to Cart - WIP",
-      //         style: TextStyle(color: Colors.black),
-      //       ),
-    );
+        // child: _isAddToCartButtonPressed
+        //     ? const Text("Remove from Cart - WIP",
+        //         style: TextStyle(color: Colors.black))
+        //     : const Text(
+        //         "Add to Cart - WIP",
+        //         style: TextStyle(color: Colors.black),
+        //       ),
+        );
   }
-
 
 // builds the size list widget
   Widget buildSizeWidget(BuildContext context) {

@@ -7,9 +7,9 @@ import 'package:timezone/timezone.dart';
 // products have been delivered.
 
 class Notifications {
-  final channelId = "testNotif";
-  final channelName = "Test Notification";
-  final channelDescription = "Test Notification Description";
+  final channelId = "deliveryNotif";
+  final channelName = "Delivery Notification";
+  final channelDescription = "Notifications for when a delivery arrives.";
 
   //Configure plugin using platform specific details
   var _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();

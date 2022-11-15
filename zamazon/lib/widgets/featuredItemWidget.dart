@@ -6,7 +6,8 @@ import 'package:zamazon/views/ProductPage.dart';
 // helper function, to create a big banner for a randomly featured item.
 
 class FeaturedItemWidget extends StatelessWidget {
-  const FeaturedItemWidget({Key? key, required this.productList}) : super(key: key);
+  const FeaturedItemWidget({Key? key, required this.productList})
+      : super(key: key);
 
   final List<Product> productList;
 
@@ -19,11 +20,14 @@ class FeaturedItemWidget extends StatelessWidget {
 
       return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, "/ProductPage",
-              arguments: ProductPage(
-                title: 'Product',
-                product: product,
-              ));
+          Navigator.pushNamed(
+            context,
+            "/ProductPage",
+            arguments: {
+              'title': 'Product',
+              'product': product,
+            },
+          );
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -77,4 +81,3 @@ class FeaturedItemWidget extends StatelessWidget {
     }
   }
 }
-

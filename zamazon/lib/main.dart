@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:zamazon/controllers/CustomerInfoForm.dart';
 import 'package:zamazon/controllers/SignInForm.dart';
+import 'package:zamazon/views/checkoutPage.dart';
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ShoppingCartPage.dart';
 import 'package:zamazon/controllers/SignUpForm.dart';
@@ -11,7 +12,7 @@ import 'package:zamazon/models/productModel.dart';
 import 'package:zamazon/views/ProductPage.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
-import 'package:zamazon/views/userProfilePage.dart';
+import 'package:zamazon/controllers/userProfilePage.dart';
 
 // main file of app. firebase and streamprovider for products are initialized here.
 // Streambuilder listens to authentification state changes, and displays either the
@@ -20,6 +21,7 @@ import 'package:zamazon/views/userProfilePage.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseAuth.instance.signOut();
 
   runApp(
     MultiProvider(
@@ -52,15 +54,26 @@ class MyApp extends StatelessWidget {
                   title: 'Welcome \n Please Sign In',
                 ),
           onGenerateRoute: (settings) {
-            var arguments = settings.arguments as ProductPage;
+            final String routeName = settings.name!;
+            final Map<String, dynamic> arguments =
+                settings.arguments as Map<String, dynamic>;
 
-            switch (settings.name) {
+            switch (routeName) {
               case '/ProductPage':
                 return MaterialPageRoute(builder: (context) {
                   // Product product = arguments;
                   return ProductPage(
-                    title: arguments.title,
-                    product: arguments.product,
+                    title: arguments['title'],
+                    product: arguments['product'],
+                  );
+                });
+              case '/CheckOut':
+                return MaterialPageRoute(builder: (context) {
+                  return CheckOutPage(
+                    title: arguments['title'],
+                    checkOutItems: arguments['checkOutItems'],
+                    sumOfCart: arguments['sumOfCart'],
+                    numOfItems: arguments['numOfItems'],
                   );
                 });
               default:

@@ -12,17 +12,8 @@ class HomePageDrawerWidget extends StatelessWidget {
 
   final _auth = Auth();
 
-  // JUST FOR TESTING NOTIFICATIONS, WILL BE CHANGED LATER
-  final _notifications = Notifications();
-  final String? title = 'titleeee';
-  final String? body = 'boooooody';
-  final String? payload = 'payloooooad';
-
   @override
   Widget build(BuildContext context) {
-    //_notifications.init();
-    //tz.initializeTimeZones();
-
     return Drawer(
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -57,26 +48,6 @@ class HomePageDrawerWidget extends StatelessWidget {
             // Takes to wish list page
             onTap: () => Navigator.pushNamed(context, '/WishList'),
           ),
-          // ListTile(
-          //   leading: const Icon(Icons.notification_add),
-          //   title: const Text('Test Notify Now'),
-          //   // Takes to wish list page
-          //   onTap: () {
-          //     _notifications.sendNotificationNow(title!, body!, payload!);
-          //   },
-          // ),
-          // ListTile(
-          //   leading: const Icon(Icons.notifications_active),
-          //   title: const Text('Test Notify Later'),
-          //   // Takes to wish list page
-          //   onTap: () {
-          //     var when = tz.TZDateTime.now(tz.local).add(Duration(seconds: 5));
-          //     _notifications.sendNotificationLater(
-          //         title!, body!, payload!, when);
-          //   },
-          // ),
-          //const Spacer(),
-          //const Divider(),
           const Spacer(),
           const Divider(
             thickness: 2,
