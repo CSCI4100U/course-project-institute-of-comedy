@@ -10,7 +10,8 @@ import 'ratingWidget.dart';
 // Carousel slider product display on homepage
 
 class ProductViewWidget extends StatelessWidget {
-  const ProductViewWidget({Key? key, required this.productList}) : super(key: key);
+  const ProductViewWidget({Key? key, required this.productList})
+      : super(key: key);
 
   final List<Product> productList;
 
@@ -29,18 +30,20 @@ class ProductViewWidget extends StatelessWidget {
             itemBuilder: (context, itemIndex, pageViewIndex) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/ProductPage",
-                      arguments: ProductPage(
-                        title: 'Product',
-                        product: productList[itemIndex],
-                      )
+                  Navigator.pushNamed(
+                    context,
+                    "/ProductPage",
+                    arguments: {
+                      'title': 'Product',
+                      'product': productList[itemIndex],
+                    },
                   );
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.blue[200],
+                    color: Colors.grey[400],
                   ),
                   child: Column(
                     children: [
@@ -55,8 +58,8 @@ class ProductViewWidget extends StatelessWidget {
                         ),
                       ),
                       Container(
-                        margin:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 10),
                         child: Text(
                           "${productList[itemIndex].title}",
                           // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -99,6 +102,3 @@ class ProductViewWidget extends StatelessWidget {
     }
   }
 }
-
-
-

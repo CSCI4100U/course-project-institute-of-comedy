@@ -43,6 +43,18 @@ class _WishListPageState extends State<WishListPage> {
                 backgroundColor: Colors.transparent,
                 foregroundColor: Theme.of(context).primaryColor,
                 elevation: 0,
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10.0),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pushReplacementNamed(
+                            context, '/ShoppingCart');
+                      },
+                      icon: const Icon(Icons.shopping_cart),
+                    ),
+                  )
+                ],
               ),
               body: snapshot.data.isEmpty
                   ? const Center(
@@ -67,11 +79,14 @@ class _WishListPageState extends State<WishListPage> {
   Widget buildWishListItem(ShoppingCartWishListItem scwlItem, double width) {
     return InkWell(
       onTap: () async {
-        //TODO: should go to product's page
-        Navigator.pushNamed(context, "/ProductPage",
-            arguments: ProductPage(
-                title: 'Product',
-                product: await SCWLModel().getProduct(scwlItem.productId!)));
+        Navigator.pushNamed(
+          context,
+          "/ProductPage",
+          arguments: {
+            'title': 'Product',
+            'product': await SCWLModel().getProduct(scwlItem.productId!)
+          },
+        );
       },
       // change these if needed
       // splashColor : Colors.blue,
@@ -141,11 +156,10 @@ class _WishListPageState extends State<WishListPage> {
                       ),
                       ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.yellow,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            fixedSize: Size(width/2,20)
-                          ),
+                              backgroundColor: Colors.yellow,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              fixedSize: Size(width / 2, 20)),
                           onPressed: () async {
                             int? value = await showNumberPickerDialog(
                                 context, scwlItem.sizeSelection!);

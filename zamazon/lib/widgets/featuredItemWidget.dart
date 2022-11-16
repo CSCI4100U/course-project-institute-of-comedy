@@ -6,7 +6,8 @@ import 'package:zamazon/views/ProductPage.dart';
 // helper function, to create a big banner for a randomly featured item.
 
 class FeaturedItemWidget extends StatelessWidget {
-  const FeaturedItemWidget({Key? key, required this.productList}) : super(key: key);
+  const FeaturedItemWidget({Key? key, required this.productList})
+      : super(key: key);
 
   final List<Product> productList;
 
@@ -19,11 +20,14 @@ class FeaturedItemWidget extends StatelessWidget {
 
       return GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, "/ProductPage",
-              arguments: ProductPage(
-                title: 'Product',
-                product: product,
-              ));
+          Navigator.pushNamed(
+            context,
+            "/ProductPage",
+            arguments: {
+              'title': 'Product',
+              'product': product,
+            },
+          );
         },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -33,7 +37,7 @@ class FeaturedItemWidget extends StatelessWidget {
               child: Text(
                 "${product.features![0]}",
                 style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -41,14 +45,14 @@ class FeaturedItemWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: Text(
                   "${product.title}",
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20, color: Colors.black),
                   textAlign: TextAlign.center,
                 )),
             Container(
               padding: const EdgeInsets.all(10),
               child: Text(
                 "\$${product.dealPrice}",
-                style: const TextStyle(fontSize: 30),
+                style: const TextStyle(fontSize: 30, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -56,7 +60,7 @@ class FeaturedItemWidget extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Text(
                 "${product.savings!.substring(18, 21)} off. Limited time offer",
-                style: const TextStyle(fontSize: 15),
+                style: const TextStyle(fontSize: 15, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -77,4 +81,3 @@ class FeaturedItemWidget extends StatelessWidget {
     }
   }
 }
-

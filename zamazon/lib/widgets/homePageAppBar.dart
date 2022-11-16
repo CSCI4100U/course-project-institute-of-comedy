@@ -13,7 +13,7 @@ class HomePageAppBarWidget extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: Theme.of(context).iconTheme,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.orange,
       foregroundColor: Theme.of(context).primaryColor,
       elevation: 0,
       // title: Image.network(
@@ -37,11 +37,15 @@ class HomePageAppBarWidget extends StatelessWidget with PreferredSizeWidget {
               final product = await showSearch(
                   context: context, delegate: CustomSearchDelegate());
 
-              nav.pushNamed("/ProductPage",
-                  arguments: ProductPage(
-                    title: 'Product',
-                    product: product,
-                  ));
+              if (product != null) {
+                nav.pushNamed(
+                  "/ProductPage",
+                  arguments: {
+                    'title': 'Product',
+                    'product': product,
+                  },
+                );
+              }
             },
             icon: const Icon(Icons.search)),
       ],
