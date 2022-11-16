@@ -38,10 +38,11 @@ class _WishListPageState extends State<WishListPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return Scaffold(
               appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                foregroundColor: Colors.black,
-                elevation: 0,
                 title: Text(widget.title!),
+                iconTheme: Theme.of(context).iconTheme,
+                backgroundColor: Colors.transparent,
+                foregroundColor: Theme.of(context).primaryColor,
+                elevation: 0,
                 actions: [
                   Padding(
                     padding: const EdgeInsets.only(right: 10.0),

@@ -12,9 +12,10 @@ class HomePageAppBarWidget extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 0,
+      iconTheme: Theme.of(context).iconTheme,
       backgroundColor: Colors.orange,
-      foregroundColor: Colors.black,
+      foregroundColor: Theme.of(context).primaryColor,
+      elevation: 0,
       // title: Image.network(
       //   zamazonLogo, //VERY GOOD LOGO
       //   width: 125,

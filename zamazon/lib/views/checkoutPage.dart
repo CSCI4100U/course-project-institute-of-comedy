@@ -26,10 +26,12 @@ class CheckOutPage extends StatelessWidget {
       stream: UserModel().getUserInformation(),
       builder: (context, snapshot) {
         return Scaffold(
+          extendBody: true,
           appBar: AppBar(
             title: Text(title!),
+            iconTheme: Theme.of(context).iconTheme,
             backgroundColor: Colors.transparent,
-            foregroundColor: Colors.black,
+            foregroundColor: Theme.of(context).primaryColor,
             elevation: 0,
           ),
           body: (snapshot.data!.name != 'Default')

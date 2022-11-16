@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
+
+import '../themes.dart';
 
 class BuildQuantityWidget extends StatelessWidget {
   BuildQuantityWidget({super.key, required this.scwlItem});
@@ -9,6 +12,11 @@ class BuildQuantityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final buttonTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        ? Colors.white
+        : Colors.black;
+
     return Row(
       children: [
         OutlinedButton(
@@ -22,7 +30,7 @@ class BuildQuantityWidget extends StatelessWidget {
             },
             style: OutlinedButton.styleFrom(
               shape: const CircleBorder(),
-              foregroundColor: Colors.black,
+              foregroundColor: buttonTheme,
             ),
             child: const Icon(Icons.remove)),
         Text("Qty: ${scwlItem.quantity}"),
@@ -37,7 +45,7 @@ class BuildQuantityWidget extends StatelessWidget {
             },
             style: OutlinedButton.styleFrom(
               shape: const CircleBorder(),
-              foregroundColor: Colors.black,
+              foregroundColor: buttonTheme,
             ),
             child: const Icon(Icons.add)),
       ],

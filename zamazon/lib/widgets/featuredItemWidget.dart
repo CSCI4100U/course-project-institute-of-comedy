@@ -37,7 +37,7 @@ class FeaturedItemWidget extends StatelessWidget {
               child: Text(
                 "${product.features![0]}",
                 style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -45,14 +45,14 @@ class FeaturedItemWidget extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: Text(
                   "${product.title}",
-                  style: const TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20, color: Colors.black),
                   textAlign: TextAlign.center,
                 )),
             Container(
               padding: const EdgeInsets.all(10),
               child: Text(
                 "\$${product.dealPrice}",
-                style: const TextStyle(fontSize: 30),
+                style: const TextStyle(fontSize: 30, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -60,7 +60,7 @@ class FeaturedItemWidget extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Text(
                 "${product.savings!.substring(18, 21)} off. Limited time offer",
-                style: const TextStyle(fontSize: 15),
+                style: const TextStyle(fontSize: 15, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
             ),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
 
 //Form that lets registered user's sign in.
+
+import '../themes.dart';
 
 class SignInWidget extends StatefulWidget {
   const SignInWidget({Key? key, this.title}) : super(key: key);
@@ -21,8 +24,13 @@ class _SignInWidgetState extends State<SignInWidget> {
   String? _email;
   String? _password;
 
+
   @override
   Widget build(BuildContext context) {
+    final containerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        ? Colors.grey[900]
+        : Colors.white;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
@@ -31,8 +39,8 @@ class _SignInWidgetState extends State<SignInWidget> {
             height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-                color: Colors.white,
+            decoration: BoxDecoration(
+                color: containerTheme,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,

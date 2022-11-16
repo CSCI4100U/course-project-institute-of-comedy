@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
+
+import '../themes.dart';
 
 class BuildCheckOutItem extends StatelessWidget {
   const BuildCheckOutItem({
@@ -15,7 +18,9 @@ class BuildCheckOutItem extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Colors.orange[100],
+        color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+            ? Colors.grey[900]
+            : Colors.orange[100],
       ),
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
       child: Row(
@@ -35,12 +40,9 @@ class BuildCheckOutItem extends StatelessWidget {
           const SizedBox(width: 20),
           Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 5,
-                ),
                 Text(
                   "${scwlItem.title}",
                   style: const TextStyle(fontSize: 17),
@@ -48,15 +50,9 @@ class BuildCheckOutItem extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
                 Text(
                   "\$${scwlItem.totalPrice}",
                   style: const TextStyle(fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 scwlItem.size != 0
                     ? Text.rich(TextSpan(children: [
@@ -74,9 +70,6 @@ class BuildCheckOutItem extends StatelessWidget {
                     : Container(
                         height: 0,
                       ),
-                const SizedBox(
-                  height: 20,
-                ),
                 Text.rich(
                   TextSpan(
                     children: [
