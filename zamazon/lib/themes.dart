@@ -23,7 +23,6 @@ class ThemeProvider extends ChangeNotifier{
     _getTheme().then((value) {getTheme = value;});
     if(getTheme == null) { return ThemeMode.light
     ;}
-    print("bruh ${getTheme!.themeValue}");
     themeMode = getTheme!.themeValue == 1 ? ThemeMode.dark : ThemeMode.light;
     return themeMode!;
   }
