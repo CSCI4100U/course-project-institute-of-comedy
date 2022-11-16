@@ -32,8 +32,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Profile'),
+            iconTheme: Theme.of(context).iconTheme,
             backgroundColor: Colors.transparent,
-            foregroundColor: Colors.black,
+            foregroundColor: Theme.of(context).primaryColor,
             elevation: 0,
           ),
           body: SingleChildScrollView(

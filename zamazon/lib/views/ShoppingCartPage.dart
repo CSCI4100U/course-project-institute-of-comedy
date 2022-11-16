@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/widgets/checkoutWidget.dart';
 
 import '../models/Product.dart';
 import '../models/shoppingCartWishListModel.dart';
 import '../models/userModel.dart';
+import '../themes.dart';
 
 //IN PROGRESS, users should be able to add/remove items to their shopping carts
 // and they will be displayed in this page. IN PROGRESS, checking out items.
@@ -35,8 +37,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           return Scaffold(
               extendBody: true,
               appBar: AppBar(
+                iconTheme: Theme.of(context).iconTheme,
                 backgroundColor: Colors.transparent,
-                foregroundColor: Colors.black,
+                foregroundColor: Theme.of(context).primaryColor,
                 elevation: 0,
                 title: Text(widget.title!),
                 actions: [
@@ -84,7 +87,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           background: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-              color: Colors.grey.shade200,
+              color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+                  ? Colors.grey[700]
+                  : Colors.grey.shade200,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
@@ -186,6 +191,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Widget buildQuantityWidget(ShoppingCartWishListItem scwlItem) {
+
+    final buttonTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        ? Colors.white
+        : Colors.black;
+
     return Row(
       children: [
         OutlinedButton(
@@ -199,7 +209,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             },
             style: OutlinedButton.styleFrom(
               shape: const CircleBorder(),
-              foregroundColor: Colors.black,
+              foregroundColor: buttonTheme,
             ),
             child: const Icon(Icons.remove)),
         Text("Qty: ${scwlItem.quantity}"),
@@ -214,7 +224,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             },
             style: OutlinedButton.styleFrom(
               shape: const CircleBorder(),
-              foregroundColor: Colors.black,
+              foregroundColor: buttonTheme,
             ),
             child: const Icon(Icons.add)),
       ],

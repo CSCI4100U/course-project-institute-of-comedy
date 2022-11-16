@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../themes.dart';
 
 class CheckoutWidget extends StatelessWidget {
   const CheckoutWidget({Key? key}) : super(key: key);
@@ -12,7 +15,9 @@ class CheckoutWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
       // height: MediaQuery.of(context).size.height/3,
       decoration: BoxDecoration(
-          color: Colors.blue.shade100,
+          color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+              ? Colors.grey[700]
+              : Colors.blue.shade100,
           borderRadius: const BorderRadius.only(
         topLeft: Radius.circular(30),
         topRight: Radius.circular(30),

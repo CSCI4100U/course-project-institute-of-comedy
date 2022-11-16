@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 import '../models/Product.dart';
+import '../themes.dart';
 import '../views/ProductPage.dart';
 import 'priceWidget.dart';
 import 'ratingWidget.dart';
@@ -38,7 +40,7 @@ class ProductViewWidget extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: Colors.white,
+                    color: Colors.blue[200],
                   ),
                   child: Column(
                     children: [

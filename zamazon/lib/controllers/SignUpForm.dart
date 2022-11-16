@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
 
 // Form for registering a new user to firebase.
+
+import '../themes.dart';
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({Key? key, this.title}) : super(key: key);
@@ -23,6 +26,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final ContainerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        ? Colors.grey[900]
+        : Colors.white;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
@@ -31,8 +38,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
-            decoration: const BoxDecoration(
-                color: Colors.white,
+            decoration: BoxDecoration(
+                color: ContainerTheme,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,

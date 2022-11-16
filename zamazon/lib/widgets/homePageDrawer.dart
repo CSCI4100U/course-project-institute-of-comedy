@@ -89,7 +89,7 @@ class HomePageDrawerWidget extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.settings),
             title: const Text('Settings - WIP'),
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, '/SettingsPage'),
           ),
           ListTile(
             leading: const Icon(Icons.logout),
