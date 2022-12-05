@@ -21,6 +21,7 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
   String? _province;
   String? _city;
   String? _postal;
+  String? _streetAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +30,8 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
         child: Form(
           key: _formKey,
           child: Container(
-            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.white),
             child: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -102,6 +100,28 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
                       validator: (value) {
                         return RegexValidation()
                             .validateNoNums('province', value);
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      //Country Validator
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(
+                          Icons.car_crash,
+                          size: 20,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        labelText: 'Street Address',
+                      ),
+                      onSaved: (streetAddress) {
+                        _streetAddress = streetAddress;
+                      },
+                      validator: (value) {
+                        return RegexValidation().validateStreetAddress(value);
                       },
                     ),
                   ),

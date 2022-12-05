@@ -5,13 +5,13 @@ import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/models/productModel.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
-import 'package:zamazon/widgets/homePageAppBar.dart';
+import 'package:zamazon/widgets/defaultAppBar.dart';
 import 'package:zamazon/widgets/ratingWidget.dart';
 
 import 'package:zamazon/widgets/dealWidget.dart';
 import 'package:zamazon/widgets/priceWidget.dart';
 
-import '../widgets/numberPickerDialog.dart';
+import '../widgets/sizePickerDialog.dart';
 
 // When a product is tapped, user will be navigated to its respective
 // page. This class is responsible for creating that page. From here, user's can
@@ -56,7 +56,9 @@ class _ProductPageState extends State<ProductPage> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: HomePageAppBarWidget(context),
+      appBar: DefaultAppBar(
+        context,
+      ),
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
@@ -213,30 +215,18 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
+  //TODO DIFFERENT CLASS
   Widget buildAddToWishListButton(BuildContext context) {
     return OutlinedButton(
         style: OutlinedButton.styleFrom(shape: const CircleBorder()),
         onPressed: () {
           setState(() {
-            // if(_isWishListButtonPressed) {
-            // ScaffoldMessenger.of(context).showSnackBar(
-            //     const SnackBar(content: Text("Removed from Wishlist.")));
-            // _isWishListButtonPressed = false;
-            // }
-            // TODO: let users remove from list here?
             if (!_isWishListButtonPressed) {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Added to Wishlist.")));
               _isWishListButtonPressed = true;
               _scwlModel.addToCartWishList(product!, "wishList");
             }
-
-            // _isWishListButtonPressed
-            //     ? ScaffoldMessenger.of(context).showSnackBar(
-            //         const SnackBar(content: Text("Removed from Wishlist.")))
-            //     : ScaffoldMessenger.of(context).showSnackBar(
-            //         const SnackBar(content: Text("Added to Wishlist.")));
-            // _isWishListButtonPressed = _isWishListButtonPressed ? false : true;
           });
         },
         child: const Icon(
@@ -246,6 +236,7 @@ class _ProductPageState extends State<ProductPage> {
     // : const Icon(Icons.favorite_border));
   }
 
+  //TODO DIFFERENT CLASS
   Widget buildAddToCartButton(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return ElevatedButton(
@@ -260,11 +251,12 @@ class _ProductPageState extends State<ProductPage> {
           //productModel.insertProduct(product!);  //testing
           // if (!_isAddToCartButtonPressed) {
           int? value =
-              await showNumberPickerDialog(context, product!.sizeSelection!);
+              await showSizePickerDialog(context, product!.sizeSelection!);
           setState(() {
             _selectedSizeValue = value;
           });
           if (value != null) {
+            if (!mounted) return;
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text("Added to Cart")));
             _isAddToCartButtonPressed =
@@ -272,66 +264,10 @@ class _ProductPageState extends State<ProductPage> {
             _scwlModel.addToCartWishList(product!, "shoppingCart",
                 size: _selectedSizeValue!);
           }
-          // await showNumberPickerDialog(context);
-          // }
-          // productModel.insertProduct(product!);
-          // setState(() {
-          //   if (_isAddToCartButtonPressed) {
-          //     _isAddToCartButtonPressed = false;
-          //     ScaffoldMessenger.of(context).showSnackBar(
-          //         const SnackBar(content: Text("Removed from Cart.")));
-          //   }
-          // });
         },
         child: const Text(
           "Add to Cart",
           style: TextStyle(color: Colors.black),
-        )
-        // child: _isAddToCartButtonPressed
-        //     ? const Text("Remove from Cart - WIP",
-        //         style: TextStyle(color: Colors.black))
-        //     : const Text(
-        //         "Add to Cart - WIP",
-        //         style: TextStyle(color: Colors.black),
-        //       ),
-        );
-  }
-
-// builds the size list widget
-  Widget buildSizeWidget(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(padding: const EdgeInsets.all(5), child: const Text("Size:")),
-        // using SizedBox for spacing purposes
-        SizedBox(
-          height: 55,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: product!.sizeSelection!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  // TODO: return the size to be shown elsewhere?
-                  onTap: () {
-                    setState(() {
-                      _selectedSizeValue = index;
-                    });
-                  },
-                  child: Container(
-                      margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          color: _selectedSizeValue == index
-                              ? Colors.blue
-                              : Colors.white
-                          // borderRadius: BorderRadius.all(Radius.circular(20))
-                          ),
-                      child: Text("${product!.sizeSelection![index]}")),
-                );
-              }),
-        ),
-      ],
-    );
+        ));
   }
 }

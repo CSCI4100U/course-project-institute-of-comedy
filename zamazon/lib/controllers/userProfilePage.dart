@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
+import 'package:zamazon/widgets/defaultAppBar.dart';
+import 'package:zamazon/widgets/sliverAppBar.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -26,89 +28,81 @@ class _UserProfilePageState extends State<UserProfilePage> {
       initialData: CusUser(),
       stream: UserModel().getUserInformation(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Profile'),
-            backgroundColor: Colors.transparent,
-            foregroundColor: Colors.black,
-            elevation: 0,
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 200,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topRight,
-                      end: Alignment.topLeft,
-                      stops: const [
-                        0.2,
-                        0.4,
-                        0.6,
-                        1.0,
-                      ],
-                      colors: [
-                        Colors.orange.shade100,
-                        Colors.orange.shade300,
-                        Colors.orange.shade400,
-                        Colors.orange.shade900,
-                      ],
-                    ),
-                    color: Colors.orange[900],
-                    borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(12),
-                      bottomRight: Radius.circular(12),
-                    ),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 40,
-                        backgroundColor: Colors.white,
-                        child: Text(
-                          snapshot.data.name[0],
-                          style: const TextStyle(fontSize: 40),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        snapshot.data.name,
-                        style: const TextStyle(
-                          fontSize: 25,
-                        ),
-                      ),
+        return SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 200,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.bottomCenter,
+                    end: Alignment.topCenter,
+                    stops: const [
+                      0.5,
+                      0.7,
+                      0.9,
+                      // 0.8,
+                      1.0,
+                    ],
+                    colors: [
+                      Colors.orange.shade100,
+                      Colors.orange.shade300,
+                      Colors.orange.shade500,
+                      // Colors.orange.shade600,
+                      Colors.orange,
                     ],
                   ),
+                  color: Colors.orange[900],
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(12),
+                    bottomRight: Radius.circular(12),
+                  ),
                 ),
-                Form(
-                  key: _formKey,
-                  child: Container(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CircleAvatar(
+                      radius: 40,
+                      backgroundColor: Colors.white,
+                      child: Text(
+                        snapshot.data.name[0],
+                        style: const TextStyle(fontSize: 40),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      snapshot.data.name,
+                      style: const TextStyle(
+                        fontSize: 25,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Form(
+                key: _formKey,
+                child: Container(
                     padding: EdgeInsets.only(top: 16),
                     height: MediaQuery.of(context).size.height * 0.6,
                     width: MediaQuery.of(context).size.width * 0.9,
-                    child: (snapshot.data.name != 'Default')
-                        ? Column(
-                            children: [
-                              const Text('Ability to change these - WIP'),
-                              createTextFormField('Name', snapshot.data.name),
-                              createTextFormField(
-                                  'Country', snapshot.data.country),
-                              createTextFormField(
-                                  'Province', snapshot.data.province),
-                              createTextFormField('City', snapshot.data.city),
-                            ],
-                          )
-                        : const Center(child: CircularProgressIndicator()),
-                  ),
-                ),
-              ],
-            ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text('Ability to change these - WIP'),
+                        createTextFormField('Name', snapshot.data.name),
+                        createTextFormField('Country', snapshot.data.country),
+                        createTextFormField('Province', snapshot.data.province),
+                        createTextFormField('City', snapshot.data.city),
+                      ],
+                    )),
+              ),
+            ],
           ),
         );
       },

@@ -40,7 +40,7 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
               style: TextStyle(fontSize: 18),
             ),
             Text(
-              cartSum.toStringAsFixed(2),
+              '\$${cartSum.toStringAsFixed(2)}',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,

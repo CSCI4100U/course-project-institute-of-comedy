@@ -3,9 +3,8 @@ import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 
 import '../models/Product.dart';
-import '../widgets/numberPickerDialog.dart';
-import '../widgets/ratingWidget.dart';
-import 'ProductPage.dart';
+import '../widgets/sizePickerDialog.dart';
+import 'package:zamazon/widgets/sliverAppBar.dart';
 
 // IN PROGRESS, similar to shopping cart page, except users will only be able to
 // add wishlist items to shopping cart, they will not be able to check out items
@@ -21,10 +20,6 @@ class WishListPage extends StatefulWidget {
 }
 
 class _WishListPageState extends State<WishListPage> {
-  //TODO
-  // might track shopping cart and wishlist using provider?
-  // List<Product> wishList = ...
-
   final SCWLModel _scwlModel = SCWLModel();
 
   @override
@@ -36,42 +31,24 @@ class _WishListPageState extends State<WishListPage> {
         stream: SCWLModel().getUserShoppingCartWishList("wishList"),
         initialData: const [],
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                foregroundColor: Colors.black,
-                elevation: 0,
-                title: Text(widget.title!),
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, '/ShoppingCart');
-                      },
-                      icon: const Icon(Icons.shopping_cart),
-                    ),
-                  )
-                ],
-              ),
-              body: snapshot.data.isEmpty
-                  ? const Center(
-                      child: Text(
-                      "Your Wish List is Empty.",
-                      style: TextStyle(fontSize: 25),
-                    ))
-                  : Padding(
-                      padding: const EdgeInsets.all(10),
-                      // TODO: add more information to each product in list
-                      child: ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            ShoppingCartWishListItem scwlItem =
-                                snapshot.data[index];
-                            return buildWishListItem(scwlItem, width);
-                          }),
-                    ));
+          return (snapshot.data.isEmpty)
+              ? const Center(
+                  child: Text(
+                  "Your Wish is Empty.",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 25),
+                ))
+              : Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: ListView.builder(
+                      padding: const EdgeInsets.only(top: 0),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        ShoppingCartWishListItem scwlItem =
+                            snapshot.data[index];
+                        return buildWishListItem(scwlItem, width);
+                      }),
+                );
         });
   }
 
@@ -94,7 +71,6 @@ class _WishListPageState extends State<WishListPage> {
         margin: const EdgeInsets.symmetric(horizontal: 10),
         child: Dismissible(
             key: UniqueKey(),
-            direction: DismissDirection.endToStart,
             onDismissed: (direction) {
               _scwlModel.deleteCartWishList(scwlItem);
             },
@@ -160,9 +136,10 @@ class _WishListPageState extends State<WishListPage> {
                                   borderRadius: BorderRadius.circular(20)),
                               fixedSize: Size(width / 2, 20)),
                           onPressed: () async {
-                            int? value = await showNumberPickerDialog(
+                            int? value = await showSizePickerDialog(
                                 context, scwlItem.sizeSelection!);
                             if (value != null) {
+                              if (!mounted) return;
                               ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                       content: Text("Added to Cart")));

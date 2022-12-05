@@ -44,12 +44,31 @@ class SCWLModel {
       sizeSelection: product.sizeSelection,
     );
 
-    await _db
+    var collRef = await _db
         .collection('users')
         .doc(_auth.currentUser!.uid)
-        .collection(collName)
-        .doc(collName == "wishList" ? product.id : null)
-        .set(scwlItem.toMap());
+        .collection(collName);
+    var doc = await collRef.doc('${product.id}${scwlItem.size}').get();
+
+    // if the product of the same size is in the shopping cart, then just increment
+    // the quantity value of that item instead of adding a new document.
+    if (collName == 'shoppingCart' && doc.exists) {
+      await _db
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection(collName)
+          .doc('${product.id}${scwlItem.size}')
+          .update({'quantity': FieldValue.increment(1)});
+    } else {
+      await _db
+          .collection('users')
+          .doc(_auth.currentUser!.uid)
+          .collection(collName)
+          .doc(collName == "wishList"
+              ? product.id
+              : '${product.id}${scwlItem.size}')
+          .set(scwlItem.toMap());
+    }
   }
 
   Future<void> updateCartWishList(ShoppingCartWishListItem scwlItem) async {

@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:zamazon/controllers/CustomerInfoForm.dart';
 import 'package:zamazon/controllers/SignInForm.dart';
+import 'package:zamazon/models/CusUser.dart';
+import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/views/checkoutPage.dart';
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ShoppingCartPage.dart';
@@ -49,7 +51,7 @@ class MyApp extends StatelessWidget {
           title: 'Zamazon Demo',
           theme: ThemeData.light(),
           home: (snapshot.hasData)
-              ? const HomePage(title: 'Zamazon')
+              ? const HomePage()
               : const SignInWidget(
                   title: 'Welcome \n Please Sign In',
                 ),
@@ -78,7 +80,7 @@ class MyApp extends StatelessWidget {
                 });
               default:
                 return MaterialPageRoute(
-                    builder: (context) => const HomePage(title: 'Zamazon'));
+                    builder: (context) => const HomePage());
             }
           },
           routes: {
@@ -87,10 +89,6 @@ class MyApp extends StatelessWidget {
                 const CustomerAddressWidget(title: 'Enter Address Info'),
             '/SignIn': (context) => const SignInWidget(title: 'Sign In'),
             '/SignUp': (context) => const SignUpWidget(title: 'Sign Up'),
-            '/ShoppingCart': (context) =>
-                const ShoppingCartPage(title: 'Shopping Cart'),
-            '/WishList': (context) => WishListPage(title: 'Wish List'),
-            '/Profile': (context) => const UserProfilePage(),
           },
         );
       },
