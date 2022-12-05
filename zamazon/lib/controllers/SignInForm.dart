@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamazon/authentication/authFunctions.dart';
-import 'package:zamazon/globals.dart';
-import 'package:zamazon/authentication/regexValidation.dart';
-
-//Form that lets registered user's sign in.
+import 'package:zamazon/widgets/createAppBar.dart';
+import 'package:zamazon/zamazonLogo.dart';
 
 import '../themes.dart';
 
@@ -18,41 +15,38 @@ class SignInWidget extends StatefulWidget {
 }
 
 class _SignInWidgetState extends State<SignInWidget> {
-  final _formKey = GlobalKey<FormState>();
-  final _auth = Auth();
-
-  String? _email;
-  String? _password;
+  final formKey = GlobalKey<FormState>();
 
 
   @override
   Widget build(BuildContext context) {
-    final containerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+    final ContainerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
         ? Colors.grey[900]
         : Colors.white;
 
     return Scaffold(
+      appBar: createAppBar(context, zamazonLogo),
       body: SingleChildScrollView(
         child: Form(
-          key: _formKey,
+          key: formKey,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.75,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-                color: containerTheme,
+                color: ContainerTheme,
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.network(zamazonLogo),
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    'Welcome!',
+                    'Welcome Back',
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
+                //TODO Change this to validate existing Email
                 Container(
                   margin: const EdgeInsets.all(10),
                   child: TextFormField(
@@ -64,39 +58,39 @@ class _SignInWidgetState extends State<SignInWidget> {
                       ),
                       labelText: 'Email',
                     ),
-                    onSaved: (email) {
-                      _email = email!.trim();
-                    },
                     validator: (value) {
-                      return RegexValidation().validateEmail(value);
+                      RegExp regExp = RegExp(
+                          r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)');
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a Email';
+                      } else if (!regExp.hasMatch(value)) {
+                        return 'Email example: abc@gmail.com';
+                      }
+                      return null;
                     },
                   ),
                 ),
-
-                // PASSWORD FIELD
+                //TODO Change this to validate existing Password
                 Container(
                   margin: const EdgeInsets.all(10),
                   child: TextFormField(
                     //Password Validator
                     obscureText: true,
                     decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.key),
-                      errorMaxLines: 10,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                      ),
-                      labelText: 'Password',
-                    ),
-                    onSaved: (password) {
-                      _password = password!.trim();
-                    },
+                        prefixIcon: Icon(Icons.key),
+                        errorMaxLines: 10,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        labelText: 'Password'),
                     validator: (value) {
                       RegExp regExp = RegExp(
                           r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
                       if (value == null || value.isEmpty) {
                         return 'Please enter a Password';
                       } else if (!regExp.hasMatch(value)) {
-                        return 'At least 6 letters, 1 uppercase, 1 lowercase, and 1 number';
+                        return 'At least 6 letters:'
+                            ' 1 Uppercase, 1 Lowercase, 1 Number';
                       }
                       return null;
                     },
@@ -105,51 +99,45 @@ class _SignInWidgetState extends State<SignInWidget> {
                 const SizedBox(
                   height: 20,
                 ),
+                //TODO Change this to validate accounts
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.85,
+                  width: 350,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: Colors.deepOrangeAccent),
                   child: TextButton(
                       //Confirmed sign up and return to home page as logged in user
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-
-                          _auth.signIn(_email, _password).then((_) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                "Welcome back!",
-                                style: TextStyle(fontSize: 20),
-                              )),
-                            );
-                          });
+                        if (formKey.currentState!.validate()) {
+                          formKey.currentState!.save();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text(
+                              "Log in successfully",
+                              style: TextStyle(fontSize: 20),
+                            )),
+                          );
+                          Navigator.of(context)
+                              .popUntil((route) => route.isFirst);
                         }
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
                       ),
                       child: const Text('Continue',
-                          style: TextStyle(fontSize: 20))),
+                          style: TextStyle(fontSize: 30))),
                 ),
-                TextButton(
-                  onPressed: () {
-                    // removes cursor on previous page
-                    FocusScope.of(context).unfocus();
-                    _formKey.currentState!.reset();
-                    Navigator.pushNamed(context, '/SignUp');
-                  },
-                  style: TextButton.styleFrom(
-                    surfaceTintColor: Colors.blue,
-                    textStyle: const TextStyle(fontSize: 15),
-                  ),
-                  child: const Text(
-                    'Create an account',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
+                Container(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/SignUp');
+                    },
+                    style: TextButton.styleFrom(
+                      surfaceTintColor: Colors.red,
+                      textStyle: const TextStyle(
+                          fontSize: 15, decoration: TextDecoration.underline),
                     ),
+                    child: const Text('Create a account'),
                   ),
                 ),
               ],

@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:zamazon/themes.dart';
 
 class ChangeThemeButtonWidget extends StatelessWidget{
-  const ChangeThemeButtonWidget({super.key});
-
   @override
   Widget build(BuildContext context){
     final themeProvider = Provider.of<ThemeProvider>(context);
