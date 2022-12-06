@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class CusUser {
   DocumentReference? docRef;
   String? name;
+  String? streetAddress;
   String? email;
   String? country;
   String? province;
@@ -15,6 +16,7 @@ class CusUser {
   CusUser({
     this.name = 'Default',
     this.email = 'default@default.com',
+    this.streetAddress = '100 default rd',
     this.country = 'defaultia',
     this.province = 'defaulto',
     this.city = 'defaultville',
@@ -24,6 +26,7 @@ class CusUser {
   CusUser.fromMap(var map, {this.docRef}) {
     this.name = map['name'];
     this.email = map['email'];
+    this.streetAddress = map['streetAddress'];
     this.country = map['country'];
     this.province = map['province'];
     this.city = map['city'];
@@ -34,6 +37,7 @@ class CusUser {
     return {
       'name': this.name,
       'email': this.email,
+      'streetAddress' : this.streetAddress,
       'country': this.country,
       'province': this.province,
       'city': this.city,
@@ -44,6 +48,6 @@ class CusUser {
   @override
   String toString() {
     // TODO: implement toString
-    return '$name, $email, $country, $province, $city, $postal';
+    return '$name, $email, $streetAddress, $country, $province, $city, $postal';
   }
 }

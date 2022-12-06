@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
+import '../themes.dart';
 
 //Form that lets registered user's sign in.
 
-import '../themes.dart';
 
 class SignInWidget extends StatefulWidget {
   const SignInWidget({Key? key, this.title}) : super(key: key);

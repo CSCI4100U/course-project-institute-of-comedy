@@ -65,4 +65,14 @@ class RegexValidation {
     }
     return null;
   }
+
+  String? validateStreetAddress(String? value) {
+    RegExp regExp = RegExp(r'^[0-9]+ [0-9 a-z A-Z.-]+$');
+    if (value == null || value.isEmpty) {
+      return 'Please enter a Street Address';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Street Address Example: 301 Front St W';
+    }
+    return null;
+  }
 }

@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zamazon/models/db_utils.dart';
 import 'package:zamazon/themes.dart';
 import 'package:zamazon/views/ProductPage.dart';
 import 'package:zamazon/views/SettingsPage.dart';

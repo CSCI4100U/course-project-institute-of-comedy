@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
 
+import '../themes.dart';
+
 // Form presented to user after they sign up. Asks for location info and name.
+// TODO: MAKE MORE EFFICIENT: PUT THE CREATION OF CONTAINERS IN OWN ONE FUNCTION
 
 class CustomerAddressWidget extends StatefulWidget {
   const CustomerAddressWidget({Key? key, this.title}) : super(key: key);
@@ -17,6 +22,7 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
   final _auth = Auth();
 
   String? _name;
+  String? _streetAddress;
   String? _country;
   String? _province;
   String? _city;
@@ -24,26 +30,29 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final containerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        ? Colors.grey[900]
+        : Colors.white;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            color: containerTheme,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10), color: Colors.white),
             child: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   const Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    padding: EdgeInsets.all(10),
                     child: Text(
-                      'Enter Shipping Info',
-                      style: TextStyle(fontSize: 30),
+                      'Shipping Details',
+                      style: TextStyle(fontSize: 30,),
+                      softWrap: true,
                     ),
                   ),
                   Container(
@@ -70,18 +79,37 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
                     child: TextFormField(
                       //Country Validator
                       decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.language),
+                        prefixIcon: Icon(FontAwesomeIcons.road, size: 20,),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
-                        labelText: 'Country',
+                        labelText: 'Street Address',
                       ),
-                      onSaved: (country) {
-                        _country = country;
+                      onSaved: (streetAddress) {
+                        _streetAddress = streetAddress;
                       },
                       validator: (value) {
                         return RegexValidation()
-                            .validateNoNums('country', value);
+                            .validateStreetAddress(value);
+                      },
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.all(10),
+                    child: TextFormField(
+                      //City Validator
+                      decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.location_city),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                        ),
+                        labelText: 'City',
+                      ),
+                      onSaved: (city) {
+                        _city = city;
+                      },
+                      validator: (value) {
+                        return RegexValidation().validateNoNums('city', value);
                       },
                     ),
                   ),
@@ -108,19 +136,20 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
                   Container(
                     margin: const EdgeInsets.all(10),
                     child: TextFormField(
-                      //City Validator
+                      //Country Validator
                       decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.location_city),
+                        prefixIcon: Icon(Icons.language),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                         ),
-                        labelText: 'City',
+                        labelText: 'Country',
                       ),
-                      onSaved: (city) {
-                        _city = city;
+                      onSaved: (country) {
+                        _country = country;
                       },
                       validator: (value) {
-                        return RegexValidation().validateNoNums('city', value);
+                        return RegexValidation()
+                            .validateNoNums('country', value);
                       },
                     ),
                   ),
@@ -155,7 +184,7 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
                           if (_formKey.currentState!.validate()) {
                             _formKey.currentState!.save();
 
-                            _auth.addUserInfo(_name!, _country!, _province!,
+                            _auth.addUserInfo(_name!, _streetAddress!, _country!, _province!,
                                 _city!, _postal!);
 
                             ScaffoldMessenger.of(context).showSnackBar(

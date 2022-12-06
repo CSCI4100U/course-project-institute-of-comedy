@@ -21,12 +21,13 @@ class Auth {
   }
 
   // add user's personal info to a document with the same id as the user's account
-  Future addUserInfo(String name, String country, String province, String city,
+  Future addUserInfo(String name, String streetAddress, String country, String province, String city,
       String postal) async {
     User currUser = FirebaseAuth.instance.currentUser!;
     await FirebaseFirestore.instance.collection('users').doc(currUser.uid).set({
       'name': name,
       'email': currUser.email,
+      'streetAddress' : streetAddress,
       'country': country,
       'province': province,
       'city': city,

@@ -47,6 +47,7 @@ class CheckOutPage extends StatelessWidget {
               : const Center(child: CircularProgressIndicator()),
           bottomNavigationBar: (snapshot.data!.name != 'Default')
               ? ConfirmPurchaseWidget(
+                  checkedOutItems: checkOutItems,
                   sumOfCart: sumOfCart,
                   width: MediaQuery.of(context).size.width,
                   user: snapshot.data as CusUser,

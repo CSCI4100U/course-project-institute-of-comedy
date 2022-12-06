@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
@@ -17,6 +18,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
   final _auth = Auth();
 
   String? _name;
+  String? _streetAddress;
   String? _country;
   String? _province;
   String? _city;
@@ -32,16 +34,23 @@ class _UserProfilePageState extends State<UserProfilePage> {
         return Scaffold(
           appBar: AppBar(
             title: const Text('Profile'),
-            iconTheme: Theme.of(context).iconTheme,
+            iconTheme: Theme
+                .of(context)
+                .iconTheme,
             backgroundColor: Colors.transparent,
-            foregroundColor: Theme.of(context).primaryColor,
+            foregroundColor: Theme
+                .of(context)
+                .primaryColor,
             elevation: 0,
           ),
           body: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   height: 200,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
@@ -95,48 +104,60 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   child: Container(
                     padding: const EdgeInsets.only(top: 16, bottom: 16),
                     // height: MediaQuery.of(context).size.height * 0.6,
-                    width: MediaQuery.of(context).size.width * 0.9,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.9,
                     child: (snapshot.data.name != 'Default')
                         ? Column(
-                            children: [
-                              const Text('Ability to change these - WIP'),
-                              createTextFormField('Name', snapshot.data.name,
-                                  const Icon(Icons.person)),
-                              createTextFormField(
-                                  'Country',
-                                  snapshot.data.country,
-                                  const Icon(Icons.language)),
-                              createTextFormField(
-                                  'Province',
-                                  snapshot.data.province,
-                                  const Icon(Icons.landscape)),
-                              createTextFormField('City', snapshot.data.city,
-                                  const Icon(Icons.location_city)),
-                              createTextFormField(
-                                  'Postal Code',
-                                  snapshot.data.postal,
-                                  const Icon(Icons.house)),
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.deepOrange,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      fixedSize: Size(
-                                          MediaQuery.of(context).size.width *
-                                              0.85,
-                                          50)),
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      _formKey.currentState!.save();
+                      children: [
+                        createTextFormField('Name', snapshot.data.name,
+                            const Icon(Icons.person,)),
+                        createTextFormField(
+                            'Street Address', snapshot.data.streetAddress,
+                            const Icon(FontAwesomeIcons.road, size: 20,)),
+                        createTextFormField('City', snapshot.data.city,
+                            const Icon(Icons.location_city)),
+                        createTextFormField(
+                            'Province',
+                            snapshot.data.province,
+                            const Icon(Icons.landscape)),
+                        createTextFormField(
+                            'Country',
+                            snapshot.data.country,
+                            const Icon(Icons.language)),
+                        createTextFormField(
+                            'Postal Code',
+                            snapshot.data.postal,
+                            const Icon(Icons.house)),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.deepOrange,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(10)),
+                                fixedSize: Size(
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .width *
+                                        0.85,
+                                    50)),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                _formKey.currentState!.save();
 
-                                      _auth.addUserInfo(_name!, _country!, _province!,
-                                          _city!, _postal!);
-                                    }
-                                  },
-                                  child: const Text("Save"))
-                            ],
-                          )
+                                _auth.addUserInfo(_name!, _streetAddress!, _country!,
+                                    _province!, _city!, _postal!);
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text("Information Updated!"))
+                                );
+                              }
+                            },
+                            child: const Text("Save"))
+                      ],
+                    )
                         : const Center(child: CircularProgressIndicator()),
                   ),
                 ),
@@ -170,6 +191,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 _name = value;
               }
               break;
+            case 'Street Address':
+              {
+                _streetAddress = value;
+              }
+              break;
             case 'Country':
               {
                 _country = value;
@@ -193,9 +219,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
           }
         },
         validator: (value) {
-          return field != 'Postal Code'
-              ? RegexValidation().validateNoNums(field.toLowerCase(), value)
-              : RegexValidation().validatePostal(value);
+          if (field == 'Postal Code') {
+            return RegexValidation().validatePostal(value);
+          } else if (field == 'Street Address') {
+            return RegexValidation().validateStreetAddress(value);
+          } else {
+            return RegexValidation().validateNoNums(field.toLowerCase(), value);
+          }
         },
       ),
     );

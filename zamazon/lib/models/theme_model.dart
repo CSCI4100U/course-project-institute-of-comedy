@@ -13,13 +13,21 @@ class ThemeModel{
     );
   }
 
-  Future getThemesWithId(int id) async{
+  Future<Themes> getThemesWithId(int id) async{
     final db = await DBUtils.init();
     final List maps = await db.query(
         'themes',
         where: 'id = ?',
         whereArgs: [id]
     );
+
+    if(maps.isEmpty) {
+      Themes defaultTheme = Themes(id: 0, themeValue: 0);
+      await insertTheme(defaultTheme);
+
+      return defaultTheme;
+    }
+
     return Themes.fromMap(maps[0]);
   }
 }

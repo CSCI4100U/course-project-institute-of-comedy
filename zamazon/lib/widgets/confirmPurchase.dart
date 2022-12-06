@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/notifications.dart';
 
+import '../models/shoppingCartWishListItem.dart';
+import '../models/shoppingCartWishListModel.dart';
 import '../themes.dart';
 
 class ConfirmPurchaseWidget extends StatelessWidget {
@@ -12,8 +14,10 @@ class ConfirmPurchaseWidget extends StatelessWidget {
     required this.sumOfCart,
     required this.user,
     required this.numOfItems,
+    required this.checkedOutItems,
   });
 
+  final List<ShoppingCartWishListItem> checkedOutItems;
   final double width;
   final double sumOfCart;
   final CusUser user;
@@ -21,6 +25,8 @@ class ConfirmPurchaseWidget extends StatelessWidget {
 
   final _notifications = Notifications();
   String notifBody = '';
+
+  final SCWLModel _scwlModel = SCWLModel();
 
   void _sendDeliveryNotif() async {
     _notifications.sendNotificationNow(
@@ -138,6 +144,9 @@ class ConfirmPurchaseWidget extends StatelessWidget {
                 fixedSize: Size(width - 100, 40),
               ),
               onPressed: () {
+               _scwlModel.addToOrderHistory(checkedOutItems);
+
+
                 // Pop to homepage
                 Navigator.popUntil(context, (route) => route.isFirst);
 

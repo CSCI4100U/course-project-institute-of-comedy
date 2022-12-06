@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/db_utils.dart';
 import 'package:zamazon/themes.dart';
+import 'package:zamazon/views/enterAddress.dart';
+import 'package:zamazon/views/orderTrackMap.dart';
 
+import '../models/CusUser.dart';
+import '../models/userModel.dart';
 import '../widgets/changeTheme.dart';
 
 class SettingsPageWidget extends StatefulWidget {
@@ -76,6 +80,18 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                 ],
               ),
             ),
+            ElevatedButton(onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const OrderTrackMap()
+              )
+              );
+            }, child: const Text("Map")),
+            ElevatedButton(onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const EnterAddress()
+              )
+              );
+            }, child: const Text("address"))
           ],
         ),
       )),
