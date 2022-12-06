@@ -26,9 +26,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final ContainerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
-        ? Colors.grey[900]
-        : Colors.white;
+    final ContainerTheme =
+        Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+            ? Colors.grey[900]
+            : Colors.white;
 
     return Scaffold(
       body: SingleChildScrollView(
