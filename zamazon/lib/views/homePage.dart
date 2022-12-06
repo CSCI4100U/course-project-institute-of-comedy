@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/globals.dart';
+import 'package:zamazon/views/SettingsPage.dart';
 import 'package:zamazon/widgets/bottomNavBar.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
@@ -48,6 +49,7 @@ class _HomePageState extends State<HomePage> {
     const Text('Profile'),
     const Text('Shopping Cart'),
     const Text('Wish List'),
+    const Text('Settings'),
   ];
 
   // loaded in initstate after the list of products is recieved
@@ -64,9 +66,10 @@ class _HomePageState extends State<HomePage> {
     navBarPages = [
       // default body for the homepage scaffold, method located below build
       homePageBody(productList),
-      const UserProfilePage(),
+      const UserProfilePage(title: 'Profile'),
       const ShoppingCartPage(title: 'Shopping Cart'),
       const WishListPage(title: 'Wish List'),
+      const SettingsPageWidget(title: 'Settings'),
     ];
 
     return Container(

@@ -7,7 +7,7 @@ import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/widgets/defaultAppBar.dart';
 
 class CheckOutPage extends StatelessWidget {
-  CheckOutPage({
+  const CheckOutPage({
     super.key,
     this.title,
     required this.checkOutItems,

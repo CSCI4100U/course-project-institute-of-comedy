@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
-
-import '../models/Product.dart';
-import '../widgets/sizePickerDialog.dart';
-import 'package:zamazon/widgets/sliverAppBar.dart';
+import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/widgets/sizePickerDialog.dart';
 
 // IN PROGRESS, similar to shopping cart page, except users will only be able to
 // add wishlist items to shopping cart, they will not be able to check out items

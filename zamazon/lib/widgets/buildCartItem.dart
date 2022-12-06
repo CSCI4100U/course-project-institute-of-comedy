@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/buildQuantityWidget.dart';
+
+import '../themes.dart';
 
 class BuildCartItem extends StatelessWidget {
   BuildCartItem({super.key, required this.scwlItem, required this.width});
@@ -22,7 +25,9 @@ class BuildCartItem extends StatelessWidget {
           background: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-              color: Colors.grey.shade200,
+              color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+                  ? Colors.grey[700]
+                  : Colors.grey.shade200,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Row(
@@ -42,13 +47,12 @@ class BuildCartItem extends StatelessWidget {
                   Container(
                     width: width / 2.5,
                     margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade100,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Image.network(
-                      scwlItem.imageUrl!,
-                      fit: BoxFit.cover,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(
+                        scwlItem.imageUrl!,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   Container(

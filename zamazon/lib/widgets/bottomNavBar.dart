@@ -42,6 +42,11 @@ class BottomNavBar extends StatelessWidget {
           label: 'Wish List',
           backgroundColor: Colors.orange,
         ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.settings),
+          label: 'Settings',
+          backgroundColor: Colors.orange,
+        ),
       ],
       currentIndex: selectedId,
       onTap: onTap,

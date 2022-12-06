@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
-import 'package:zamazon/widgets/defaultAppBar.dart';
-import 'package:zamazon/widgets/sliverAppBar.dart';
+import 'package:zamazon/authentication/authFunctions.dart';
 
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({super.key});
+  const UserProfilePage({super.key, this.title});
+
+  final String? title;
 
   @override
   State<UserProfilePage> createState() => _UserProfilePageState();
@@ -14,6 +15,7 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
   final _formKey = GlobalKey<FormState>();
+  final _auth = Auth();
 
   String? _name;
   String? _country;
@@ -34,7 +36,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: 200,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -62,7 +63,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   ),
                 ),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
@@ -82,25 +82,59 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         fontSize: 25,
                       ),
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                   ],
                 ),
               ),
               Form(
                 key: _formKey,
                 child: Container(
-                    padding: EdgeInsets.only(top: 16),
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('Ability to change these - WIP'),
-                        createTextFormField('Name', snapshot.data.name),
-                        createTextFormField('Country', snapshot.data.country),
-                        createTextFormField('Province', snapshot.data.province),
-                        createTextFormField('City', snapshot.data.city),
-                      ],
-                    )),
+                  padding: const EdgeInsets.only(top: 16, bottom: 16),
+                  // height: MediaQuery.of(context).size.height * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: (snapshot.data.name != 'Default')
+                      ? Column(
+                          children: [
+                            const Text('Ability to change these - WIP'),
+                            createTextFormField('Name', snapshot.data.name,
+                                const Icon(Icons.person)),
+                            createTextFormField(
+                                'Country',
+                                snapshot.data.country,
+                                const Icon(Icons.language)),
+                            createTextFormField(
+                                'Province',
+                                snapshot.data.province,
+                                const Icon(Icons.landscape)),
+                            createTextFormField('City', snapshot.data.city,
+                                const Icon(Icons.location_city)),
+                            createTextFormField('Postal Code',
+                                snapshot.data.postal, const Icon(Icons.house)),
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.deepOrange,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    fixedSize: Size(
+                                        MediaQuery.of(context).size.width *
+                                            0.85,
+                                        50)),
+                                onPressed: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+
+                                    _auth.addUserInfo(_name!, _country!,
+                                        _province!, _city!, _postal!);
+                                  }
+                                },
+                                child: const Text("Save"))
+                          ],
+                        )
+                      : const Center(child: CircularProgressIndicator()),
+                ),
               ),
             ],
           ),
@@ -111,24 +145,52 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
   // Four of the text field are identical apart from the label
   // so I use this to generate them.
-  Widget createTextFormField(String field, String original) {
+  Widget createTextFormField(String field, String original, Icon icon) {
     return Container(
       margin: const EdgeInsets.all(10),
       child: TextFormField(
         initialValue: original,
         //Name Validator
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.person),
+          prefixIcon: icon,
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
           ),
           labelText: field,
         ),
-        onSaved: (name) {
-          _name = name;
+        onSaved: (value) {
+          switch (field) {
+            case 'Name':
+              {
+                _name = value;
+              }
+              break;
+            case 'Country':
+              {
+                _country = value;
+              }
+              break;
+            case 'Province':
+              {
+                _province = value;
+              }
+              break;
+            case 'City':
+              {
+                _city = value;
+              }
+              break;
+            default:
+              {
+                _postal = value;
+              }
+              break;
+          }
         },
         validator: (value) {
-          return RegexValidation().validateNoNums(field.toLowerCase(), value);
+          return field != 'Postal Code'
+              ? RegexValidation().validateNoNums(field.toLowerCase(), value)
+              : RegexValidation().validatePostal(value);
         },
       ),
     );

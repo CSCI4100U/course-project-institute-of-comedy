@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/notifications.dart';
+
+import '../themes.dart';
 
 class ConfirmPurchaseWidget extends StatelessWidget {
   ConfirmPurchaseWidget({
@@ -34,9 +37,11 @@ class ConfirmPurchaseWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
       // height: MediaQuery.of(context).size.height/3,
-      decoration: const BoxDecoration(
-          color: Colors.orange,
-          borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+          color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+              ? Colors.grey[500]
+              : Colors.orange,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           )),
