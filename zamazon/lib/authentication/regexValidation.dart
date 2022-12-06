@@ -24,36 +24,21 @@ class RegexValidation {
   String? validateNoNums(String field, String? value) {
     RegExp regExp = RegExp(r'^[a-z A-Z,.\-]+$');
 
-    switch (field) {
-      case 'name':
-        if (value == null || value.isEmpty) {
-          return 'Please enter a Name';
-        } else if (!regExp.hasMatch(value)) {
-          return 'Please enter a valid name (No numbers)';
-        }
-        return null;
-      case 'country':
-        if (value == null || value.isEmpty) {
-          return 'Please enter a Country';
-        } else if (!regExp.hasMatch(value)) {
-          return 'Please enter a valid Country name (No numbers)';
-        }
-        return null;
-      case 'province':
-        if (value == null || value.isEmpty) {
-          return 'Please enter a Province';
-        } else if (!regExp.hasMatch(value)) {
-          return 'Please enter a valid Province name (No numbers)';
-        }
-        return null;
-      case 'city':
-        if (value == null || value.isEmpty) {
-          return 'Please enter a City';
-        } else if (!regExp.hasMatch(value)) {
-          return 'Please enter a valid City name (No numbers)';
-        }
-        return null;
+    if (value == null || value.isEmpty) {
+      return 'Please enter a $field';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Please enter a valid $field (No numbers)';
     }
+  }
+
+  String? validateStreetAddress(String? value) {
+    RegExp regExp = RegExp(r'^[0-9]+ [0-9 a-z A-Z.-]+$');
+    if (value == null || value.isEmpty) {
+      return 'Please enter a Street Address';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Street Address Example: 301 Front St W';
+    }
+    return null;
   }
 
   String? validatePostal(String? value) {

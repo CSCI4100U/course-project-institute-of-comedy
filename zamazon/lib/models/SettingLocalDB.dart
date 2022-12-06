@@ -6,19 +6,19 @@ import 'package:sqflite/sqflite.dart';
 
 class Themes {
   int? id;
-  int? ThemeValue;
+  int? themeValue;
 
-  Themes({this.id, this.ThemeValue});
+  Themes({this.id, this.themeValue});
 
   Themes.fromMap(Map map){
     this.id = map['id'];
-    this.ThemeValue = map['ThemeValue'];
+    this.themeValue = map['ThemeValue'];
   }
 
   Map<String, dynamic> toMap(){
     return {
       'id' : id,
-      'ThemeValue' : ThemeValue,
+      'ThemeValue' : themeValue,
     };
   }
 }

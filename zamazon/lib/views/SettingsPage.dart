@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:zamazon/themes.dart';
 import 'package:getwidget/getwidget.dart';
 import '../widgets/changeTheme.dart';
-import '../widgets/createAppBar.dart';
 import '../zamazonLogo.dart';
 
 class SettingsPageWidget extends StatefulWidget {
@@ -28,10 +27,8 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
             ? Colors.grey[900]
             : Colors.white;
 
-    return Scaffold(
-      appBar: createAppBar(context, zamazonLogo),
-      body: SingleChildScrollView(
-          child: Container(
+    return SingleChildScrollView(
+      child: Container(
         height: MediaQuery.of(context).size.height * 0.75,
         width: MediaQuery.of(context).size.width * 0.9,
         margin: const EdgeInsets.all(20),
@@ -48,7 +45,9 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                   Column(
                     children: [
                       Text(FlutterI18n.translate(context, "setting.theme"),
-                          style: TextStyle(fontSize: 20))
+                          style: TextStyle(fontSize: 20),
+                          softWrap: true,
+                          maxLines: 2)
                     ],
                   ),
                   Column(
@@ -64,10 +63,9 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
               child: Row(
                 children: [
                   Text(FlutterI18n.translate(context, "setting.notification"),
-                      style: TextStyle(fontSize: 20)),
-                  const SizedBox(
-                    width: 100,
-                  ),
+                      style: TextStyle(fontSize: 20),
+                      softWrap: true,
+                      maxLines: 2),
                 ],
               ),
             ),
@@ -76,10 +74,9 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
               child: Row(
                 children: [
                   Text(FlutterI18n.translate(context, "setting.legality"),
-                      style: TextStyle(fontSize: 20)),
-                  const SizedBox(
-                    width: 100,
-                  ),
+                      style: TextStyle(fontSize: 20),
+                      softWrap: true,
+                      maxLines: 2),
                 ],
               ),
             ),
@@ -95,7 +92,9 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                             context,
                             "setting.language",
                           ),
-                          style: TextStyle(fontSize: 20)),
+                          style: TextStyle(fontSize: 20),
+                          softWrap: true,
+                          maxLines: 2),
                     ],
                   ),
                   Column(
@@ -119,7 +118,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
             ),
           ],
         ),
-      )),
+      ),
     );
   }
 

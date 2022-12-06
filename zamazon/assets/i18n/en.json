@@ -1,5 +1,6 @@
 {
   "setting": {
+    "setting_title": "Settings",
     "theme" : "Dark Mode",
     "legality": "User Agreement",
     "notification": "Setting Notification",

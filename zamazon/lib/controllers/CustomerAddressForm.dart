@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamazon/widgets/createAppBar.dart';
 
 import '../themes.dart';
 
@@ -23,9 +22,7 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
         ? Colors.grey[900]
         : Colors.white;
 
-    return Scaffold(
-      appBar: createAppBar(context, zamazonLogo),
-      body: SingleChildScrollView(
+    return SingleChildScrollView(
         child: Form(
           key: formKey,
           child: Container(
@@ -176,7 +173,7 @@ class _CustomerAddressWidgetState extends State<CustomerAddressWidget> {
             ),
           ),
         ),
-      ),
+
     );
   }
 }

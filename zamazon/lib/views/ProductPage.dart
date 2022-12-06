@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_material_pickers/flutter_material_pickers.dart';
+import 'package:flutter_material_pickers/helpers/show_number_picker.dart';
 import 'package:zamazon/models/Product.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:zamazon/widgets/createAppBar.dart';
-import 'package:zamazon/zamazonLogo.dart';
-/*
+import 'package:zamazon/models/productModel.dart';
+import 'package:zamazon/models/shoppingCartWishListItem.dart';
+import 'package:zamazon/models/shoppingCartWishListModel.dart';
+import 'package:zamazon/widgets/defaultAppBar.dart';
+import 'package:zamazon/widgets/ratingWidget.dart';
+
+import 'package:zamazon/widgets/dealWidget.dart';
+import 'package:zamazon/widgets/priceWidget.dart';
+
+import '../widgets/sizePickerDialog.dart';
+
+// When a product is tapped, user will be navigated to its respective
+// page. This class is responsible for creating that page. From here, user's can
+// add products to their shopping cart/wish list.
+
 class ProductPage extends StatefulWidget {
-  const ProductPage({Key? key, this.title, required this.product}) : super(key: key);
+  const ProductPage({Key? key, this.title, required this.product})
+      : super(key: key);
 
   final String? title;
   final Product product;
@@ -16,15 +30,21 @@ class ProductPage extends StatefulWidget {
 
 class _ProductPageState extends State<ProductPage> {
   Product? product;
+  int? _selectedSizeValue;
 
   @override
   void initState() {
     super.initState();
     product = widget.product;
+    _selectedSizeValue = product!.sizeSelection![0];
   }
 
   bool _isAddToCartButtonPressed = false;
-  int? _selectedSizeValue;
+  bool _isWishListButtonPressed = false;
+  ProductModel productModel = ProductModel();
+  final SCWLModel _scwlModel = SCWLModel();
+
+  // TODO: let users rate product?
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +52,13 @@ class _ProductPageState extends State<ProductPage> {
     // for back to top button
     ScrollController scrollController = ScrollController();
     double fontSize = 17;
+
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      appBar: createAppBar(context, zamazonLogo),
+      appBar: DefaultAppBar(
+        context,
+      ),
       body: CustomScrollView(
         controller: scrollController,
         slivers: [
@@ -51,17 +76,7 @@ class _ProductPageState extends State<ProductPage> {
                       children: [
                         // creates star rating widget
                         // requires to be run with "flutter run --no-sound-null-safety"
-                        RatingBar.builder(
-                            initialRating:
-                                double.parse(product!.rating!.substring(0, 3)),
-                            allowHalfRating: true,
-                            ignoreGestures: true,
-                            itemSize: 20,
-                            itemBuilder: (context, _) => const Icon(
-                                  Icons.star,
-                                  color: Colors.orange,
-                                ),
-                            onRatingUpdate: (_) {}),
+                        RatingWidget(product: product!),
                         Text(
                           "${product!.numReviews}",
                           style: TextStyle(fontSize: fontSize),
@@ -87,15 +102,9 @@ class _ProductPageState extends State<ProductPage> {
                       .toList(),
                 ),
               ),
-              // if sizeSelection list isn't empty, creates size list widget
-              product!.sizeSelection!.isNotEmpty
-                  ? buildSizeWidget(context)
-                  : Container(
-                      height: 0,
-                    ),
-              // TODO: add checker for deals/sales
-              product!.dealPrice != 0.0 ? buildDealWidget(context) :
-              buildPriceWidget(context),
+              product!.dealPrice != 0.0
+                  ? DealWidget(product: product!)
+                  : PriceWidget(product: product!),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: Text(
@@ -103,7 +112,11 @@ class _ProductPageState extends State<ProductPage> {
                   style: const TextStyle(fontSize: 20, color: Colors.green),
                 ),
               ),
-              Center(child: buildAddToCartButton(context)),
+              Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                buildAddToCartButton(context),
+                // SizedBox(width: 20,),
+                buildAddToWishListButton(context)
+              ]),
               const Divider(
                 height: 50,
                 thickness: 2,
@@ -156,10 +169,32 @@ class _ProductPageState extends State<ProductPage> {
               Container(
                   padding: const EdgeInsets.all(10),
                   child: Text("${product!.productDescription}")),
+              const Divider(
+                height: 30,
+                thickness: 2,
+              ),
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+                child: Text(
+                  "Features",
+                  style: TextStyle(fontSize: fontSize),
+                ),
+              ),
+              for (String feature in product!.features!)
+                Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: (Row(
+                    children: [const Text("• "), Text(feature)],
+                  )),
+                ),
               // button that scrolls back to top of page
               ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(fixedSize: const Size(325, 50)),
+                  style: ElevatedButton.styleFrom(
+                      fixedSize: Size(width, 50),
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.zero),
+                      backgroundColor: Colors.blueGrey),
                   onPressed: () {
                     setState(() {
                       scrollController.animateTo(0.0,
@@ -167,7 +202,12 @@ class _ProductPageState extends State<ProductPage> {
                           curve: Curves.decelerate);
                     });
                   },
-                  child: const Text("Back to Top"))
+                  child: Column(
+                    children: const [
+                      Icon(Icons.keyboard_double_arrow_up),
+                      Text("Back to Top"),
+                    ],
+                  ))
             ],
           ))
         ],
@@ -175,115 +215,59 @@ class _ProductPageState extends State<ProductPage> {
     );
   }
 
-  Widget buildDealWidget(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          children: [
-            buildPriceWidget(context),
-            Container(
-              padding: const EdgeInsets.all(10),
-              // ${product!.savings!.substring(18,21)}
-              child: Text("${product!.savings}",
-                  style:
-                  const TextStyle(fontSize: 25, color: Colors.red)),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(10, 0, 0, 10),
-              // ${product!.savings!.substring(18,21)}
-              child: const Text("Was: ",
-                  style: TextStyle(
-                    // fontSize: 25
-                    // decoration: TextDecoration.lineThrough
-                  )),
-            ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
-              // ${product!.savings!.substring(18,21)} // percentage off
-              child: Text("\$${product!.retailPrice}",
-                  style: const TextStyle(
-                    // fontSize: 25
-                      decoration: TextDecoration.lineThrough)),
-            ),
-          ],
-        )
-    ]
-    );
+  //TODO DIFFERENT CLASS
+  Widget buildAddToWishListButton(BuildContext context) {
+    return OutlinedButton(
+        style: OutlinedButton.styleFrom(shape: const CircleBorder()),
+        onPressed: () {
+          setState(() {
+            if (!_isWishListButtonPressed) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Added to Wishlist.")));
+              _isWishListButtonPressed = true;
+              _scwlModel.addToCartWishList(product!, "wishList");
+            }
+          });
+        },
+        child: const Icon(
+          Icons.favorite,
+          color: Colors.red,
+        ));
+    // : const Icon(Icons.favorite_border));
   }
 
-  Widget buildPriceWidget(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10) ,
-      // ${product!.savings!.substring(18,21)}
-      child: Text("\$${product!.price}",
-          style: const TextStyle(fontSize: 25)),
-    );
-  }
-
+  //TODO DIFFERENT CLASS
   Widget buildAddToCartButton(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor:
-            _isAddToCartButtonPressed ? Colors.deepOrange[300] : Colors.yellow,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        fixedSize: const Size(325, 40),
-      ),
-      // TODO: make "add to cart" and "remove from cart" functionality
-      onPressed: () {
-        setState(() {
-          _isAddToCartButtonPressed = _isAddToCartButtonPressed ? false : true;
-        });
-      },
-      child: _isAddToCartButtonPressed
-          ? const Text("Remove from Cart",
-              style: TextStyle(color: Colors.black))
-          : const Text(
-              "Add to Cart",
-              style: TextStyle(color: Colors.black),
-            ),
-    );
-  }
-
-// builds the size list widget
-  Widget buildSizeWidget(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(padding: const EdgeInsets.all(5), child: const Text("Size:")),
-        // using SizedBox for spacing purposes
-        SizedBox(
-          height: 55,
-          child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: product!.sizeSelection!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  // TODO: return the size to be shown elsewhere?
-                  onTap: () {
-                    setState(() {
-                      _selectedSizeValue = index;
-                    });
-                  },
-                  child: Container(
-                      margin: const EdgeInsets.all(10),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          color: _selectedSizeValue == index
-                              ? Colors.blue
-                              : Colors.white
-                          // borderRadius: BorderRadius.all(Radius.circular(20))
-                          ),
-                      child: Text("${product!.sizeSelection![index]}")),
-                );
-              }),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.yellow,
+          // _isAddToCartButtonPressed ? Colors.deepOrange[300] : Colors.yellow,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          fixedSize: Size(width - 80, 40),
         ),
-      ],
-    );
+        onPressed: () async {
+          //productModel.insertProduct(product!);  //testing
+          // if (!_isAddToCartButtonPressed) {
+          int? value =
+              await showSizePickerDialog(context, product!.sizeSelection!);
+          setState(() {
+            _selectedSizeValue = value;
+          });
+          if (value != null) {
+            if (!mounted) return;
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text("Added to Cart")));
+            _isAddToCartButtonPressed =
+                _isAddToCartButtonPressed ? false : true;
+            _scwlModel.addToCartWishList(product!, "shoppingCart",
+                size: _selectedSizeValue!);
+          }
+        },
+        child: const Text(
+          "Add to Cart",
+          style: TextStyle(color: Colors.black),
+        ));
   }
 }
-*/

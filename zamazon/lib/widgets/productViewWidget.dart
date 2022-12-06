@@ -62,7 +62,6 @@ class ProductViewWidget extends StatelessWidget {
                             vertical: 5, horizontal: 10),
                         child: Text(
                           "${productList[itemIndex].title}",
-                          // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: const TextStyle(
@@ -72,25 +71,6 @@ class ProductViewWidget extends StatelessWidget {
                       ),
                       RatingWidget(product: productList[itemIndex]),
                       PriceWidget(product: productList[itemIndex]),
-                      // ElevatedButton(
-                      //     style: ElevatedButton.styleFrom(fixedSize: Size(150, 20)),
-                      //     onPressed: () {
-                      //       Navigator.pushNamed(context, "/ProductPage",
-                      //           arguments: ProductPage(
-                      //             title: 'Product',
-                      //             product: productList[itemIndex],
-                      //           ));
-                      //     },
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: const [
-                      //         Text("See Product"),
-                      //         SizedBox(
-                      //           width: 5,
-                      //         ),
-                      //         Icon(Icons.open_in_new)
-                      //       ],
-                      //     ))
                     ],
                   ),
                 ),

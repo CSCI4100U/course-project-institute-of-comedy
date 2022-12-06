@@ -1,136 +1,124 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:zamazon/views/ProductPage.dart';
-import 'package:zamazon/widgets/createAppBar.dart';
-import 'package:zamazon/widgets/createDrawer.dart';
-import 'package:zamazon/zamazonLogo.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:zamazon/globals.dart';
+import 'package:zamazon/views/SettingsPage.dart';
+import 'package:zamazon/widgets/bottomNavBar.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/widgets/featuredItemWidget.dart';
+import 'package:zamazon/widgets/productViewWidget.dart';
+import 'package:zamazon/controllers/userProfilePage.dart';
+import 'package:zamazon/views/ShoppingCartPage.dart';
+import 'package:zamazon/views/WishListPage.dart';
 
+import 'package:zamazon/widgets/sliverAppBar.dart';
+
+// Homepage of our digital store front. Presented after successful sign in/ sign up
+//TODO make it so once the end of the list is hit, more products will be loaded.
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
-
-  final String title;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  // product list is loaded in initstate
+  List<Product> productList = [];
+
+  int navBarSelectedPage = 0;
+
+  // to change the page
+  void navBarOnClicked(int index) {
+    setState(() {
+      navBarSelectedPage = index;
+    });
+
+    // jump to top of page when page changes
+    if (_controller.hasClients) {
+      _controller.jumpTo(0.0);
+    }
+  }
+
+  // loaded in initstate after the list of products is recieved
+  List<Widget> navBarPages = [];
+
+  final ScrollController _controller = ScrollController(
+    keepScrollOffset: false,
+  );
+
   @override
   Widget build(BuildContext context) {
-    //List<Product> productList = Provider.of<List<Product>>(context);
+    productList = Provider.of<List<Product>>(context);
 
-    return Scaffold(
-      appBar: createAppBar(context, zamazonLogo),
-      drawer: createDrawer(context),
+    List<Widget> navPageTitles = [
+      // app logo for homepage
+      Image.network(
+        zamazonLogo,
+        width: 125,
+      ),
+      Text('Profile'),
+      Text('Shopping Cart'),
+      Text('Wish List'),
+      Text(FlutterI18n.translate(context,"setting.setting_title")),
+    ];
 
+    navBarPages = [
+      // default body for the homepage scaffold, method located below build
+      homePageBody(productList),
+      const UserProfilePage(title: 'Profile'),
+      const ShoppingCartPage(title: 'Shopping Cart'),
+      const WishListPage(title: 'Wish List'),
+      const SettingsPageWidget(title: 'Settings'),
+    ];
 
-
-      // featured item will be a random item that is displayed very big,
-      // below that will be a horizontal list view of products.
-      //TODO make it so once the end of the list is hit, more products will be loaded.
-      body: CustomScrollView(
-        slivers: [
-          SliverList(
-              delegate: SliverChildListDelegate([
-            //TODO
-            //Will select a random item to be featured on sale?
-            //featuredItem(context, productList),
-
-            //Will build a horizontal listview of n products
-            //buildProductList(10)
-          ]))
-        ],
+    return Container(
+      decoration: const BoxDecoration(color: Colors.white),
+      child: Scaffold(
+        // featured item will be a random item that is displayed very big,
+        // below that will be a horizontal list view of products.
+        // current page
+        body: NestedScrollView(
+          controller: _controller,
+          floatHeaderSlivers: true,
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return <Widget>[
+              MySliverAppBar(title: navPageTitles.elementAt(navBarSelectedPage))
+            ];
+          },
+          body: navBarPages.elementAt(navBarSelectedPage),
+        ),
+        bottomNavigationBar: BottomNavBar(
+          selectedId: navBarSelectedPage,
+          onTap: navBarOnClicked,
+        ),
       ),
     );
   }
 
-  //TODO
-  // Widget createAppbar()
-  // Widget buildProductList()
-
-  // TODO: add checkers for all values in case they do not exist
-  Widget featuredItem(BuildContext context, List productList) {
-    Random random = Random();
-
-    // Product product = productList[random.nextInt(productList.length)];
-    //Product product = productList[0];
-
-    return GestureDetector(
-      /*
-        onTap: () {
-        Navigator.pushNamed(context, "/ProductPage", arguments: ProductPage(
-          title: 'Product',
-          //product: product,
-        ) );
-      },
-    */
-      child: Container(
-        decoration:  BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            // stops: [
-            //   0.1,
-            //   0.4,
-            //   0.6,
-            //   0.9,
-            // ],
-            colors: [
-              Colors.blue.shade300,
-              Colors.blue.shade400,
-              Colors.blue.shade500,
-              Colors.blue.shade600,
-              Colors.blue.shade700,
-            ],
-          ),
+  // default body for the homepage scaffold
+  Widget homePageBody(List<Product> products) {
+    return ListView(
+      padding: const EdgeInsets.only(top: 0),
+      children: [
+        //random featured item on sale
+        FeaturedItemWidget(
+          productList: productList,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          /*
-          children: [
-            Container(
-              padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-              child:Text(
-                "${product.features![0]}",
-                style:
-                    const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            ),
 
-            Container(
-                padding: const EdgeInsets.all(10),
-                child: Text(
-                  /"${product.title}",
-                  style: const TextStyle(fontSize: 20),
-                  textAlign: TextAlign.center,
-                )),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                "\$${product.dealPrice}",
-                style: const TextStyle(fontSize: 30),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                "${product.savings!.substring(18, 21)} off. Limited time offer",
-                style: const TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(width: 250, child: Image.network(product.imageUrlList![0]))
-          ],
-        ),
-    */
-      ),
-    )
+        //horizontal listview of products
+        ProductViewWidget(productList: productList),
+        ProductViewWidget(productList: productList),
+        ProductViewWidget(productList: productList),
+      ],
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
   }
 }

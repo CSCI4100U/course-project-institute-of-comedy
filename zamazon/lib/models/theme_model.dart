@@ -3,36 +3,26 @@ import 'dart:async';
 import 'package:sqflite/sqflite.dart';
 import 'package:zamazon/models/SettingLocalDB.dart';
 
-class ThemeModel{
-  Future<int> insertTheme(Themes theme) async{
-    //This needs to be present in any queries, updates, etc.
-    //you do with your database
+class ThemeModel {
+  Future insertTheme(Themes theme) async {
     final db = await DBUtils.init();
-    return db.insert(
+    await db.insert(
       'themes',
       theme.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
 
-  // Future updateThemes(Database? db, Theme? theme) async{
-  //   if (db == null) db = await DBUtils.init();
-  //
-  //   await db!.update('theme', theme!.toMap(),
-  //       where: 'id = ?',
-  //       whereArgs: [theme.id]
-  //   );
-  // }
-
-  Future getThemesWithId(int id) async{
-    //This needs to be present in any queries, updates, etc.
-    //you do with your database
+  Future<Themes> getThemesWithId(int id) async {
     final db = await DBUtils.init();
-    final List maps = await db.query(
-        'themes',
-        where: 'id = ?',
-        whereArgs: [id]
-    );
+    final List maps =
+        await db.query('themes', where: 'id = ?', whereArgs: [id]);
+
+    if (maps.isEmpty) {
+      final defaultTheme = Themes(id: 0, themeValue: 0);
+      insertTheme(defaultTheme);
+      return defaultTheme;
+    }
     return Themes.fromMap(maps[0]);
   }
 }

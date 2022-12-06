@@ -1,50 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:zamazon/models/shoppingCartWishListItem.dart';
+import 'package:zamazon/widgets/proceedToCheckOut.dart';
+import 'package:zamazon/widgets/sliverAppBar.dart';
+import '../models/shoppingCartWishListModel.dart';
+import 'package:zamazon/widgets/buildCartItem.dart';
+import '../models/userModel.dart';
+import '../themes.dart';
 
-class CartWidget extends StatefulWidget {
-  CartWidget({Key? key, this.title}) : super(key: key);
+//IN PROGRESS, users should be able to add/remove items to their shopping carts
+// and they will be displayed in this page. IN PROGRESS, checking out items.
+
+class ShoppingCartPage extends StatefulWidget {
+  const ShoppingCartPage({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
-  State<CartWidget> createState() => _CartWidgetState();
+  State<ShoppingCartPage> createState() => _ShoppingCartPageState();
 }
 
-class _CartWidgetState extends State<CartWidget> {
+class _ShoppingCartPageState extends State<ShoppingCartPage> {
+  // List<Product>? productList;
+
+  final SCWLModel _scwlModel = SCWLModel();
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title!),
-        actions: [
-          IconButton(
-            //Access the Wishlist Page
-              onPressed: () {
-                Navigator.pushNamed(context, '/WishList');
-              },
-              icon: Icon(Icons.favorite))
-        ],
-      ),
-      body: Column(children: [
-        Expanded(
-            child: SingleChildScrollView(
-                child: Container(
-                  margin: new EdgeInsets.all(1),
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: OutlinedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/SignIn');
-                          },
-                          child: Text('Sign in to your Account'),
-                        ),
-                      ), //Button to access Sign Up Page
-                    ],
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
+    return StreamBuilder(
+        stream: SCWLModel().getUserShoppingCartWishList("shoppingCart"),
+        initialData: const [],
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          return Scaffold(
+            body: (snapshot.data.isEmpty)
+                ? const Center(
+                    child: Text(
+                      "Your Shopping Cart is Empty.",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ListView.builder(
+                        padding: const EdgeInsets.only(top: 0),
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return BuildCartItem(
+                            scwlItem: snapshot.data[index],
+                            width: width,
+                          );
+                        }),
                   ),
-                )))
-      ]),
-    );
+            bottomNavigationBar: snapshot.data.isNotEmpty
+                ? ProceedToCheckOutWidget(
+                    checkOutItems: snapshot.data,
+                  )
+                : Container(
+                    height: 0,
+                  ),
+          );
+        });
   }
 }

@@ -4,9 +4,10 @@ import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/widgets/buildCheckOutItem.dart';
 import 'package:zamazon/widgets/confirmPurchase.dart';
 import 'package:zamazon/models/CusUser.dart';
+import 'package:zamazon/widgets/defaultAppBar.dart';
 
 class CheckOutPage extends StatelessWidget {
-  CheckOutPage({
+  const CheckOutPage({
     super.key,
     this.title,
     required this.checkOutItems,
@@ -26,13 +27,9 @@ class CheckOutPage extends StatelessWidget {
       stream: UserModel().getUserInformation(),
       builder: (context, snapshot) {
         return Scaffold(
-          extendBody: true,
-          appBar: AppBar(
+          appBar: DefaultAppBar(
+            context,
             title: Text(title!),
-            iconTheme: Theme.of(context).iconTheme,
-            backgroundColor: Colors.transparent,
-            foregroundColor: Theme.of(context).primaryColor,
-            elevation: 0,
           ),
           body: (snapshot.data!.name != 'Default')
               ? Padding(
