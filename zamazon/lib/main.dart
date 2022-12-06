@@ -20,7 +20,7 @@ import 'models/productModel.dart';
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseAuth.instance.signOut();
+  //await FirebaseAuth.instance.signOut();
 
   runApp(
     MultiProvider(
