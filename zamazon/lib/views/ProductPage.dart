@@ -6,6 +6,7 @@ import 'package:zamazon/models/productModel.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/defaultAppBar.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/ratingWidget.dart';
 
 import 'package:zamazon/widgets/dealWidget.dart';
@@ -222,8 +223,7 @@ class _ProductPageState extends State<ProductPage> {
         onPressed: () {
           setState(() {
             if (!_isWishListButtonPressed) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Added to Wishlist.")));
+              showSnackBar(context, 'Added to Wish List');
               _isWishListButtonPressed = true;
               _scwlModel.addToCartWishList(product!, "wishList");
             }
@@ -257,8 +257,7 @@ class _ProductPageState extends State<ProductPage> {
           });
           if (value != null) {
             if (!mounted) return;
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text("Added to Cart")));
+            showSnackBar(context, 'Added to Cart');
             _isAddToCartButtonPressed =
                 _isAddToCartButtonPressed ? false : true;
             _scwlModel.addToCartWishList(product!, "shoppingCart",

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
+import '../models/themeBLoC.dart';
 
 // Form for registering a new user to firebase.
-
-import '../themes.dart';
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({Key? key, this.title}) : super(key: key);
@@ -27,7 +27,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   @override
   Widget build(BuildContext context) {
     final ContainerTheme =
-        Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
             ? Colors.grey[900]
             : Colors.white;
 
@@ -49,7 +49,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    'Sign Up',
+                    'Nice to meet you!',
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
@@ -124,23 +124,18 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                           _auth.signUp(_name, _email, _password).then((_) {
                             Navigator.pushNamed(context, '/CustomerInfo');
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                "User Registered, Welcome!",
-                                style: TextStyle(fontSize: 20),
-                              )),
-                            );
+                            showSnackBar(
+                                context, 'Successfully Registered! Welcome!');
                           });
 
                           //Navigator.pushNamed(context, '/CustomerAddress');
                         }
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
+                        foregroundColor: Colors.black87,
                       ),
-                      child: const Text('Continue',
-                          style: TextStyle(fontSize: 20))),
+                      child: const Text('Sign Up',
+                          style: TextStyle(fontSize: 30))),
                 ),
                 TextButton(
                   onPressed: () {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/sizePickerDialog.dart';
 
 // IN PROGRESS, similar to shopping cart page, except users will only be able to
@@ -138,9 +139,7 @@ class _WishListPageState extends State<WishListPage> {
                                 context, scwlItem.sizeSelection!);
                             if (value != null) {
                               if (!mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text("Added to Cart")));
+                              showSnackBar(context, 'Added to Cart');
                               Product product = await SCWLModel()
                                   .getProduct(scwlItem.productId!);
                               _scwlModel.addToCartWishList(

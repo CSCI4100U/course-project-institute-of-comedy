@@ -5,9 +5,10 @@ import 'package:path/path.dart' as path;
 class DBUtils {
   static Future init() async {
     return openDatabase(
-      path.join(await getDatabasesPath(), 'zamazon.db'),
+      path.join(await getDatabasesPath(), 'zamazontest.db'),
       onCreate: (db, version) {
-        db.execute('CREATE TABLE themes(id INTEGER PRIMARY KEY, ThemeValue INTEGER)');
+        db.execute(
+            'CREATE TABLE themesa(id INTEGER PRIMARY KEY, ThemeValue INTEGER, language TEXT)');
       },
       version: 1,
     );

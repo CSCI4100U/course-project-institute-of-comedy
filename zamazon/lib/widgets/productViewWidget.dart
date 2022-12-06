@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import '../models/Product.dart';
-import '../themes.dart';
+import '../models/themeBLoC.dart';
 import '../views/ProductPage.dart';
 import 'priceWidget.dart';
 import 'ratingWidget.dart';

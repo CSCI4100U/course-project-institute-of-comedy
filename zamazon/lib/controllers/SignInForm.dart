@@ -1,12 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
 
 //Form that lets registered user's sign in.
 
-import '../themes.dart';
+import '../models/themeBLoC.dart';
 
 class SignInWidget extends StatefulWidget {
   const SignInWidget({Key? key, this.title}) : super(key: key);
@@ -19,17 +21,24 @@ class SignInWidget extends StatefulWidget {
 
 class _SignInWidgetState extends State<SignInWidget> {
   final _formKey = GlobalKey<FormState>();
+
   final _auth = Auth();
 
   String? _email;
   String? _password;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final containerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
-        ? Colors.grey[900]
-        : Colors.white;
+    final containerTheme =
+        Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
+            ? Colors.grey[900]
+            : Colors.white;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -49,7 +58,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                 const Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    'Welcome!',
+                    'Welcome back!',
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
@@ -112,26 +121,26 @@ class _SignInWidgetState extends State<SignInWidget> {
                       color: Colors.deepOrangeAccent),
                   child: TextButton(
                       //Confirmed sign up and return to home page as logged in user
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          _auth.signIn(_email, _password).then((_) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                "Welcome back!",
-                                style: TextStyle(fontSize: 20),
-                              )),
-                            );
-                          });
+                          try {
+                            await _auth.signIn(_email, _password);
+                            if (!mounted) return;
+                            showSnackBar(context, 'Welcome Back');
+                          } on FirebaseAuthException catch (e) {
+                            showSnackBar(
+                                context, 'Incorrect Email or Password!');
+                            print(e);
+                          }
                         }
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
+                        foregroundColor: Colors.black87,
                       ),
-                      child: const Text('Continue',
-                          style: TextStyle(fontSize: 20))),
+                      child: const Text('Sign In',
+                          style: TextStyle(fontSize: 30))),
                 ),
                 TextButton(
                   onPressed: () {

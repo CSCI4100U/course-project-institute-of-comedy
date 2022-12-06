@@ -1,12 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/widgets/proceedToCheckOut.dart';
-import 'package:zamazon/widgets/sliverAppBar.dart';
 import '../models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/buildCartItem.dart';
-import '../models/userModel.dart';
-import '../themes.dart';
 
 //IN PROGRESS, users should be able to add/remove items to their shopping carts
 // and they will be displayed in this page. IN PROGRESS, checking out items.

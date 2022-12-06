@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/notifications.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
 
-import '../themes.dart';
+import '../models/themeBLoC.dart';
 
 class ConfirmPurchaseWidget extends StatelessWidget {
   ConfirmPurchaseWidget({
@@ -38,7 +39,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
       // height: MediaQuery.of(context).size.height/3,
       decoration: BoxDecoration(
-          color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+          color: Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
               ? Colors.grey[500]
               : Colors.orange,
           borderRadius: const BorderRadius.only(
@@ -142,14 +143,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
                 Navigator.popUntil(context, (route) => route.isFirst);
 
                 // Order confirmation snackbar
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Order out for delivery!',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                );
+                showSnackBar(context, 'Order out for delivery!');
 
                 // Send order delivered notification
                 notifBody = 'Your order of $numOfItems item(s) has been '

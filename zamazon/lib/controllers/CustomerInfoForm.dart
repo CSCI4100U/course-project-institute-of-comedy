@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
 
 // Form presented to user after they sign up. Asks for location info and name.
 
@@ -8,6 +9,7 @@ class CustomerAddressWidget extends StatefulWidget {
   const CustomerAddressWidget({Key? key, this.title}) : super(key: key);
 
   final String? title;
+
   @override
   State<CustomerAddressWidget> createState() => _CustomerAddressState();
 }
@@ -44,125 +46,11 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
                       style: TextStyle(fontSize: 30),
                     ),
                   ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      //Name Validator
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        labelText: 'Name',
-                      ),
-                      onSaved: (name) {
-                        _name = name;
-                      },
-                      validator: (value) {
-                        return RegexValidation().validateNoNums('name', value);
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      //Country Validator
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.language),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        labelText: 'Country',
-                      ),
-                      onSaved: (country) {
-                        _country = country;
-                      },
-                      validator: (value) {
-                        return RegexValidation()
-                            .validateNoNums('country', value);
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      //Province Validator
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.landscape),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        labelText: 'Province',
-                      ),
-                      onSaved: (province) {
-                        _province = province;
-                      },
-                      validator: (value) {
-                        return RegexValidation()
-                            .validateNoNums('province', value);
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      //Country Validator
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(
-                          Icons.car_crash,
-                          size: 20,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        labelText: 'Street Address',
-                      ),
-                      onSaved: (streetAddress) {
-                        _streetAddress = streetAddress;
-                      },
-                      validator: (value) {
-                        return RegexValidation().validateStreetAddress(value);
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      //City Validator
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.location_city),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        labelText: 'City',
-                      ),
-                      onSaved: (city) {
-                        _city = city;
-                      },
-                      validator: (value) {
-                        return RegexValidation().validateNoNums('city', value);
-                      },
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    child: TextFormField(
-                      //Postal Code Validator
-                      decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.house),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        labelText: 'Postal Code',
-                      ),
-                      onSaved: (postal) {
-                        _postal = postal;
-                      },
-                      validator: (value) {
-                        return RegexValidation().validatePostal(value);
-                      },
-                    ),
-                  ),
+                  createTextFormField('Name', const Icon(Icons.person)),
+                  createTextFormField('Country', const Icon(Icons.language)),
+                  createTextFormField('Province', const Icon(Icons.landscape)),
+                  createTextFormField('City', const Icon(Icons.location_city)),
+                  createTextFormField('Postal Code', const Icon(Icons.house)),
                   Container(
                     margin: const EdgeInsets.all(20),
                     width: MediaQuery.of(context).size.width * 0.9,
@@ -178,13 +66,7 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
                             _auth.addUserInfo(_name!, _country!, _province!,
                                 _city!, _postal!);
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                "Info Saved!",
-                                style: TextStyle(fontSize: 20),
-                              )),
-                            );
+                            showSnackBar(context, 'Info. Saved!');
                             Navigator.of(context)
                                 .popUntil((route) => route.isFirst);
                           }
@@ -200,6 +82,56 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget createTextFormField(String field, Icon icon) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: TextFormField(
+        //Name Validator
+        decoration: InputDecoration(
+          prefixIcon: icon,
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+          ),
+          labelText: field,
+        ),
+        onSaved: (value) {
+          switch (field) {
+            case 'Name':
+              {
+                _name = value;
+              }
+              break;
+            case 'Country':
+              {
+                _country = value;
+              }
+              break;
+            case 'Province':
+              {
+                _province = value;
+              }
+              break;
+            case 'City':
+              {
+                _city = value;
+              }
+              break;
+            default:
+              {
+                _postal = value;
+              }
+              break;
+          }
+        },
+        validator: (value) {
+          return field != 'Postal Code'
+              ? RegexValidation().validateNoNums(field.toLowerCase(), value)
+              : RegexValidation().validatePostal(value);
+        },
       ),
     );
   }

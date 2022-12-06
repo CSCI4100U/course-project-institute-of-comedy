@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 
-import '../themes.dart';
+import '../models/themeBLoC.dart';
 
 class BuildCheckOutItem extends StatelessWidget {
   const BuildCheckOutItem({
@@ -18,7 +18,7 @@ class BuildCheckOutItem extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        color: Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
             ? Colors.grey[900]
             : Colors.orange[100],
       ),
