@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
 
-// Form for registering a new user to firebase.
+import 'package:zamazon/widgets/genericSnackBar.dart';
+import '../authentication/regexValidation.dart';
+import '../models/themeBLoC.dart';
 
+import '../authentication/regexValidation.dart';
 import '../themes.dart';
+
+// Form for registering a new user to firebase.
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({Key? key, this.title}) : super(key: key);
@@ -19,36 +25,37 @@ class SignUpWidget extends StatefulWidget {
 class _SignUpWidgetState extends State<SignUpWidget> {
   final _formKey = GlobalKey<FormState>();
   final _auth = Auth();
+  final languages = ['en', 'fr', 'sp', 'cn', 'jp'];
+  String? value;
 
-  String? _name;
   String? _email;
   String? _password;
 
   @override
   Widget build(BuildContext context) {
-    final ContainerTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
-        ? Colors.grey[900]
-        : Colors.white;
+    final containerTheme =
+        Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+            ? Colors.grey[900]
+            : Colors.white;
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-                color: ContainerTheme,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+                color: containerTheme,
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Image.network(zamazonLogo),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    'Sign Up',
+                    FlutterI18n.translate(context, "SignUpForm.greeting"),
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
@@ -56,25 +63,19 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   margin: const EdgeInsets.all(10),
                   child: TextFormField(
                     //Email Validator
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       prefixIcon: Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      labelText: 'Email',
+                      labelText:
+                          FlutterI18n.translate(context, "SignUpForm.email"),
                     ),
                     onSaved: (email) {
                       _email = email;
                     },
                     validator: (value) {
-                      RegExp regExp = RegExp(
-                          r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)');
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Email';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'Email example: abc@gmail.com';
-                      }
-                      return null;
+                      return RegexValidation().validateEmail(value);
                     },
                   ),
                 ),
@@ -83,26 +84,20 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   child: TextFormField(
                     //Password Validator
                     obscureText: true,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       prefixIcon: Icon(Icons.key),
                       errorMaxLines: 10,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      labelText: 'Password',
+                      labelText:
+                          FlutterI18n.translate(context, "SignUpForm.password"),
                     ),
                     onSaved: (password) {
                       _password = password;
                     },
                     validator: (value) {
-                      RegExp regExp = RegExp(
-                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Password';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'At least 6 letters: 1 Uppercase, 1 Lowercase, 1 num';
-                      }
-                      return null;
+                      return RegexValidation().validatePassword(value);
                     },
                   ),
                 ),
@@ -120,26 +115,17 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          _auth.signUp(_name, _email, _password).then((_) {
-                            Navigator.pushNamed(context, '/CustomerInfo');
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                "User Registered, Welcome!",
-                                style: TextStyle(fontSize: 20),
-                              )),
-                            );
+                          _auth.signUp(_email, _password).then((_) {
+                            Navigator.pushNamed(context, "/NewUserInfoPage");
                           });
-
-                          //Navigator.pushNamed(context, '/CustomerAddress');
                         }
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: Colors.white,
+                        foregroundColor: Colors.black87,
                       ),
-                      child: const Text('Continue',
-                          style: TextStyle(fontSize: 20))),
+                      child: Text(
+                          FlutterI18n.translate(context, "SignUpForm.sign_up"),
+                          style: TextStyle(fontSize: 30))),
                 ),
                 TextButton(
                   onPressed: () {
@@ -150,14 +136,26 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     surfaceTintColor: Colors.blue,
                     textStyle: const TextStyle(fontSize: 15),
                   ),
-                  child: const Text(
-                    'Already have an account?',
-                    style: TextStyle(
+                  child: Text(
+                    FlutterI18n.translate(context, "SignUpForm.yes_account"),
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     ),
                   ),
                 ),
+                DropdownButton<String>(
+                    value: value,
+                    iconSize: 30,
+                    icon:
+                        const Icon(Icons.arrow_drop_down, color: Colors.black),
+                    items: languages.map(buildMenuLang).toList(),
+                    onChanged: (value) async {
+                      this.value = value;
+                      Locale newLocale = Locale(value!);
+                      await FlutterI18n.refresh(context, newLocale);
+                      setState(() {});
+                    }),
               ],
             ),
           ),
@@ -165,4 +163,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
       ),
     );
   }
+
+  DropdownMenuItem<String> buildMenuLang(String lang) => DropdownMenuItem(
+        value: lang,
+        child: Text(
+          lang,
+          style: const TextStyle(fontSize: 20),
+        ),
+      );
 }

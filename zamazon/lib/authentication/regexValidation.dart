@@ -19,41 +19,16 @@ class RegexValidation {
     return null;
   }
 
-  //Used for name, country, province, and city. only requirement is no nums
-  //so I just used a switch for the different outputs.
-  String? validateNoNums(String field, String? value) {
+  //Used for name, only requirement is no numbers
+  String? validateName(String? value) {
     RegExp regExp = RegExp(r'^[a-z A-Z,.\-]+$');
 
-    switch (field) {
-      case 'name':
-        if (value == null || value.isEmpty) {
-          return 'Please enter a Name';
-        } else if (!regExp.hasMatch(value)) {
-          return 'Please enter a valid name (No numbers)';
-        }
-        return null;
-      case 'country':
-        if (value == null || value.isEmpty) {
-          return 'Please enter a Country';
-        } else if (!regExp.hasMatch(value)) {
-          return 'Please enter a valid Country name (No numbers)';
-        }
-        return null;
-      case 'province':
-        if (value == null || value.isEmpty) {
-          return 'Please enter a Province';
-        } else if (!regExp.hasMatch(value)) {
-          return 'Please enter a valid Province name (No numbers)';
-        }
-        return null;
-      case 'city':
-        if (value == null || value.isEmpty) {
-          return 'Please enter a City';
-        } else if (!regExp.hasMatch(value)) {
-          return 'Please enter a valid City name (No numbers)';
-        }
-        return null;
+    if (value == null || value.isEmpty) {
+      return 'Please enter a Name';
+    } else if (!regExp.hasMatch(value)) {
+      return 'Please enter a valid name (No numbers)';
     }
+    return null;
   }
 
   String? validatePostal(String? value) {
@@ -62,6 +37,13 @@ class RegexValidation {
       return 'Please enter a Postal Code';
     } else if (!regExp.hasMatch(value)) {
       return 'Postal Code Example: A1A 1A1';
+    }
+    return null;
+  }
+
+  String? validateAddress(String? value, bool addressChosen) {
+    if (value == null || value.isEmpty || !addressChosen) {
+      return 'Please enter an Address';
     }
     return null;
   }

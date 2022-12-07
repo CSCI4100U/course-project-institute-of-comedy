@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 
-import '../themes.dart';
+import '../models/themeBLoC.dart';
 
 class ProceedToCheckOutWidget extends StatefulWidget {
   ProceedToCheckOutWidget({Key? key, required this.checkOutItems})
@@ -26,8 +27,8 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
       // height: MediaQuery.of(context).size.height/3,
-      decoration:  BoxDecoration(
-          color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+      decoration: BoxDecoration(
+          color: Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
               ? Colors.grey[500]
               : Colors.orange,
           borderRadius: const BorderRadius.only(
@@ -40,12 +41,12 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const Text(
-              "Total:",
+            Text(
+              FlutterI18n.translate(context, "ProceedToCheckOut.total"),
               style: TextStyle(fontSize: 18),
             ),
             Text(
-              cartSum.toStringAsFixed(2),
+              '\$${cartSum.toStringAsFixed(2)}',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
@@ -76,7 +77,7 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
                   },
                 );
               },
-              child: const Text("Proceed to Checkout",
+              child: Text(FlutterI18n.translate(context, "ProceedToCheckOut.proceed"),
                   style: TextStyle(color: Colors.white)))
         ],
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import '../models/Product.dart';
-import '../themes.dart';
+import '../models/themeBLoC.dart';
 import '../views/ProductPage.dart';
 import 'priceWidget.dart';
 import 'ratingWidget.dart';
@@ -25,7 +25,7 @@ class ProductViewWidget extends StatelessWidget {
           child: CarouselSlider.builder(
             itemCount: productList.length,
             options: CarouselOptions(
-              height: height / 2.2,
+              height: height * 0.4,
             ),
             itemBuilder: (context, itemIndex, pageViewIndex) {
               return GestureDetector(
@@ -47,14 +47,10 @@ class ProductViewWidget extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.all(10),
-                        child: Align(
+                      Expanded(
+                        child: Image.network(
+                          productList[itemIndex].imageUrl!,
                           alignment: Alignment.center,
-                          child: Image.network(
-                            productList[itemIndex].imageUrlList![0],
-                            fit: BoxFit.cover,
-                          ),
                         ),
                       ),
                       Container(
@@ -62,7 +58,6 @@ class ProductViewWidget extends StatelessWidget {
                             vertical: 5, horizontal: 10),
                         child: Text(
                           "${productList[itemIndex].title}",
-                          // "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
                           style: const TextStyle(
@@ -72,25 +67,6 @@ class ProductViewWidget extends StatelessWidget {
                       ),
                       RatingWidget(product: productList[itemIndex]),
                       PriceWidget(product: productList[itemIndex]),
-                      // ElevatedButton(
-                      //     style: ElevatedButton.styleFrom(fixedSize: Size(150, 20)),
-                      //     onPressed: () {
-                      //       Navigator.pushNamed(context, "/ProductPage",
-                      //           arguments: ProductPage(
-                      //             title: 'Product',
-                      //             product: productList[itemIndex],
-                      //           ));
-                      //     },
-                      //     child: Row(
-                      //       mainAxisAlignment: MainAxisAlignment.center,
-                      //       children: const [
-                      //         Text("See Product"),
-                      //         SizedBox(
-                      //           width: 5,
-                      //         ),
-                      //         Icon(Icons.open_in_new)
-                      //       ],
-                      //     ))
                     ],
                   ),
                 ),

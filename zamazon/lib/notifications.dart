@@ -2,14 +2,10 @@ import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart';
 
-//IN PROGRESS, planned to make notifications for users that "purchase" items.
-// notification will arrive soon after purchase to inform user that their
-// products have been delivered.
-
 class Notifications {
-  final channelId = "deliveryNotif";
-  final channelName = "Delivery Notification";
-  final channelDescription = "Notifications for when a delivery arrives.";
+  final channelId = "testNotif";
+  final channelName = "Test Notification";
+  final channelDescription = "Test Notification Description";
 
   //Configure plugin using platform specific details
   var _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();

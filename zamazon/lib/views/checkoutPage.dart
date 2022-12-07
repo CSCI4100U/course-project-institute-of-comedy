@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/widgets/buildCheckOutItem.dart';
 import 'package:zamazon/widgets/confirmPurchase.dart';
 import 'package:zamazon/models/CusUser.dart';
+import 'package:zamazon/widgets/defaultAppBar.dart';
 
 class CheckOutPage extends StatelessWidget {
-  CheckOutPage({
+  const CheckOutPage({
     super.key,
     this.title,
     required this.checkOutItems,
@@ -26,13 +28,9 @@ class CheckOutPage extends StatelessWidget {
       stream: UserModel().getUserInformation(),
       builder: (context, snapshot) {
         return Scaffold(
-          extendBody: true,
-          appBar: AppBar(
-            title: Text(title!),
-            iconTheme: Theme.of(context).iconTheme,
-            backgroundColor: Colors.transparent,
-            foregroundColor: Theme.of(context).primaryColor,
-            elevation: 0,
+          appBar: DefaultAppBar(
+            context,
+            title: Text(FlutterI18n.translate(context, "CheckoutPage.appbar")),
           ),
           body: (snapshot.data!.name != 'Default')
               ? Padding(
@@ -47,6 +45,7 @@ class CheckOutPage extends StatelessWidget {
               : const Center(child: CircularProgressIndicator()),
           bottomNavigationBar: (snapshot.data!.name != 'Default')
               ? ConfirmPurchaseWidget(
+                  checkedOutItems: checkOutItems,
                   sumOfCart: sumOfCart,
                   width: MediaQuery.of(context).size.width,
                   user: snapshot.data as CusUser,

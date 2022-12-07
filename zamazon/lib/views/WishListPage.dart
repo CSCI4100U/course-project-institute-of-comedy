@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
+import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
+import 'package:zamazon/widgets/sizePickerDialog.dart';
+import 'package:provider/provider.dart';
+import 'package:zamazon/models/themeBLoC.dart';
 
-import '../models/Product.dart';
-import '../widgets/numberPickerDialog.dart';
-import '../widgets/ratingWidget.dart';
-import 'ProductPage.dart';
-
-// IN PROGRESS, similar to shopping cart page, except users will only be able to
+// Similar to shopping cart page, except users will only be able to
 // add wishlist items to shopping cart, they will not be able to check out items
 // from this page.
 
@@ -21,10 +22,6 @@ class WishListPage extends StatefulWidget {
 }
 
 class _WishListPageState extends State<WishListPage> {
-  //TODO
-  // might track shopping cart and wishlist using provider?
-  // List<Product> wishList = ...
-
   final SCWLModel _scwlModel = SCWLModel();
 
   @override
@@ -36,43 +33,25 @@ class _WishListPageState extends State<WishListPage> {
         stream: SCWLModel().getUserShoppingCartWishList("wishList"),
         initialData: const [],
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          return Scaffold(
-              appBar: AppBar(
-                title: Text(widget.title!),
-                iconTheme: Theme.of(context).iconTheme,
-                backgroundColor: Colors.transparent,
-                foregroundColor: Theme.of(context).primaryColor,
-                elevation: 0,
-                actions: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: IconButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, '/ShoppingCart');
-                      },
-                      icon: const Icon(Icons.shopping_cart),
-                    ),
-                  )
-                ],
-              ),
-              body: snapshot.data.isEmpty
-                  ? const Center(
-                      child: Text(
-                      "Your Wish List is Empty.",
-                      style: TextStyle(fontSize: 25),
-                    ))
-                  : Padding(
-                      padding: const EdgeInsets.all(10),
-                      // TODO: add more information to each product in list
-                      child: ListView.builder(
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            ShoppingCartWishListItem scwlItem =
-                                snapshot.data[index];
-                            return buildWishListItem(scwlItem, width);
-                          }),
-                    ));
+          return (snapshot.data.isEmpty)
+              ? Center(
+                  child: Text(
+                  FlutterI18n.translate(context, "WishListPage.empty"),
+                  softWrap: true,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 25),
+                ))
+              : Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: ListView.builder(
+                      padding: const EdgeInsets.only(top: 0),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        ShoppingCartWishListItem scwlItem =
+                            snapshot.data[index];
+                        return buildWishListItem(scwlItem, width);
+                      }),
+                );
         });
   }
 
@@ -102,16 +81,19 @@ class _WishListPageState extends State<WishListPage> {
             background: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color:
+                    Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
+                        ? Colors.grey[700]
+                        : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 110,
-                  ),
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [
                   // TODO: add real trashcan icon
-                  const Icon(Icons.delete)
+                  Icon(
+                    Icons.delete,
+                  )
                 ],
               ),
             ),
@@ -126,8 +108,7 @@ class _WishListPageState extends State<WishListPage> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Image.network(
-                    // productList[index].imageUrlList![0],
-                    'https://imgur.com/u5fYc4r.png',
+                    scwlItem.imageUrl!,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -161,12 +142,11 @@ class _WishListPageState extends State<WishListPage> {
                                   borderRadius: BorderRadius.circular(20)),
                               fixedSize: Size(width / 2, 20)),
                           onPressed: () async {
-                            int? value = await showNumberPickerDialog(
+                            int? value = await showSizePickerDialog(
                                 context, scwlItem.sizeSelection!);
                             if (value != null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text("Added to Cart")));
+                              if (!mounted) return;
+                              showSnackBar(context, FlutterI18n.translate(context, "WishListPage.added_to_cart"));
                               Product product = await SCWLModel()
                                   .getProduct(scwlItem.productId!);
                               _scwlModel.addToCartWishList(
@@ -174,8 +154,8 @@ class _WishListPageState extends State<WishListPage> {
                                   size: value);
                             }
                           },
-                          child: const Text(
-                            "Add to Cart",
+                          child: Text(
+                            FlutterI18n.translate(context, "WishListPage.add_to_cart"),
                             style: TextStyle(color: Colors.black),
                           )),
                       const SizedBox(

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/notifications.dart';
-
+import 'package:zamazon/widgets/genericSnackBar.dart';
+import '../models/themeBLoC.dart';
+import '../models/shoppingCartWishListItem.dart';
+import '../models/shoppingCartWishListModel.dart';
 import '../themes.dart';
 
 class ConfirmPurchaseWidget extends StatelessWidget {
@@ -12,8 +16,10 @@ class ConfirmPurchaseWidget extends StatelessWidget {
     required this.sumOfCart,
     required this.user,
     required this.numOfItems,
+    required this.checkedOutItems,
   });
 
+  final List<ShoppingCartWishListItem> checkedOutItems;
   final double width;
   final double sumOfCart;
   final CusUser user;
@@ -21,6 +27,8 @@ class ConfirmPurchaseWidget extends StatelessWidget {
 
   final _notifications = Notifications();
   String notifBody = '';
+
+  final SCWLModel _scwlModel = SCWLModel();
 
   void _sendDeliveryNotif() async {
     _notifications.sendNotificationNow(
@@ -38,7 +46,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
       // height: MediaQuery.of(context).size.height/3,
       decoration: BoxDecoration(
-          color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+          color: Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
               ? Colors.grey[500]
               : Colors.orange,
           borderRadius: const BorderRadius.only(
@@ -54,8 +62,8 @@ class ConfirmPurchaseWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Name:',
+              Text(
+                FlutterI18n.translate(context, "ConfirmPurchase.name"),
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -75,36 +83,20 @@ class ConfirmPurchaseWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Address:',
+              Text(
+                FlutterI18n.translate(context, "ConfirmPurchase.address"),
                 style: TextStyle(fontSize: 16),
+                softWrap: true,
+                maxLines: 5,
               ),
               Text(
-                '${user.country},\n ${user.province},\n ${user.city}',
+                '${user.address}',
                 style: const TextStyle(fontSize: 16),
               )
             ],
           ),
           const SizedBox(
             height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Postal Code:',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                '${user.postal}',
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ],
           ),
           const Divider(
             thickness: 2,
@@ -113,8 +105,8 @@ class ConfirmPurchaseWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Total:",
+              Text(
+                FlutterI18n.translate(context, "ConfirmPurchase.total"),
                 style: TextStyle(fontSize: 18),
               ),
               Text(
@@ -138,26 +130,23 @@ class ConfirmPurchaseWidget extends StatelessWidget {
                 fixedSize: Size(width - 100, 40),
               ),
               onPressed: () {
+                _scwlModel.addToOrderHistory(checkedOutItems);
+
                 // Pop to homepage
                 Navigator.popUntil(context, (route) => route.isFirst);
 
                 // Order confirmation snackbar
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Order out for delivery!',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                  ),
-                );
+                showSnackBar(context,
+                    FlutterI18n.translate(context, "ConfirmPurchase.deliver"));
 
                 // Send order delivered notification
                 notifBody = 'Your order of $numOfItems item(s) has been '
-                    'delivered to ${user.name} at ${user.country}, ${user.province}, ${user.city}, ${user.postal}';
+                    'delivered to ${user.name} at ${user.address}';
 
                 _sendDeliveryNotif();
               },
-              child: const Text("Confirm Purchase",
+              child: Text(
+                  FlutterI18n.translate(context, "ConfirmPurchase.confirm"),
                   style: TextStyle(color: Colors.white)))
         ],
       ),
