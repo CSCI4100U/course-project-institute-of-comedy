@@ -47,14 +47,10 @@ class ProductViewWidget extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Container(
-                        margin: const EdgeInsets.all(10),
-                        child: Align(
+                      Expanded(
+                        child: Image.network(
+                          productList[itemIndex].imageUrl!,
                           alignment: Alignment.center,
-                          child: Image.network(
-                            productList[itemIndex].imageUrlList![0],
-                            fit: BoxFit.cover,
-                          ),
                         ),
                       ),
                       Container(

@@ -7,15 +7,14 @@ import 'package:zamazon/models/Product.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   final searchTerms = const [
-    'Computer',
     'Electronics',
-    'Hardware',
-    'Burger',
-    'Food',
-    'Edible',
-    'Clothing',
-    'School',
-    'Gym',
+    'Computer',
+    'Kitchen',
+    'Video games',
+    'Clothes',
+    'Cosmetics',
+    'Game console',
+    'Shoes',
   ];
 
   // New actions built on the right of search bar
@@ -66,7 +65,7 @@ class CustomSearchDelegate extends SearchDelegate {
       itemBuilder: (context, index) {
         return (matches.isNotEmpty)
             ? ListTile(
-                title: Image.network(matches[index].imageUrlList![0]),
+                title: Image.network(matches[index].imageUrl!),
                 subtitle: Text(matches[index].title!),
                 onTap: () {
                   // when item is tapped, close the search bar and return user choice

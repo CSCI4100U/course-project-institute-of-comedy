@@ -35,7 +35,7 @@ class SCWLModel {
 
     ShoppingCartWishListItem scwlItem = ShoppingCartWishListItem(
       title: product.title,
-      imageUrl: product.imageUrlList![0],
+      imageUrl: product.imageUrl,
       productId: product.id,
       quantity: 1,
       size: size,

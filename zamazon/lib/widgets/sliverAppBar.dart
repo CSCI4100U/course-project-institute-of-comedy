@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MySliverAppBar extends StatelessWidget {
-  const MySliverAppBar({
-    super.key,
-    required this.title,
-  });
+  const MySliverAppBar({super.key, required this.title, this.actions});
 
   final Widget title;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +14,7 @@ class MySliverAppBar extends StatelessWidget {
       foregroundColor: Colors.black,
       elevation: 0.0,
       title: title,
+      actions: (actions != null) ? actions : [],
     );
   }
 }

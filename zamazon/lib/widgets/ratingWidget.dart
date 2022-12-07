@@ -10,15 +10,14 @@ class RatingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RatingBar.builder(
-        initialRating:
-        double.parse(product.rating!.substring(0, 3)),
+        initialRating: double.parse(product.rating!),
         allowHalfRating: true,
         ignoreGestures: true,
         itemSize: 20,
         itemBuilder: (context, _) => const Icon(
-          Icons.star,
-          color: Colors.orange,
-        ),
+              Icons.star,
+              color: Colors.orange,
+            ),
         onRatingUpdate: (_) {});
   }
 }

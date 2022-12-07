@@ -4,8 +4,10 @@ import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/sizePickerDialog.dart';
+import 'package:provider/provider.dart';
+import 'package:zamazon/models/themeBLoC.dart';
 
-// IN PROGRESS, similar to shopping cart page, except users will only be able to
+// Similar to shopping cart page, except users will only be able to
 // add wishlist items to shopping cart, they will not be able to check out items
 // from this page.
 
@@ -70,22 +72,26 @@ class _WishListPageState extends State<WishListPage> {
         margin: const EdgeInsets.symmetric(horizontal: 10),
         child: Dismissible(
             key: UniqueKey(),
+            direction: DismissDirection.endToStart,
             onDismissed: (direction) {
               _scwlModel.deleteCartWishList(scwlItem);
             },
             background: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color:
+                    Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
+                        ? Colors.grey[700]
+                        : Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 110,
-                  ),
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: const [
                   // TODO: add real trashcan icon
-                  const Icon(Icons.delete)
+                  Icon(
+                    Icons.delete,
+                  )
                 ],
               ),
             ),
@@ -100,8 +106,7 @@ class _WishListPageState extends State<WishListPage> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Image.network(
-                    // productList[index].imageUrlList![0],
-                    'https://imgur.com/u5fYc4r.png',
+                    scwlItem.imageUrl!,
                     fit: BoxFit.cover,
                   ),
                 ),

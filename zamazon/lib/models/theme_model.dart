@@ -7,7 +7,7 @@ class ThemeModel {
   Future insertTheme(Themes theme) async {
     final db = await DBUtils.init();
     return db.insert(
-      'themesa',
+      'themes',
       theme.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -16,7 +16,7 @@ class ThemeModel {
   Future<Themes> getThemesWithId(int id) async {
     final db = await DBUtils.init();
     final List maps =
-        await db.query('themesa', where: 'id = ?', whereArgs: [id]);
+        await db.query('themes', where: 'id = ?', whereArgs: [id]);
 
     print('MAPS: ${maps.first}');
 

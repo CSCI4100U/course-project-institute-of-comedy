@@ -4,6 +4,7 @@ import 'package:zamazon/views/SettingsPage.dart';
 import 'package:zamazon/widgets/bottomNavBar.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/widgets/customSearchDelegate.dart';
 import 'package:zamazon/widgets/featuredItemWidget.dart';
 import 'package:zamazon/widgets/productViewWidget.dart';
 import 'package:zamazon/controllers/userProfilePage.dart';
@@ -72,6 +73,25 @@ class _HomePageState extends State<HomePage> {
       const SettingsPageWidget(title: 'Settings'),
     ];
 
+    Widget homepageSearchWidget = IconButton(
+        onPressed: () async {
+          // when a user taps a result, it will be returned here.
+          final nav = Navigator.of(context);
+          final product = await showSearch(
+              context: context, delegate: CustomSearchDelegate());
+
+          if (product != null) {
+            nav.pushNamed(
+              "/ProductPage",
+              arguments: {
+                'title': 'Product',
+                'product': product,
+              },
+            );
+          }
+        },
+        icon: const Icon(Icons.search));
+
     return Container(
       decoration: const BoxDecoration(color: Colors.white),
       child: Scaffold(
@@ -83,7 +103,11 @@ class _HomePageState extends State<HomePage> {
           floatHeaderSlivers: true,
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return <Widget>[
-              MySliverAppBar(title: navPageTitles.elementAt(navBarSelectedPage))
+              MySliverAppBar(
+                title: navPageTitles.elementAt(navBarSelectedPage),
+                actions:
+                    (navBarSelectedPage == 0) ? [homepageSearchWidget] : null,
+              )
             ];
           },
           body: navBarPages.elementAt(navBarSelectedPage),

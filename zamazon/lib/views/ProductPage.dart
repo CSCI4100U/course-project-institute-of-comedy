@@ -69,20 +69,14 @@ class _ProductPageState extends State<ProductPage> {
               Container(
                 padding: const EdgeInsets.all(10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text("Brand: ${product!.manufacturer}",
-                        style: TextStyle(fontSize: fontSize)),
-                    Row(
-                      children: [
-                        // creates star rating widget
-                        // requires to be run with "flutter run --no-sound-null-safety"
-                        RatingWidget(product: product!),
-                        Text(
-                          "${product!.numReviews}",
-                          style: TextStyle(fontSize: fontSize),
-                        ),
-                      ],
+                    // creates star rating widget
+                    // requires to be run with "flutter run --no-sound-null-safety"
+                    RatingWidget(product: product!),
+                    Text(
+                      "(${product!.numReviews})",
+                      style: TextStyle(fontSize: fontSize),
                     ),
                   ],
                 ),
@@ -96,16 +90,9 @@ class _ProductPageState extends State<ProductPage> {
                 height: 250,
                 // width: 100,
                 // page view to show images
-                child: PageView(
-                  controller: controller,
-                  children: product!.imageUrlList!
-                      .map<Widget>((e) => Image.network(e))
-                      .toList(),
-                ),
+                child: Image.network(product!.imageUrl!),
               ),
-              product!.dealPrice != 0.0
-                  ? DealWidget(product: product!)
-                  : PriceWidget(product: product!),
+              PriceWidget(product: product!),
               Container(
                 padding: const EdgeInsets.all(10),
                 child: Text(
@@ -250,8 +237,11 @@ class _ProductPageState extends State<ProductPage> {
         onPressed: () async {
           //productModel.insertProduct(product!);  //testing
           // if (!_isAddToCartButtonPressed) {
-          int? value =
-              await showSizePickerDialog(context, product!.sizeSelection!);
+          int? value = 1;
+          if (product!.sizeSelection!.length > 1) {
+            int? value =
+                await showSizePickerDialog(context, product!.sizeSelection!);
+          }
           setState(() {
             _selectedSizeValue = value;
           });

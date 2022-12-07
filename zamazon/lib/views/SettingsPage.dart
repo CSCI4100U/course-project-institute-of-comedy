@@ -20,7 +20,10 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
   String? value;
   final _auth = Auth();
 
-  bool _switch = true;
+  // needed in changeThemeButton.dart to fix a problem
+  void refreshFromChild() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,42 +46,26 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      Text(FlutterI18n.translate(context, "setting.theme"),
-                          style: const TextStyle(fontSize: 20))
-                    ],
-                  ),
-                  Column(
-                    children: const [
-                      ChangeThemeButtonWidget(),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Text(FlutterI18n.translate(context, "setting.notification"),
+                  Text(FlutterI18n.translate(context, "setting.theme"),
                       style: const TextStyle(fontSize: 20)),
-                  const SizedBox(
-                    width: 100,
+                  ChangeThemeButtonWidget(
+                    refreshParent: refreshFromChild,
                   ),
                 ],
               ),
             ),
             Container(
               margin: const EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Text(FlutterI18n.translate(context, "setting.legality"),
-                      style: const TextStyle(fontSize: 20)),
-                  const SizedBox(
-                    width: 100,
-                  ),
-                ],
+              child: Text(
+                FlutterI18n.translate(context, "setting.notification"),
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              child: Text(
+                FlutterI18n.translate(context, "setting.legality"),
+                style: const TextStyle(fontSize: 20),
               ),
             ),
             Container(
@@ -86,32 +73,24 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      Text(
-                          FlutterI18n.translate(
-                            context,
-                            "setting.language",
-                          ),
-                          style: const TextStyle(fontSize: 20)),
-                    ],
-                  ),
-                  Column(
-                    children: [
-                      DropdownButton<String>(
-                          value: value,
-                          iconSize: 30,
-                          icon: const Icon(Icons.arrow_drop_down,
-                              color: Colors.black),
-                          items: languages.map(buildMenuLang).toList(),
-                          onChanged: (value) async {
-                            this.value = value;
-                            Locale newLocale = Locale(value!);
-                            await FlutterI18n.refresh(context, newLocale);
-                            setState(() {});
-                          }),
-                    ],
-                  ),
+                  Text(
+                      FlutterI18n.translate(
+                        context,
+                        "setting.language",
+                      ),
+                      style: const TextStyle(fontSize: 20)),
+                  DropdownButton<String>(
+                      value: value,
+                      iconSize: 30,
+                      icon: const Icon(Icons.arrow_drop_down,
+                          color: Colors.black),
+                      items: languages.map(buildMenuLang).toList(),
+                      onChanged: (value) async {
+                        this.value = value;
+                        Locale newLocale = Locale(value!);
+                        await FlutterI18n.refresh(context, newLocale);
+                        setState(() {});
+                      }),
                 ],
               ),
             ),

@@ -12,6 +12,7 @@ import 'package:zamazon/controllers/SignInForm.dart';
 import 'package:zamazon/views/checkoutPage.dart';
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ProductPage.dart';
+import 'package:zamazon/webscraping/scrapeProducts.dart';
 import 'controllers/SignUpForm.dart';
 import 'models/Product.dart';
 import 'models/productModel.dart';
@@ -24,6 +25,9 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   //await FirebaseAuth.instance.signOut();
+
+  // USED TO POPULATE FIRESTORE. NOT NEEDED AGAIN AFTER THE FIRST TIME.
+  //WebScraper().scrapeProducts();
 
   runApp(
     MultiProvider(

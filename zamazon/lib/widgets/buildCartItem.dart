@@ -80,7 +80,7 @@ class BuildCartItem extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      "\$${scwlItem.totalPrice}",
+                      "\$${double.parse(scwlItem.totalPrice!.toStringAsFixed(2))}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(
