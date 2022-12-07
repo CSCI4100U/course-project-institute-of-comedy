@@ -16,7 +16,7 @@ class SettingsPageWidget extends StatefulWidget {
 }
 
 class _SettingsPageWidgetState extends State<SettingsPageWidget> {
-  final languages = ['en', 'fr', 'sp'];
+  final languages = ['en', 'fr', 'sp', 'cn', 'jp'];
   String? value;
   final _auth = Auth();
 
@@ -46,8 +46,10 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(FlutterI18n.translate(context, "setting.theme"),
-                      style: const TextStyle(fontSize: 20)),
+                  Text(FlutterI18n.translate(context, "SettingPage.theme"),
+                      style: TextStyle(fontSize: 20),
+                      softWrap: true,
+                      maxLines: 2),
                   ChangeThemeButtonWidget(
                     refreshParent: refreshFromChild,
                   ),
@@ -57,16 +59,18 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
             Container(
               margin: const EdgeInsets.all(10),
               child: Text(
-                FlutterI18n.translate(context, "setting.notification"),
-                style: const TextStyle(fontSize: 20),
-              ),
+                  FlutterI18n.translate(context, "SettingPage.notification"),
+                  style: TextStyle(fontSize: 20),
+                  softWrap: true,
+                  maxLines: 2),
             ),
             Container(
               margin: const EdgeInsets.all(10),
               child: Text(
-                FlutterI18n.translate(context, "setting.legality"),
-                style: const TextStyle(fontSize: 20),
-              ),
+                  FlutterI18n.translate(context, "SettingPage.legality"),
+                  style: TextStyle(fontSize: 20),
+                  softWrap: true,
+                  maxLines: 2),
             ),
             Container(
               margin: const EdgeInsets.all(10),
@@ -76,9 +80,11 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                   Text(
                       FlutterI18n.translate(
                         context,
-                        "setting.language",
+                        "SettingPage.language",
                       ),
-                      style: const TextStyle(fontSize: 20)),
+                      style: TextStyle(fontSize: 20),
+                      softWrap: true,
+                      maxLines: 2),
                   DropdownButton<String>(
                       value: value,
                       iconSize: 30,
@@ -97,7 +103,8 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
             TextButton(
               onPressed: () {
                 _auth.signOut().then((value) {
-                  showSnackBar(context, 'Bye!!');
+                  showSnackBar(context,
+                      FlutterI18n.translate(context, "SettingPage.logout"));
                 });
               },
               style: ButtonStyle(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/widgets/proceedToCheckOut.dart';
 import '../models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/buildCartItem.dart';
@@ -31,9 +32,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return Scaffold(
             body: (snapshot.data.isEmpty)
-                ? const Center(
+                ? Center(
                     child: Text(
-                      "Your Shopping Cart is Empty.",
+                      FlutterI18n.translate(context, "ShoppingCartPage.empty"),
+                      softWrap: true,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 25),
                     ),

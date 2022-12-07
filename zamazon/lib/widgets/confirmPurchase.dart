@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/notifications.dart';
@@ -55,8 +56,8 @@ class ConfirmPurchaseWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Name:',
+              Text(
+                FlutterI18n.translate(context, "ConfirmPurchase.name"),
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -76,8 +77,8 @@ class ConfirmPurchaseWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Address:',
+              Text(
+                FlutterI18n.translate(context, "ConfirmPurchase.address"),
                 style: TextStyle(fontSize: 16),
               ),
               Text(
@@ -93,8 +94,8 @@ class ConfirmPurchaseWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Postal Code:',
+              Text(
+                FlutterI18n.translate(context, "ConfirmPurchase.postal_code"),
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -114,8 +115,8 @@ class ConfirmPurchaseWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Total:",
+              Text(
+                FlutterI18n.translate(context, "ConfirmPurchase.total"),
                 style: TextStyle(fontSize: 18),
               ),
               Text(
@@ -143,7 +144,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
                 Navigator.popUntil(context, (route) => route.isFirst);
 
                 // Order confirmation snackbar
-                showSnackBar(context, 'Order out for delivery!');
+                showSnackBar(context, FlutterI18n.translate(context, "ConfirmPurchase.deliver"));
 
                 // Send order delivered notification
                 notifBody = 'Your order of $numOfItems item(s) has been '
@@ -151,7 +152,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
 
                 _sendDeliveryNotif();
               },
-              child: const Text("Confirm Purchase",
+              child: Text(FlutterI18n.translate(context, "ConfirmPurchase.confirm"),
                   style: TextStyle(color: Colors.white)))
         ],
       ),

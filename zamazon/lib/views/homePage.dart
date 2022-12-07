@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/globals.dart';
 import 'package:zamazon/views/SettingsPage.dart';
 import 'package:zamazon/widgets/bottomNavBar.dart';
@@ -41,18 +42,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  List<Widget> navPageTitles = [
-    // app logo for homepage
-    Image.network(
-      zamazonLogo,
-      width: 125,
-    ),
-    const Text('Profile'),
-    const Text('Shopping Cart'),
-    const Text('Wish List'),
-    const Text('Settings'),
-  ];
-
   // loaded in initstate after the list of products is recieved
   List<Widget> navBarPages = [];
 
@@ -63,6 +52,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     productList = Provider.of<List<Product>>(context);
+
+    List<Widget> navPageTitles = [
+      // app logo for homepage
+      Image.network(
+        zamazonLogo,
+        width: 125,
+      ),
+      Text(FlutterI18n.translate(context,"Appbar.profile")),
+      Text(FlutterI18n.translate(context,"Appbar.shopping_cart")),
+      Text(FlutterI18n.translate(context,"Appbar.wish_list")),
+      Text(FlutterI18n.translate(context,"Appbar.settings")),
+    ];
 
     navBarPages = [
       // default body for the homepage scaffold, method located below build

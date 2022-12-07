@@ -12,13 +12,12 @@ class ThemeModel {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
-
   Future<Themes> getThemesWithId(int id) async {
     final db = await DBUtils.init();
     final List maps =
         await db.query('themes', where: 'id = ?', whereArgs: [id]);
 
-    print('MAPS: ${maps.first}');
+    print('MAPS: $maps');
 
     if (maps.isEmpty) {
       final defaultTheme = Themes(id: 0, themeValue: 0);

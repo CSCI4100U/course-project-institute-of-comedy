@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 
@@ -56,8 +57,8 @@ class BuildCheckOutItem extends StatelessWidget {
                 ),
                 scwlItem.size != 0
                     ? Text.rich(TextSpan(children: [
-                        const TextSpan(
-                            text: "Size: ",
+                      TextSpan(
+                            text: FlutterI18n.translate(context, "BuildCheckOutItem.size"),
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold)),
                         TextSpan(

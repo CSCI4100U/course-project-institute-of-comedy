@@ -19,6 +19,7 @@ class Themes {
   @override
   String toString() {
     // TODO: implement toString
-    return '$id : $themeValue ';
+
+    return '$id : $themeValue';
   }
 }

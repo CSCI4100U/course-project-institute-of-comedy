@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 
@@ -40,8 +41,8 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            const Text(
-              "Total:",
+            Text(
+              FlutterI18n.translate(context, "ProceedToCheckOut.total"),
               style: TextStyle(fontSize: 18),
             ),
             Text(
@@ -76,7 +77,7 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
                   },
                 );
               },
-              child: const Text("Proceed to Checkout",
+              child: Text(FlutterI18n.translate(context, "ProceedToCheckOut.proceed"),
                   style: TextStyle(color: Colors.white)))
         ],
       ),

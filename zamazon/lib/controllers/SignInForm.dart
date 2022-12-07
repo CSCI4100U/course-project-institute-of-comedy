@@ -1,13 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
-
 //Form that lets registered user's sign in.
-
 import '../models/themeBLoC.dart';
 
 class SignInWidget extends StatefulWidget {
@@ -21,8 +20,9 @@ class SignInWidget extends StatefulWidget {
 
 class _SignInWidgetState extends State<SignInWidget> {
   final _formKey = GlobalKey<FormState>();
-
   final _auth = Auth();
+  final languages = ['en', 'fr', 'sp', 'cn', 'jp'];
+  String? value;
 
   String? _email;
   String? _password;
@@ -45,7 +45,6 @@ class _SignInWidgetState extends State<SignInWidget> {
         child: Form(
           key: _formKey,
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.8,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
@@ -55,10 +54,10 @@ class _SignInWidgetState extends State<SignInWidget> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Image.network(zamazonLogo),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
-                    'Welcome back!',
+                    FlutterI18n.translate(context, "SignInForm.greeting"),
                     style: TextStyle(fontSize: 30),
                   ),
                 ),
@@ -66,12 +65,12 @@ class _SignInWidgetState extends State<SignInWidget> {
                   margin: const EdgeInsets.all(10),
                   child: TextFormField(
                     //Email Validator
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       prefixIcon: Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      labelText: 'Email',
+                      labelText: FlutterI18n.translate(context, "SignInForm.email"),
                     ),
                     onSaved: (email) {
                       _email = email!.trim();
@@ -88,26 +87,19 @@ class _SignInWidgetState extends State<SignInWidget> {
                   child: TextFormField(
                     //Password Validator
                     obscureText: true,
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                       prefixIcon: Icon(Icons.key),
                       errorMaxLines: 10,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      labelText: 'Password',
+                      labelText: FlutterI18n.translate(context, "SignInForm.password"),
                     ),
                     onSaved: (password) {
                       _password = password!.trim();
                     },
                     validator: (value) {
-                      RegExp regExp = RegExp(
-                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Password';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'At least 6 letters, 1 uppercase, 1 lowercase, and 1 number';
-                      }
-                      return null;
+                      return RegexValidation().validatePassword(value);
                     },
                   ),
                 ),
@@ -128,10 +120,10 @@ class _SignInWidgetState extends State<SignInWidget> {
                           try {
                             await _auth.signIn(_email, _password);
                             if (!mounted) return;
-                            showSnackBar(context, 'Welcome Back');
+                            showSnackBar(context, FlutterI18n.translate(context, "SignInForm.snackbar_greeting"));
                           } on FirebaseAuthException catch (e) {
                             showSnackBar(
-                                context, 'Incorrect Email or Password!');
+                                context, FlutterI18n.translate(context, "SignInForm.snackbar_incorrect"));
                             print(e);
                           }
                         }
@@ -139,7 +131,7 @@ class _SignInWidgetState extends State<SignInWidget> {
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.black87,
                       ),
-                      child: const Text('Sign In',
+                      child: Text(FlutterI18n.translate(context, "SignInForm.sign_in"),
                           style: TextStyle(fontSize: 30))),
                 ),
                 TextButton(
@@ -153,14 +145,28 @@ class _SignInWidgetState extends State<SignInWidget> {
                     surfaceTintColor: Colors.blue,
                     textStyle: const TextStyle(fontSize: 15),
                   ),
-                  child: const Text(
-                    'Create an account',
+                  child: Text(
+                    FlutterI18n.translate(context, "SignInForm.no_account"),
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     ),
                   ),
                 ),
+
+                    DropdownButton<String>(
+                        value: value,
+                        iconSize: 30,
+                        icon: const Icon(Icons.arrow_drop_down,
+                            color: Colors.black),
+                        items: languages.map(buildMenuLang).toList(),
+                        onChanged: (value) async {
+                          this.value = value;
+                          Locale newLocale = Locale(value!);
+                          await FlutterI18n.refresh(context, newLocale);
+                          setState(() {});
+                        }),
+
               ],
             ),
           ),
@@ -168,4 +174,11 @@ class _SignInWidgetState extends State<SignInWidget> {
       ),
     );
   }
+  DropdownMenuItem<String> buildMenuLang(String lang) => DropdownMenuItem(
+    value: lang,
+    child: Text(
+      lang,
+      style: const TextStyle(fontSize: 20),
+    ),
+  );
 }

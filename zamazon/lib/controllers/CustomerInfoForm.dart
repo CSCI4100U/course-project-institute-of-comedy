@@ -23,7 +23,6 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
   String? _province;
   String? _city;
   String? _postal;
-  String? _streetAddress;
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +31,11 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
         child: Form(
           key: _formKey,
           child: Container(
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10), color: Colors.white),
             child: SafeArea(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

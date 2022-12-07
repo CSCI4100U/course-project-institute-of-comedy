@@ -37,7 +37,6 @@ Future main() async {
           create: (context) => ProductModel().getProducts(),
           initialData: const [],
         ),
-
         ChangeNotifierProvider<ThemeBLoC>(create: (context) => ThemeBLoC()),
       ],
       child: const MyApp(),
@@ -69,7 +68,6 @@ class MyApp extends StatelessWidget {
             final String routeName = settings.name!;
             final Map<String, dynamic> arguments =
                 settings.arguments as Map<String, dynamic>;
-
             switch (routeName) {
               case '/ProductPage':
                 return MaterialPageRoute(builder: (context) {
@@ -119,6 +117,9 @@ class MyApp extends StatelessWidget {
           supportedLocales: const [
             Locale('en'),
             Locale('fr'),
+            Locale('cn'),
+            Locale('sp'),
+            Locale('jp'),
           ],
         );
       },

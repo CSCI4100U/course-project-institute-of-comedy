@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/CusUser.dart';
 import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
@@ -98,20 +99,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       ? Column(
                           children: [
                             const Text('Ability to change these - WIP'),
-                            createTextFormField('Name', snapshot.data.name,
+                            createTextFormField(FlutterI18n.translate(context, "UserProfilePage.name"), snapshot.data.name,
                                 const Icon(Icons.person)),
-                            createTextFormField(
-                                'Country',
-                                snapshot.data.country,
-                                const Icon(Icons.language)),
-                            createTextFormField(
-                                'Province',
-                                snapshot.data.province,
-                                const Icon(Icons.landscape)),
-                            createTextFormField('City', snapshot.data.city,
-                                const Icon(Icons.location_city)),
-                            createTextFormField('Postal Code',
-                                snapshot.data.postal, const Icon(Icons.house)),
+
                             ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.deepOrange,
@@ -130,7 +120,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                         _province!, _city!, _postal!);
                                   }
                                 },
-                                child: const Text("Save"))
+                                child: Text(FlutterI18n.translate(context, "UserProfilePage.save")))
                           ],
                         )
                       : const Center(child: CircularProgressIndicator()),
