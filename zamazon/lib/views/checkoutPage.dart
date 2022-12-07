@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/userModel.dart';
 import 'package:zamazon/widgets/buildCheckOutItem.dart';
@@ -29,7 +30,7 @@ class CheckOutPage extends StatelessWidget {
         return Scaffold(
           appBar: DefaultAppBar(
             context,
-            title: Text(title!),
+            title: Text(FlutterI18n.translate(context, "CheckoutPage.appbar")),
           ),
           body: (snapshot.data!.name != 'Default')
               ? Padding(

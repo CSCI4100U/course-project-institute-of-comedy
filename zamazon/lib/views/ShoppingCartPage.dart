@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:zamazon/models/shoppingCartWishListItem.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/widgets/proceedToCheckOut.dart';
-import 'package:zamazon/widgets/sliverAppBar.dart';
 import '../models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/buildCartItem.dart';
-import '../models/userModel.dart';
-import '../themes.dart';
 
 //IN PROGRESS, users should be able to add/remove items to their shopping carts
 // and they will be displayed in this page. IN PROGRESS, checking out items.
@@ -36,9 +32,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return Scaffold(
             body: (snapshot.data.isEmpty)
-                ? const Center(
+                ? Center(
                     child: Text(
-                      "Your Shopping Cart is Empty.",
+                      FlutterI18n.translate(context, "ShoppingCartPage.empty"),
+                      softWrap: true,
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 25),
                     ),

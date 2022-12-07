@@ -7,7 +7,8 @@ class DBUtils {
     return openDatabase(
       path.join(await getDatabasesPath(), 'zamazon.db'),
       onCreate: (db, version) {
-        db.execute('CREATE TABLE themes(id INTEGER PRIMARY KEY, ThemeValue INTEGER');
+        db.execute(
+            'CREATE TABLE themes(id INTEGER PRIMARY KEY, ThemeValue INTEGER)');
       },
       version: 1,
     );

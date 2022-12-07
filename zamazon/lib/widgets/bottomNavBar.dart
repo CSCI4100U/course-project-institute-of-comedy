@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 
 class BottomNavBar extends StatelessWidget {
   BottomNavBar({
@@ -21,30 +22,30 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: 'Home Page',
+          label: FlutterI18n.translate(context, "Bottom_NavBar.home_page"),
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: 'Profile Page',
+          label: FlutterI18n.translate(context, "Bottom_NavBar.profile_page"),
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.shopping_cart),
-          label: 'Shopping Cart',
+          label: FlutterI18n.translate(context, "Bottom_NavBar.shopping_cart"),
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.favorite),
-          label: 'Wish List',
+          label: FlutterI18n.translate(context, "Bottom_NavBar.wish_list"),
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.settings),
-          label: 'Settings',
+          label: FlutterI18n.translate(context, "Bottom_NavBar.settings"),
           backgroundColor: Colors.orange,
         ),
       ],

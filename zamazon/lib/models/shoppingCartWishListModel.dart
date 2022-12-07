@@ -58,7 +58,10 @@ class SCWLModel {
           .doc(_auth.currentUser!.uid)
           .collection(collName)
           .doc('${product.id}${scwlItem.size}')
-          .update({'quantity': FieldValue.increment(1)});
+          .update({
+        'quantity': FieldValue.increment(1),
+        'totalPrice': FieldValue.increment(scwlItem.pricePerUnit!),
+      });
     } else {
       await _db
           .collection('users')

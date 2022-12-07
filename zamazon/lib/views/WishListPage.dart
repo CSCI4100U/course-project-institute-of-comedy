@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/models/Product.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/sizePickerDialog.dart';
 
 // IN PROGRESS, similar to shopping cart page, except users will only be able to
@@ -30,9 +32,10 @@ class _WishListPageState extends State<WishListPage> {
         initialData: const [],
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           return (snapshot.data.isEmpty)
-              ? const Center(
+              ? Center(
                   child: Text(
-                  "Your Wish is Empty.",
+                  FlutterI18n.translate(context, "WishListPage.empty"),
+                  softWrap: true,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 25),
                 ))
@@ -138,9 +141,7 @@ class _WishListPageState extends State<WishListPage> {
                                 context, scwlItem.sizeSelection!);
                             if (value != null) {
                               if (!mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text("Added to Cart")));
+                              showSnackBar(context, FlutterI18n.translate(context, "WishListPage.added_to_cart"));
                               Product product = await SCWLModel()
                                   .getProduct(scwlItem.productId!);
                               _scwlModel.addToCartWishList(
@@ -148,8 +149,8 @@ class _WishListPageState extends State<WishListPage> {
                                   size: value);
                             }
                           },
-                          child: const Text(
-                            "Add to Cart",
+                          child: Text(
+                            FlutterI18n.translate(context, "WishListPage.add_to_cart"),
                             style: TextStyle(color: Colors.black),
                           )),
                       const SizedBox(

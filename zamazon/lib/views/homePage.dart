@@ -58,10 +58,10 @@ class _HomePageState extends State<HomePage> {
         zamazonLogo,
         width: 125,
       ),
-      Text('Profile'),
-      Text('Shopping Cart'),
-      Text('Wish List'),
-      Text(FlutterI18n.translate(context,"setting.setting_title")),
+      Text(FlutterI18n.translate(context,"Appbar.profile")),
+      Text(FlutterI18n.translate(context,"Appbar.shopping_cart")),
+      Text(FlutterI18n.translate(context,"Appbar.wish_list")),
+      Text(FlutterI18n.translate(context,"Appbar.settings")),
     ];
 
     navBarPages = [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/models/theme_model.dart';
-import 'package:zamazon/models/SettingLocalDB.dart';
+import 'package:zamazon/models/themes.dart';
 
 class ThemeProvider extends ChangeNotifier {
   final ThemeModel _model = ThemeModel();

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/authentication/regexValidation.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
 
 // Form presented to user after they sign up. Asks for location info and name.
 
@@ -67,13 +68,7 @@ class _CustomerAddressState extends State<CustomerAddressWidget> {
                             _auth.addUserInfo(_name!, _country!, _province!,
                                 _city!, _postal!);
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                "Info Saved!",
-                                style: TextStyle(fontSize: 20),
-                              )),
-                            );
+                            showSnackBar(context, 'Info. Saved!');
                             Navigator.of(context)
                                 .popUntil((route) => route.isFirst);
                           }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter_material_pickers/helpers/show_number_picker.dart';
 import 'package:zamazon/models/Product.dart';
@@ -6,6 +7,7 @@ import 'package:zamazon/models/productModel.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/defaultAppBar.dart';
+import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/ratingWidget.dart';
 
 import 'package:zamazon/widgets/dealWidget.dart';
@@ -127,7 +129,7 @@ class _ProductPageState extends State<ProductPage> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     child: Text(
-                      "Details",
+                      FlutterI18n.translate(context, "ProductPage.detail"),
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: fontSize),
                     ),
@@ -163,7 +165,7 @@ class _ProductPageState extends State<ProductPage> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                   child: Text(
-                    "Description",
+                    FlutterI18n.translate(context, "ProductPage.description"),
                     style: TextStyle(fontSize: fontSize),
                   )),
               Container(
@@ -176,7 +178,7 @@ class _ProductPageState extends State<ProductPage> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 child: Text(
-                  "Features",
+                  FlutterI18n.translate(context, "ProductPage.feature"),
                   style: TextStyle(fontSize: fontSize),
                 ),
               ),
@@ -203,9 +205,9 @@ class _ProductPageState extends State<ProductPage> {
                     });
                   },
                   child: Column(
-                    children: const [
+                    children: [
                       Icon(Icons.keyboard_double_arrow_up),
-                      Text("Back to Top"),
+                      Text(FlutterI18n.translate(context, "ProductPage.back_to_top")),
                     ],
                   ))
             ],
@@ -222,8 +224,7 @@ class _ProductPageState extends State<ProductPage> {
         onPressed: () {
           setState(() {
             if (!_isWishListButtonPressed) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Added to Wishlist.")));
+              showSnackBar(context, FlutterI18n.translate(context, "ProductPage.added_to_wishlist"));
               _isWishListButtonPressed = true;
               _scwlModel.addToCartWishList(product!, "wishList");
             }
@@ -257,16 +258,15 @@ class _ProductPageState extends State<ProductPage> {
           });
           if (value != null) {
             if (!mounted) return;
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text("Added to Cart")));
+            showSnackBar(context, FlutterI18n.translate(context, "ProductPage.added_to_cart"));
             _isAddToCartButtonPressed =
                 _isAddToCartButtonPressed ? false : true;
             _scwlModel.addToCartWishList(product!, "shoppingCart",
                 size: _selectedSizeValue!);
           }
         },
-        child: const Text(
-          "Add to Cart",
+        child: Text(
+          FlutterI18n.translate(context, "ProductPage.add_to_cart"),
           style: TextStyle(color: Colors.black),
         ));
   }

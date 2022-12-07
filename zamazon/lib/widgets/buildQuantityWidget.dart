@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 
-import '../themes.dart';
+import '../models/themeBLoC.dart';
 
 class BuildQuantityWidget extends StatelessWidget {
   BuildQuantityWidget({super.key, required this.scwlItem});
@@ -12,10 +12,10 @@ class BuildQuantityWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final buttonTheme = Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
-        ? Colors.white
-        : Colors.black;
+    final buttonTheme =
+        Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
+            ? Colors.white
+            : Colors.black;
 
     return Row(
       children: [

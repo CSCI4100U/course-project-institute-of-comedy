@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/buildQuantityWidget.dart';
 
-import '../themes.dart';
+import '../models/themeBLoC.dart';
 
 class BuildCartItem extends StatelessWidget {
   BuildCartItem({super.key, required this.scwlItem, required this.width});
@@ -25,7 +26,7 @@ class BuildCartItem extends StatelessWidget {
           background: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
-              color: Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+              color: Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
                   ? Colors.grey[700]
                   : Colors.grey.shade200,
               borderRadius: BorderRadius.circular(20),
@@ -88,8 +89,8 @@ class BuildCartItem extends StatelessWidget {
                     ),
                     scwlItem.size != 0
                         ? Text.rich(TextSpan(children: [
-                            const TextSpan(
-                                text: "Size: ",
+                          TextSpan(
+                                text: FlutterI18n.translate(context, "BuildCartItem.size"),
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold)),
                             TextSpan(
