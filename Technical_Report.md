@@ -1,6 +1,7 @@
 # CSCI4100U Group Project
 ---
 App Name: Zamazon
+
 Group Members: Gowtham Rajendra, Ivan Wang, Ravi Pogaku
 
 ## Overview
