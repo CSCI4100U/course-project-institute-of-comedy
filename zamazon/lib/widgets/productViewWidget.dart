@@ -25,7 +25,7 @@ class ProductViewWidget extends StatelessWidget {
           child: CarouselSlider.builder(
             itemCount: productList.length,
             options: CarouselOptions(
-              height: height / 2.2,
+              height: height * 0.4,
             ),
             itemBuilder: (context, itemIndex, pageViewIndex) {
               return GestureDetector(

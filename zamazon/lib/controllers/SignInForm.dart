@@ -70,7 +70,8 @@ class _SignInWidgetState extends State<SignInWidget> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      labelText: FlutterI18n.translate(context, "SignInForm.email"),
+                      labelText:
+                          FlutterI18n.translate(context, "SignInForm.email"),
                     ),
                     onSaved: (email) {
                       _email = email!.trim();
@@ -93,7 +94,8 @@ class _SignInWidgetState extends State<SignInWidget> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      labelText: FlutterI18n.translate(context, "SignInForm.password"),
+                      labelText:
+                          FlutterI18n.translate(context, "SignInForm.password"),
                     ),
                     onSaved: (password) {
                       _password = password!.trim();
@@ -120,10 +122,15 @@ class _SignInWidgetState extends State<SignInWidget> {
                           try {
                             await _auth.signIn(_email, _password);
                             if (!mounted) return;
-                            showSnackBar(context, FlutterI18n.translate(context, "SignInForm.snackbar_greeting"));
+                            showSnackBar(
+                                context,
+                                FlutterI18n.translate(
+                                    context, "SignInForm.snackbar_greeting"));
                           } on FirebaseAuthException catch (e) {
                             showSnackBar(
-                                context, FlutterI18n.translate(context, "SignInForm.snackbar_incorrect"));
+                                context,
+                                FlutterI18n.translate(
+                                    context, "SignInForm.snackbar_incorrect"));
                             print(e);
                           }
                         }
@@ -131,7 +138,8 @@ class _SignInWidgetState extends State<SignInWidget> {
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.black87,
                       ),
-                      child: Text(FlutterI18n.translate(context, "SignInForm.sign_in"),
+                      child: Text(
+                          FlutterI18n.translate(context, "SignInForm.sign_in"),
                           style: TextStyle(fontSize: 30))),
                 ),
                 TextButton(
@@ -154,19 +162,18 @@ class _SignInWidgetState extends State<SignInWidget> {
                   ),
                 ),
 
-                    DropdownButton<String>(
-                        value: value,
-                        iconSize: 30,
-                        icon: const Icon(Icons.arrow_drop_down,
-                            color: Colors.black),
-                        items: languages.map(buildMenuLang).toList(),
-                        onChanged: (value) async {
-                          this.value = value;
-                          Locale newLocale = Locale(value!);
-                          await FlutterI18n.refresh(context, newLocale);
-                          setState(() {});
-                        }),
-
+                DropdownButton<String>(
+                    value: value,
+                    iconSize: 30,
+                    icon:
+                        const Icon(Icons.arrow_drop_down, color: Colors.black),
+                    items: languages.map(buildMenuLang).toList(),
+                    onChanged: (value) async {
+                      this.value = value;
+                      Locale newLocale = Locale(value!);
+                      await FlutterI18n.refresh(context, newLocale);
+                      setState(() {});
+                    }),
               ],
             ),
           ),
@@ -174,11 +181,12 @@ class _SignInWidgetState extends State<SignInWidget> {
       ),
     );
   }
+
   DropdownMenuItem<String> buildMenuLang(String lang) => DropdownMenuItem(
-    value: lang,
-    child: Text(
-      lang,
-      style: const TextStyle(fontSize: 20),
-    ),
-  );
+        value: lang,
+        child: Text(
+          lang,
+          style: const TextStyle(fontSize: 20),
+        ),
+      );
 }

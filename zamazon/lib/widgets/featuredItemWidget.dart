@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamazon/globals.dart';
 import 'dart:math';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/views/ProductPage.dart';

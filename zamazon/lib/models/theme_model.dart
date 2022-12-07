@@ -12,6 +12,7 @@ class ThemeModel {
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
   }
+
   Future<Themes> getThemesWithId(int id) async {
     final db = await DBUtils.init();
     final List maps =
@@ -24,6 +25,7 @@ class ThemeModel {
       insertTheme(defaultTheme);
       return defaultTheme;
     }
+
     return Themes.fromMap(maps[0]);
   }
 }

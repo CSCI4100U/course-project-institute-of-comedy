@@ -7,12 +7,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zamazon/models/themeBLoC.dart';
 import 'package:zamazon/views/SettingsPage.dart';
-import 'package:zamazon/controllers/CustomerInfoForm.dart';
 import 'package:zamazon/controllers/SignInForm.dart';
 import 'package:zamazon/views/checkoutPage.dart';
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ProductPage.dart';
 import 'package:zamazon/webscraping/scrapeProducts.dart';
+import 'package:zamazon/views/newUserInfoPage.dart';
+import 'package:zamazon/views/orderTrackMap.dart';
 import 'controllers/SignUpForm.dart';
 import 'models/Product.dart';
 import 'models/productModel.dart';
@@ -95,10 +96,10 @@ class MyApp extends StatelessWidget {
             //Routes to other pages
             '/SettingsPage': (context) =>
                 const SettingsPageWidget(title: 'Settings'),
-            '/CustomerInfo': (context) =>
-                const CustomerAddressWidget(title: 'Enter Address Info'),
+            '/NewUserInfoPage': (context) => const NewUserInfoPage(),
             '/SignIn': (context) => const SignInWidget(title: 'Sign In'),
             '/SignUp': (context) => const SignUpWidget(title: 'Sign Up'),
+            '/OrderTrackMap': (context) => const OrderTrackMap(),
           },
           localizationsDelegates: [
             FlutterI18nDelegate(

@@ -3,9 +3,13 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
+
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import '../authentication/regexValidation.dart';
 import '../models/themeBLoC.dart';
+
+import '../authentication/regexValidation.dart';
+import '../themes.dart';
 
 // Form for registering a new user to firebase.
 
@@ -24,14 +28,13 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final languages = ['en', 'fr', 'sp', 'cn', 'jp'];
   String? value;
 
-  String? _name;
   String? _email;
   String? _password;
 
   @override
   Widget build(BuildContext context) {
-    final ContainerTheme =
-        Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
+    final containerTheme =
+        Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
             ? Colors.grey[900]
             : Colors.white;
 
@@ -43,8 +46,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
             width: MediaQuery.of(context).size.width * 0.9,
             margin: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-                color: ContainerTheme,
-                borderRadius: BorderRadius.all(Radius.circular(20))),
+                color: containerTheme,
+                borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -65,7 +68,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      labelText: FlutterI18n.translate(context, "SignUpForm.email"),
+                      labelText:
+                          FlutterI18n.translate(context, "SignUpForm.email"),
                     ),
                     onSaved: (email) {
                       _email = email;
@@ -86,7 +90,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
-                      labelText: FlutterI18n.translate(context, "SignUpForm.password"),
+                      labelText:
+                          FlutterI18n.translate(context, "SignUpForm.password"),
                     ),
                     onSaved: (password) {
                       _password = password;
@@ -110,20 +115,16 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          _auth.signUp(_name, _email, _password).then((_) {
-                            Navigator.pushNamed(context, '/CustomerInfo');
-
-                            showSnackBar(
-                                context, FlutterI18n.translate(context, "SignUpForm.snackbar_greeting"));
+                          _auth.signUp(_email, _password).then((_) {
+                            Navigator.pushNamed(context, "/NewUserInfoPage");
                           });
-
-                          //Navigator.pushNamed(context, '/CustomerAddress');
                         }
                       },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.black87,
                       ),
-                      child: Text(FlutterI18n.translate(context, "SignUpForm.sign_up"),
+                      child: Text(
+                          FlutterI18n.translate(context, "SignUpForm.sign_up"),
                           style: TextStyle(fontSize: 30))),
                 ),
                 TextButton(
@@ -137,7 +138,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   ),
                   child: Text(
                     FlutterI18n.translate(context, "SignUpForm.yes_account"),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     ),

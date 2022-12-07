@@ -19,24 +19,14 @@ class RegexValidation {
     return null;
   }
 
-  //Used for name, country, province, and city. only requirement is no nums
-  //so I just used a switch for the different outputs.
-  String? validateNoNums(String field, String? value) {
+  //Used for name, only requirement is no numbers
+  String? validateName(String? value) {
     RegExp regExp = RegExp(r'^[a-z A-Z,.\-]+$');
 
     if (value == null || value.isEmpty) {
-      return 'Please enter a $field';
+      return 'Please enter a Name';
     } else if (!regExp.hasMatch(value)) {
-      return 'Please enter a valid $field (No numbers)';
-    }
-  }
-
-  String? validateStreetAddress(String? value) {
-    RegExp regExp = RegExp(r'^[0-9]+ [0-9 a-z A-Z.-]+$');
-    if (value == null || value.isEmpty) {
-      return 'Please enter a Street Address';
-    } else if (!regExp.hasMatch(value)) {
-      return 'Street Address Example: 301 Front St W';
+      return 'Please enter a valid name (No numbers)';
     }
     return null;
   }
@@ -47,6 +37,13 @@ class RegexValidation {
       return 'Please enter a Postal Code';
     } else if (!regExp.hasMatch(value)) {
       return 'Postal Code Example: A1A 1A1';
+    }
+    return null;
+  }
+
+  String? validateAddress(String? value, bool addressChosen) {
+    if (value == null || value.isEmpty || !addressChosen) {
+      return 'Please enter an Address';
     }
     return null;
   }

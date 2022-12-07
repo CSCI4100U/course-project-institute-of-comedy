@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/Product.dart';
-
+import 'UserOrder.dart';
 import 'Product.dart';
 
 class SCWLModel {
@@ -72,6 +72,50 @@ class SCWLModel {
               : '${product.id}${scwlItem.size}')
           .set(scwlItem.toMap());
     }
+  }
+
+  Stream<List<UserOrder>> getUserOrderHistory() {
+    return _db
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('orders')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((document) {
+        return UserOrder.fromMap(document.data(), docRef: document.reference);
+      }).toList();
+    });
+  }
+
+  Future<void> addToOrderHistory(
+      List<ShoppingCartWishListItem> checkedOutItems) async {
+    List<Map> mappedSCWLItems = [];
+
+    for (ShoppingCartWishListItem checkedOutItem in checkedOutItems) {
+      mappedSCWLItems.add(checkedOutItem.toMap());
+    }
+
+    await _db
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection("orders")
+        .doc()
+        .set({
+      "delivered": false,
+      "orderedOn": DateTime.now(),
+      "order": FieldValue.arrayUnion(mappedSCWLItems),
+    }, SetOptions(merge: true));
+
+    await _db
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection("shoppingCart")
+        .get()
+        .then((value) => {
+              value.docs.forEach((doc) {
+                doc.reference.delete();
+              })
+            });
   }
 
   Future<void> updateCartWishList(ShoppingCartWishListItem scwlItem) async {

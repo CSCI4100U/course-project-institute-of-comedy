@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
+
 import 'package:zamazon/models/themeBLoC.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import '../widgets/changeThemeButton.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
+
+import 'package:zamazon/models/db_utils.dart';
+import 'package:zamazon/themes.dart';
+import 'package:zamazon/controllers/enterAddress.dart';
+import 'package:zamazon/views/orderHistory.dart';
+import 'package:zamazon/views/orderTrackMap.dart';
+
+import '../models/CusUser.dart';
+import '../models/userModel.dart';
 
 class SettingsPageWidget extends StatefulWidget {
   const SettingsPageWidget({Key? key, this.title}) : super(key: key);
@@ -97,6 +107,18 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                         await FlutterI18n.refresh(context, newLocale);
                         setState(() {});
                       }),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Order History", style: TextStyle(fontSize: 20)),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const OrderHistory()));
+                          },
+                          icon: const Icon(Icons.arrow_forward)),
+                    ],
+                  ),
                 ],
               ),
             ),
