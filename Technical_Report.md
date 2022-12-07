@@ -34,7 +34,7 @@ To use the app, one would first have to download the app and have access to work
 | Local Storage | Local storage was use to store the variable of themes, this way, themes will stay as whichever theme the user pick even if they close the app. |
 | Cloud Storage | Firestore was used for the cloud storage part. In here, all the customers information are store here and product information is also generated and pulled from here. |
 | Data Tables and Charts | Data tables was use to show the user their order history. |
-| Maps | Maps is use in conjection with geocoding and geolocation to display product and their distance to destination. |
-| Geolocation | Maps is use in conjection with geocoding and geolocation to display product and their distance to destination. |
-| Geocoding | Maps is use in conjection with geocoding and geolocation to display product and their distance to destination. |
+| Maps | Maps is use in conjection with geocoding to display product and the route to their destination. |
+| Geolocation | Geolocation is used for the address bar where a button lets the user choose their current location as their shipping address. |
+| Geocoding | Maps is use in conjection with geocoding to display product and the route to their destination. |
 | Internationalization | Internationalization is used to change the language for all static texts. |
