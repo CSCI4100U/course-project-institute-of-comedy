@@ -8,6 +8,10 @@ Group Members: Gowtham Rajendra, Ivan Wang, Ravi Pogaku
 ---
 The app that our group made is a delivery app that allows users who have created an account to make pruchases on a variety of different products online and hace it delivered to where ever they want within Canada.
 
+ACCOUNT FOR THE PROFESSOR:
+USERNAME: prof@coolguy.com
+PASSWORD: Password1
+
 ## Group Members
 ---
 | Members | Contributions |
