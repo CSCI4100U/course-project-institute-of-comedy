@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/models/db_utils.dart';
 import 'package:zamazon/themes.dart';
-import 'package:zamazon/views/enterAddress.dart';
+import 'package:zamazon/controllers/enterAddress.dart';
+import 'package:zamazon/views/orderHistory.dart';
 import 'package:zamazon/views/orderTrackMap.dart';
 
 import '../models/CusUser.dart';
@@ -47,12 +48,10 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
             Container(
               margin: const EdgeInsets.all(10),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
                   Text('Light/Dark Theme',
                       style: TextStyle(fontSize: 20)),
-                  SizedBox(
-                    width: 80,
-                  ),
                   ChangeThemeButtonWidget(),
                 ],
               ),
@@ -60,38 +59,18 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
             Container(
               margin: const EdgeInsets.all(10),
               child: Row(
-                children: const [
-                  Text('Notification Settings',
-                      style: TextStyle(fontSize: 20)),
-                  SizedBox(
-                    width: 100,
-                  ),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Order History", style: TextStyle(fontSize: 20)),
+                  IconButton(onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const OrderHistory()
+                    )
+                    );
+                  }, icon: const Icon(Icons.arrow_forward)),
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.all(10),
-              child: Row(
-                children: const [
-                  Text('Legal Stuff', style: TextStyle(fontSize: 20)),
-                  SizedBox(
-                    width: 100,
-                  ),
-                ],
-              ),
-            ),
-            ElevatedButton(onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const OrderTrackMap()
-              )
-              );
-            }, child: const Text("Map")),
-            ElevatedButton(onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const EnterAddress()
-              )
-              );
-            }, child: const Text("address"))
           ],
         ),
       )),

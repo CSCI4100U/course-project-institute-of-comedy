@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
+import '../authentication/regexValidation.dart';
 import '../themes.dart';
 
 // Form for registering a new user to firebase.
-
 
 class SignUpWidget extends StatefulWidget {
   const SignUpWidget({Key? key, this.title}) : super(key: key);
@@ -20,7 +20,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
   final _formKey = GlobalKey<FormState>();
   final _auth = Auth();
 
-  String? _name;
   String? _email;
   String? _password;
 
@@ -67,15 +66,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       _email = email;
                     },
                     validator: (value) {
-                      RegExp regExp = RegExp(
-                          r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)');
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Email';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'Email example: abc@gmail.com';
-                      }
-                      return null;
-                    },
+                return RegexValidation().validateEmail(value);
+                },
                   ),
                 ),
                 Container(
@@ -95,14 +87,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       _password = password;
                     },
                     validator: (value) {
-                      RegExp regExp = RegExp(
-                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Password';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'At least 6 letters: 1 Uppercase, 1 Lowercase, 1 num';
-                      }
-                      return null;
+                      return RegexValidation().validatePassword(value);
                     },
                   ),
                 ),
@@ -120,19 +105,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          _auth.signUp(_name, _email, _password).then((_) {
-                            Navigator.pushNamed(context, '/CustomerInfo');
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text(
-                                "User Registered, Welcome!",
-                                style: TextStyle(fontSize: 20),
-                              )),
+                          _auth.signUp(_email, _password).then((_) {
+                            Navigator.pushNamed(
+                              context,
+                              "/NewUserInfoPage"
                             );
                           });
-
-                          //Navigator.pushNamed(context, '/CustomerAddress');
                         }
                       },
                       style: TextButton.styleFrom(

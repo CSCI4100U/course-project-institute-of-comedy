@@ -2,15 +2,19 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:geolocator/geolocator.dart';
 
+import '../authentication/regexValidation.dart';
 import '../globals.dart';
-import '../widgets/addressSearchResults.dart';
 
 class EnterAddress extends StatefulWidget {
-  const EnterAddress({Key? key}) : super(key: key);
+  const EnterAddress({Key? key, required this.onAddressSaved, required this.initialAddress}) : super(key: key);
+
+  final String initialAddress;
+  final ValueChanged<String> onAddressSaved;
 
   @override
   State<EnterAddress> createState() => _EnterAddressState();
@@ -21,6 +25,7 @@ class _EnterAddressState extends State<EnterAddress> {
   bool isResponseEmpty = true;
   bool hasResponded = false;
   bool isWaitingForLocation = false;
+  bool addressChosen = false;
 
   String noRequest =
       'Start typing your address or use your current location by pressing locator button.';
@@ -34,53 +39,97 @@ class _EnterAddressState extends State<EnterAddress> {
   Timer? typingTimer;
 
   @override
+  void initState() {
+    textController.text = widget.initialAddress;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Geolocator.isLocationServiceEnabled().then((value) => null);
     Geolocator.requestPermission().then((value) => null);
 
-    return Scaffold(
-      appBar: AppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              locationField(),
-              isLoading
-                  ? const LinearProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue))
-                  : Container(),
-              isResponseEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.all(
-                        20,
-                      ),
-                      child: Center(
-                          child: isLoading ? Text(loadingText) :
-                          Text(hasResponded ? noResponse : noRequest,
-                        textAlign: TextAlign.center,
-                      )))
-                  : Container(),
-              addressSearchResults(responses, textController),
-            ],
-          ),
+    return Card(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            locationField(),
+            isLoading
+                ? const LinearProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue))
+                : Container(),
+            isResponseEmpty
+                ? Padding(
+                    padding: const EdgeInsets.all(
+                      20,
+                    ),
+                    child: Center(
+                        child: isLoading ? Text(loadingText) :
+                        Text(hasResponded ? noResponse : noRequest,
+                              textAlign: TextAlign.center,
+                        )
+                    )
+            )
+                : Container(),
+            addressSearchResults(responses, textController),
+          ],
         ),
       ),
     );
   }
 
+  // shows all search results in a listview
+  Widget addressSearchResults(List responses, TextEditingController textController) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: responses.length,
+      itemBuilder: (context, index) {
+        return Column(
+          children: [
+            ListTile(
+              onTap: () {
+                String text = responses[index]['place'];
+
+                textController.text = text;
+
+                // hides keyboard when user taps on a tile
+                FocusManager.instance.primaryFocus?.unfocus();
+
+                // send address back to userprofile in userProfilePage.dart
+                widget.onAddressSaved(text);
+
+                setState(() {
+                  this.responses = [];
+                  addressChosen = true; // make sure user chooses valid address
+                });
+              },
+              leading: const CircleAvatar(child: Icon(Icons.location_on)),
+              title: Text(responses[index]['name'],
+                  style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(responses[index]['address'],
+                  overflow: TextOverflow.ellipsis),
+            ),
+            const Divider(height: 1,),
+          ],
+        );
+      },
+    );
+  }
+
   Widget locationField() {
     return Card(
-        elevation: 5,
         clipBehavior: Clip.antiAlias, // TODO :test this
         // margin: const EdgeInsets.all(0), // this may be useful
         child: Container(
             padding: const EdgeInsets.all(15),
             child: Padding(
               padding: const EdgeInsets.all(5),
-              child: TextField(
+              child: TextFormField(
                 enabled: isWaitingForLocation ? false : true,
                 controller: textController,
                 decoration: InputDecoration(
+                  prefixIcon: const Icon(FontAwesomeIcons.mapLocationDot, size: 20,),
                   suffixIcon: IconButton(
                       onPressed: isWaitingForLocation ? null :
                           () => _useCurrentLocationButtonHandler(),
@@ -91,6 +140,9 @@ class _EnterAddressState extends State<EnterAddress> {
                   labelText: "Address",
                 ),
                 onChanged: _onChangeHandler,
+                validator: (value) {
+                  return RegexValidation().validateAddress(value, addressChosen);
+                },
               ),
             )));
   }
@@ -99,6 +151,7 @@ class _EnterAddressState extends State<EnterAddress> {
     // when user is typing, it is loading
     setState(() {
       isLoading = true;
+      addressChosen = false;
     });
 
     // waits for one second after user has stopped typing before
@@ -128,6 +181,9 @@ class _EnterAddressState extends State<EnterAddress> {
     setState(() {
       isLoading = true;
       isWaitingForLocation = true;
+      textController.text = '';
+      responses = [];
+      isResponseEmpty = true;
     });
 
 
@@ -143,12 +199,6 @@ class _EnterAddressState extends State<EnterAddress> {
 
     Position userLocation = await Geolocator.getCurrentPosition();
 
-    // no longer loading
-    setState(() {
-      isWaitingForLocation = false;
-      isLoading = false;
-    });
-
     final List<Placemark> places = await placemarkFromCoordinates(
         userLocation.latitude,
         userLocation.longitude
@@ -158,8 +208,18 @@ class _EnterAddressState extends State<EnterAddress> {
         '${places[0].administrativeArea} ${places[0].postalCode}, ${places[0].country}';
     // TODO : add it to user's info
 
-    // replace textfield with the user's address
-    textController.text = address;
+
+    // no longer loading
+    setState(() {
+      isWaitingForLocation = false;
+      isLoading = false;
+      // replace text field with the user's address
+      textController.text = address;
+      // show results again in case user's address wasn't exact
+      _onChangeHandler(textController.text);
+      // send address back to userprofile in userProfilePage.dart
+      widget.onAddressSaved(address);
+    });
   }
 }
 

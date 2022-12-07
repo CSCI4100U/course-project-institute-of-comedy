@@ -84,33 +84,17 @@ class ConfirmPurchaseWidget extends StatelessWidget {
               const Text(
                 'Address:',
                 style: TextStyle(fontSize: 16),
+                softWrap: true,
+                maxLines: 5,
               ),
               Text(
-                '${user.country},\n ${user.province},\n ${user.city}',
+                '${user.address}',
                 style: const TextStyle(fontSize: 16),
               )
             ],
           ),
           const SizedBox(
             height: 10,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Postal Code:',
-                style: TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                '${user.postal}',
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
-            ],
           ),
           const Divider(
             thickness: 2,
@@ -162,7 +146,7 @@ class ConfirmPurchaseWidget extends StatelessWidget {
 
                 // Send order delivered notification
                 notifBody = 'Your order of $numOfItems item(s) has been '
-                    'delivered to ${user.name} at ${user.country}, ${user.province}, ${user.city}, ${user.postal}';
+                    'delivered to ${user.name} at ${user.address}';
 
                 _sendDeliveryNotif();
               },

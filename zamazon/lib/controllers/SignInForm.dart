@@ -90,16 +90,9 @@ class _SignInWidgetState extends State<SignInWidget> {
                     onSaved: (password) {
                       _password = password!.trim();
                     },
-                    validator: (value) {
-                      RegExp regExp = RegExp(
-                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$');
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a Password';
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'At least 6 letters, 1 uppercase, 1 lowercase, and 1 number';
-                      }
-                      return null;
-                    },
+                      validator: (value) {
+                        return RegexValidation().validatePassword(value);
+                      },
                   ),
                 ),
                 const SizedBox(

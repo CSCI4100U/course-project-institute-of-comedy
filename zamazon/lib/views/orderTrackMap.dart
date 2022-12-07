@@ -24,20 +24,16 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator(),);
         }
-        String address = '${snapshot.data!.streetAddress!}, ${snapshot.data!.city!}, ${snapshot.data!.province!}';
+        String address = '${snapshot.data!.address}';
         return FutureBuilder(
           future: getUserLatLng(address),
           builder: (context, snapshot) {
-            // if (snapshot.connectionState != ConnectionState.done) {
-            //   return const Center(child: CircularProgressIndicator(),);
-            // }
             if (snapshot.hasData && !snapshot.hasError) {
               return Scaffold(
                 appBar: AppBar(
                   title: const Text("Tracking Order"),
                 ),
                 body: Stack(children: [
-                  // userLocation == null ? const Center(child: CircularProgressIndicator()) :
                   MapboxMap(
                     accessToken: Constants.mapBoxAccessToken,
                     initialCameraPosition:
@@ -64,7 +60,7 @@ class _OrderTrackMapState extends State<OrderTrackMap> {
                       // there is no line to remove so false is passed
                       _addLine(false, snapshot.data!);
                     },
-                    minMaxZoomPreference: const MinMaxZoomPreference(10, 15),
+                    minMaxZoomPreference: const MinMaxZoomPreference(1, 15),
                   ),
                 ]),
               );

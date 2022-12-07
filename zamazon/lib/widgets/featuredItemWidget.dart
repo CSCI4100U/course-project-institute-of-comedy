@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zamazon/globals.dart';
 import 'dart:math';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/views/ProductPage.dart';
@@ -58,8 +59,8 @@ class FeaturedItemWidget extends StatelessWidget {
             ),
             Container(
               padding: const EdgeInsets.all(10),
-              child: Text(
-                "${product.savings!.substring(18, 21)} off. Limited time offer",
+              child: Text("",
+                // "${product.savings!.substring(18, 21)} off. Limited time offer",
                 style: const TextStyle(fontSize: 15, color: Colors.black),
                 textAlign: TextAlign.center,
               ),
@@ -69,7 +70,7 @@ class FeaturedItemWidget extends StatelessWidget {
                 width: 250,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.network(product.imageUrlList![0]),
+                  child: Image.network(zamazonLogo),
                 ))
           ],
         ),

@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/Product.dart';
 
+
+import 'UserOrder.dart';
 import 'Product.dart';
 
 class SCWLModel {
@@ -69,6 +71,20 @@ class SCWLModel {
           : '${product.id}${scwlItem.size}')
           .set(scwlItem.toMap());
     }
+  }
+
+  Stream<List<UserOrder>> getUserOrderHistory(){
+    return _db
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('orders')
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((document) {
+        return UserOrder.fromMap(document.data(),
+            docRef: document.reference);
+      }).toList();
+    });
   }
 
   Future<void> addToOrderHistory(

@@ -2,16 +2,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:zamazon/models/db_utils.dart';
 import 'package:zamazon/themes.dart';
 import 'package:zamazon/views/ProductPage.dart';
 import 'package:zamazon/views/SettingsPage.dart';
-import 'package:zamazon/controllers/CustomerInfoForm.dart';
 import 'package:zamazon/controllers/SignInForm.dart';
 import 'package:zamazon/views/checkoutPage.dart';
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ShoppingCartPage.dart';
 import 'package:zamazon/views/WishListPage.dart';
+import 'package:zamazon/views/newUserInfoPage.dart';
+import 'package:zamazon/views/orderTrackMap.dart';
 import 'controllers/SignUpForm.dart';
 import 'models/Product.dart';
 import 'models/productModel.dart';
@@ -94,14 +94,15 @@ class MyApp extends StatelessWidget {
             //Routes to other pages
             '/SettingsPage': (context) =>
                 const SettingsPageWidget(title: 'Settings'),
-            '/CustomerInfo': (context) =>
-                const CustomerAddressWidget(title: 'Enter Address Info'),
+            '/NewUserInfoPage': (context) =>
+                const NewUserInfoPage(),
             '/SignIn': (context) => const SignInWidget(title: 'Sign In'),
             '/SignUp': (context) => const SignUpWidget(title: 'Sign Up'),
             '/ShoppingCart': (context) =>
                 const ShoppingCartPage(title: 'Shopping Cart'),
             '/WishList': (context) => const WishListPage(title: 'Wish List'),
             '/Profile': (context) => const UserProfilePage(),
+            '/OrderTrackMap' : (context) => const OrderTrackMap(),
           },
         );
       },
