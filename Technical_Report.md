@@ -13,7 +13,7 @@ The app that our group made is a delivery app that allows users who have created
 | ------ | ------ |
 | Gowtham | Home page, Product page, Shopping cart and wishlist, local storage, geocoding and geolocation, data tables and charts, general UI, setup firestore |
 | Ivan | Sign in and sign up page, settings page, theme changer, regex for authentication, local storage, localization, and technical report |
-| Ravi | checkout page, Firebase authentication for sign in and sign up,contributed to regex, web scraping, notifications, general UI, setup firestore |
+| Ravi | Checkout page, Firebase authentication for sign in and sign up,contributed to regex, web scraping, notifications, general UI, setup firestore |
 
 ## Code Design
 ---
