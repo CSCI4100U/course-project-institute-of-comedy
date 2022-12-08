@@ -42,3 +42,9 @@ To use the app, one would first have to download the app and have access to work
 | Geolocation | Geolocation is used for the address bar where a button lets the user choose their current location as their shipping address. |
 | Geocoding | Maps is use in conjection with geocoding to display product and the route to their destination. |
 | Internationalization | Internationalization is used to change the language for all static texts. |
+
+## Citations
+https://github.com/Imperial-lord/mapbox-flutter - Map Routes, Address Search Bar
+www.youtube.com/@JohannesMilke - Used multiple tutorials from this channel
+https://stackoverflow.com
+https://github.com/CSCI4100U/LectureExamples2022 
