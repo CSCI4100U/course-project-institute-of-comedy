@@ -44,7 +44,7 @@ To use the app, one would first have to download the app and have access to work
 | Internationalization | Internationalization is used to change the language for all static texts. |
 
 ## Citations
-https://github.com/Imperial-lord/mapbox-flutter - Map Routes, Address Search Bar
-www.youtube.com/@JohannesMilke - Used multiple tutorials from this channel
-https://stackoverflow.com
+https://github.com/Imperial-lord/mapbox-flutter - Map Routes, Address Search Bar <br>
+www.youtube.com/@JohannesMilke - Used multiple tutorials from this channel <br>
+https://stackoverflow.com <br>
 https://github.com/CSCI4100U/LectureExamples2022 
