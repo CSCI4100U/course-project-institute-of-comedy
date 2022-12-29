@@ -3,11 +3,9 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
 import 'package:zamazon/globals.dart';
-
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import '../authentication/regexValidation.dart';
 import '../models/themeBLoC.dart';
-
 import '../authentication/regexValidation.dart';
 import '../themes.dart';
 
@@ -33,10 +31,11 @@ class _SignUpWidgetState extends State<SignUpWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final containerTheme =
-        Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
-            ? Colors.grey[900]
-            : Colors.white;
+    final containerTheme = Provider.of<ThemeBLoC>(context).isDarkMode
+        ? Colors.grey[900]
+        : Colors.white;
+
+    value = FlutterI18n.currentLocale(context)?.languageCode ?? 'en';
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -53,10 +52,10 @@ class _SignUpWidgetState extends State<SignUpWidget> {
               children: [
                 Image.network(zamazonLogo),
                 Padding(
-                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                  padding: const EdgeInsets.only(top: 10, bottom: 10),
                   child: Text(
                     FlutterI18n.translate(context, "SignUpForm.greeting"),
-                    style: TextStyle(fontSize: 30),
+                    style: const TextStyle(fontSize: 30),
                   ),
                 ),
                 Container(
@@ -64,8 +63,8 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                   child: TextFormField(
                     //Email Validator
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.email),
-                      border: OutlineInputBorder(
+                      prefixIcon: const Icon(Icons.email),
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       labelText:
@@ -85,9 +84,9 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                     //Password Validator
                     obscureText: true,
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.key),
+                      prefixIcon: const Icon(Icons.key),
                       errorMaxLines: 10,
-                      border: OutlineInputBorder(
+                      border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                       ),
                       labelText:
@@ -125,12 +124,12 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                       ),
                       child: Text(
                           FlutterI18n.translate(context, "SignUpForm.sign_up"),
-                          style: TextStyle(fontSize: 30))),
+                          style: const TextStyle(fontSize: 30))),
                 ),
                 TextButton(
                   onPressed: () {
                     FocusScope.of(context).unfocus();
-                    Navigator.of(context).pop();
+                    Navigator.pop(context, '/SignIn');
                   },
                   style: TextButton.styleFrom(
                     surfaceTintColor: Colors.blue,

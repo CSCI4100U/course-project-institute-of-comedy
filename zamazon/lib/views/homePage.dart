@@ -11,7 +11,7 @@ import 'package:zamazon/widgets/productViewWidget.dart';
 import 'package:zamazon/controllers/userProfilePage.dart';
 import 'package:zamazon/views/ShoppingCartPage.dart';
 import 'package:zamazon/views/WishListPage.dart';
-
+import 'dart:math';
 import 'package:zamazon/widgets/sliverAppBar.dart';
 
 // Homepage of our digital store front. Presented after successful sign in/ sign up
@@ -25,6 +25,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final categories = [
+    'electronics',
+    'computer',
+    'kitchen',
+    'video games',
+    'clothes',
+    'cosmetics',
+    'game console',
+    'shoes',
+  ];
+
+  int rand1 = Random().nextInt(8);
+
   // product list is loaded in initstate
   List<Product> productList = [];
 
@@ -53,16 +66,20 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     productList = Provider.of<List<Product>>(context);
 
+    while (rand1 + 2 > 7) {
+      rand1 = Random().nextInt(8);
+    }
+
     List<Widget> navPageTitles = [
       // app logo for homepage
       Image.network(
         zamazonLogo,
         width: 125,
       ),
-      Text(FlutterI18n.translate(context,"Appbar.profile")),
-      Text(FlutterI18n.translate(context,"Appbar.shopping_cart")),
-      Text(FlutterI18n.translate(context,"Appbar.wish_list")),
-      Text(FlutterI18n.translate(context,"Appbar.settings")),
+      Text(FlutterI18n.translate(context, "Appbar.profile")),
+      Text(FlutterI18n.translate(context, "Appbar.shopping_cart")),
+      Text(FlutterI18n.translate(context, "Appbar.wish_list")),
+      Text(FlutterI18n.translate(context, "Appbar.settings")),
     ];
 
     navBarPages = [
@@ -77,19 +94,7 @@ class _HomePageState extends State<HomePage> {
     Widget homepageSearchWidget = IconButton(
         onPressed: () async {
           // when a user taps a result, it will be returned here.
-          final nav = Navigator.of(context);
-          final product = await showSearch(
-              context: context, delegate: CustomSearchDelegate());
-
-          if (product != null) {
-            nav.pushNamed(
-              "/ProductPage",
-              arguments: {
-                'title': 'Product',
-                'product': product,
-              },
-            );
-          }
+          await showSearch(context: context, delegate: CustomSearchDelegate());
         },
         icon: const Icon(Icons.search));
 
@@ -132,9 +137,18 @@ class _HomePageState extends State<HomePage> {
         ),
 
         //horizontal listview of products
-        ProductViewWidget(productList: productList),
-        ProductViewWidget(productList: productList),
-        ProductViewWidget(productList: productList),
+        ProductViewWidget(
+          productList: productList,
+          category: categories[rand1],
+        ),
+        ProductViewWidget(
+          productList: productList,
+          category: categories[rand1 + 1],
+        ),
+        ProductViewWidget(
+          productList: productList,
+          category: categories[rand1 + 2],
+        ),
       ],
     );
   }

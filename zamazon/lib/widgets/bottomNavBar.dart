@@ -16,27 +16,27 @@ class BottomNavBar extends StatelessWidget {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: const Icon(Icons.home),
           label: FlutterI18n.translate(context, "Bottom_NavBar.home_page"),
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
+          icon: const Icon(Icons.person),
           label: FlutterI18n.translate(context, "Bottom_NavBar.profile_page"),
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.shopping_cart),
+          icon: const Icon(Icons.shopping_cart),
           label: FlutterI18n.translate(context, "Bottom_NavBar.shopping_cart"),
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.favorite),
+          icon: const Icon(Icons.favorite),
           label: FlutterI18n.translate(context, "Bottom_NavBar.wish_list"),
           backgroundColor: Colors.orange,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
+          icon: const Icon(Icons.settings),
           label: FlutterI18n.translate(context, "Bottom_NavBar.settings"),
           backgroundColor: Colors.orange,
         ),

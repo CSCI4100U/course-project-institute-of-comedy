@@ -9,7 +9,6 @@ class ThemeBLoC extends ChangeNotifier {
   ThemeMode? themeMode;
 
   bool get isDarkMode {
-    print(themeMode.toString());
     return themeMode == ThemeMode.dark;
   }
 

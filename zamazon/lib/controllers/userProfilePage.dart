@@ -29,13 +29,6 @@ class _UserProfilePageState extends State<UserProfilePage> {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           child: Scaffold(
-            appBar: AppBar(
-              title: const Text('Profile'),
-              iconTheme: Theme.of(context).iconTheme,
-              backgroundColor: Colors.transparent,
-              foregroundColor: Theme.of(context).primaryColor,
-              elevation: 0,
-            ),
             body: SingleChildScrollView(
               child: Column(
                 children: [
@@ -45,19 +38,21 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.topLeft,
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
                         stops: const [
                           0.2,
                           0.4,
                           0.6,
+                          0.8,
                           1.0,
                         ],
                         colors: [
                           Colors.orange.shade100,
+                          Colors.orange.shade200,
                           Colors.orange.shade300,
                           Colors.orange.shade400,
-                          Colors.orange.shade900,
+                          Colors.orange,
                         ],
                       ),
                       color: Colors.orange[900],
@@ -84,6 +79,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           snapshot.data.name,
                           style: const TextStyle(
                             fontSize: 25,
+                            color: Colors.black,
                           ),
                         ),
                       ],

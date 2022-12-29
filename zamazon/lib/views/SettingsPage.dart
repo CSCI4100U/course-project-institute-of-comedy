@@ -1,20 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:provider/provider.dart';
-
+import 'package:zamazon/globals.dart';
 import 'package:zamazon/models/themeBLoC.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
+import 'package:zamazon/widgets/languageDropDownMenu.dart';
 import '../widgets/changeThemeButton.dart';
 import 'package:zamazon/authentication/authFunctions.dart';
-
-import 'package:zamazon/models/db_utils.dart';
-import 'package:zamazon/themes.dart';
-import 'package:zamazon/controllers/enterAddress.dart';
 import 'package:zamazon/views/orderHistory.dart';
-import 'package:zamazon/views/orderTrackMap.dart';
-
-import '../models/CusUser.dart';
-import '../models/userModel.dart';
 
 class SettingsPageWidget extends StatefulWidget {
   const SettingsPageWidget({Key? key, this.title}) : super(key: key);
@@ -26,13 +19,22 @@ class SettingsPageWidget extends StatefulWidget {
 }
 
 class _SettingsPageWidgetState extends State<SettingsPageWidget> {
-  final languages = ['en', 'fr', 'sp', 'cn', 'jp'];
-  String? value;
+  String? currentLanguage;
   final _auth = Auth();
+
+  static const double mainFontSize = 20;
 
   // needed in changeThemeButton.dart to fix a problem
   void refreshFromChild() {
     setState(() {});
+  }
+
+  // callback? (dunno if this is the correct term)
+  // used in languageDropDownMenu.dart
+  void changeLanguage(String newLanguage) {
+    setState(() {
+      currentLanguage = newLanguage;
+    });
   }
 
   @override
@@ -57,7 +59,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(FlutterI18n.translate(context, "SettingPage.theme"),
-                      style: TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: mainFontSize),
                       softWrap: true,
                       maxLines: 2),
                   ChangeThemeButtonWidget(
@@ -70,7 +72,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
               margin: const EdgeInsets.all(10),
               child: Text(
                   FlutterI18n.translate(context, "SettingPage.notification"),
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: mainFontSize),
                   softWrap: true,
                   maxLines: 2),
             ),
@@ -78,7 +80,7 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
               margin: const EdgeInsets.all(10),
               child: Text(
                   FlutterI18n.translate(context, "SettingPage.legality"),
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: mainFontSize),
                   softWrap: true,
                   maxLines: 2),
             ),
@@ -92,25 +94,18 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                         context,
                         "SettingPage.language",
                       ),
-                      style: TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: mainFontSize),
                       softWrap: true,
                       maxLines: 2),
-                  DropdownButton<String>(
-                      value: value,
-                      iconSize: 30,
-                      icon: const Icon(Icons.arrow_drop_down,
-                          color: Colors.black),
-                      items: languages.map(buildMenuLang).toList(),
-                      onChanged: (value) async {
-                        this.value = value;
-                        Locale newLocale = Locale(value!);
-                        await FlutterI18n.refresh(context, newLocale);
-                        setState(() {});
-                      }),
+                  LanguageDropDownMenu(
+                    currentLanguage: currentLanguage,
+                    changeLanguage: changeLanguage,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Order History", style: TextStyle(fontSize: 20)),
+                      const Text("Order History",
+                          style: TextStyle(fontSize: mainFontSize)),
                       IconButton(
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
@@ -130,11 +125,13 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
                 });
               },
               style: ButtonStyle(
+                  foregroundColor: const MaterialStatePropertyAll(Colors.black),
+                  backgroundColor:
+                      const MaterialStatePropertyAll(Colors.orange),
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18.0),
-                side: const BorderSide(color: Colors.orange),
-              ))),
+                    borderRadius: BorderRadius.circular(20),
+                  ))),
               child: const Icon(Icons.logout),
             ),
           ],
@@ -142,12 +139,4 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget> {
       ),
     );
   }
-
-  DropdownMenuItem<String> buildMenuLang(String lang) => DropdownMenuItem(
-        value: lang,
-        child: Text(
-          lang,
-          style: const TextStyle(fontSize: 20),
-        ),
-      );
 }

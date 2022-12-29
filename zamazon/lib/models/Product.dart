@@ -54,7 +54,7 @@ class Product {
     this.imageUrl = map['imageUrl'];
     this.categories = map['categories'];
 
-    // DEFAULTS
+    // DEFAULTS CUZ IM BAD AT HTML, I DONT KNOW HOW TO SCRAPE THIS INFO :)
     this.features = ['Premium SOLID Stainless Steel'];
     this.productDescription =
         'PS4 Pro 4K TV GAMING & MORE The most advanced PlayStation system ever. PS4 Pro is designed to take your favorite PS4 games and add to them with more power for graphics';

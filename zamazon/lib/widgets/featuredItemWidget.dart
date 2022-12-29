@@ -43,7 +43,7 @@ class FeaturedItemWidget extends StatelessWidget {
             Container(
               padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
               child: Text(
-                "${product.features![0]}",
+                "Limited Time Featured Item!",
                 style: TextStyle(
                   fontSize: 25,
                   fontWeight: FontWeight.bold,
@@ -53,15 +53,16 @@ class FeaturedItemWidget extends StatelessWidget {
               ),
             ),
             Container(
-                padding: const EdgeInsets.all(10),
-                child: Text(
-                  "${product.title}",
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: containerTheme,
-                  ),
-                  textAlign: TextAlign.center,
-                )),
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                "${product.title}",
+                style: TextStyle(
+                  fontSize: 20,
+                  color: containerTheme,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
             Container(
               padding: const EdgeInsets.all(10),
               child: Text(
@@ -73,21 +74,14 @@ class FeaturedItemWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-            // Container(
-            //   padding: const EdgeInsets.all(10),
-            //   child: Text(
-            //     "${product.savings!.substring(18, 21)} off. Limited time offer",
-            //     style: const TextStyle(fontSize: 15, color: Colors.black),
-            //     textAlign: TextAlign.center,
-            //   ),
-            // ),
             Container(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                width: 250,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.network(product.imageUrl!),
-                ))
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+              width: 250,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(product.imageUrl!),
+              ),
+            ),
           ],
         ),
       );
