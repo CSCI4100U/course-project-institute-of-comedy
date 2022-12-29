@@ -1,16 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
-import 'package:flutter_material_pickers/flutter_material_pickers.dart';
-import 'package:flutter_material_pickers/helpers/show_number_picker.dart';
 import 'package:zamazon/models/Product.dart';
 import 'package:zamazon/models/productModel.dart';
-import 'package:zamazon/models/shoppingCartWishListItem.dart';
 import 'package:zamazon/models/shoppingCartWishListModel.dart';
 import 'package:zamazon/widgets/defaultAppBar.dart';
 import 'package:zamazon/widgets/genericSnackBar.dart';
 import 'package:zamazon/widgets/ratingWidget.dart';
-
-import 'package:zamazon/widgets/dealWidget.dart';
 import 'package:zamazon/widgets/priceWidget.dart';
 
 import '../widgets/sizePickerDialog.dart';
@@ -33,6 +28,8 @@ class ProductPage extends StatefulWidget {
 class _ProductPageState extends State<ProductPage> {
   Product? product;
   int? _selectedSizeValue;
+  static const double mainFontSize = 20;
+  static const double subFontSize = 17;
 
   @override
   void initState() {
@@ -50,12 +47,12 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
-    final PageController controller = PageController(); // for pageView
+    //final PageController controller = PageController(); // for pageView
     // for back to top button
     ScrollController scrollController = ScrollController();
-    double fontSize = 17;
 
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: DefaultAppBar(
@@ -67,6 +64,7 @@ class _ProductPageState extends State<ProductPage> {
           SliverList(
               delegate: SliverChildListDelegate(
             [
+              // STARS AND NUM OF REVIEWS
               Container(
                 padding: const EdgeInsets.all(10),
                 child: Row(
@@ -77,23 +75,44 @@ class _ProductPageState extends State<ProductPage> {
                     RatingWidget(product: product!),
                     Text(
                       "(${product!.numReviews})",
-                      style: TextStyle(fontSize: fontSize),
+                      style: const TextStyle(fontSize: mainFontSize),
                     ),
                   ],
                 ),
               ),
+
+              // PRODUCT NAME
               Container(
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: Text("${product!.title}",
-                      style: TextStyle(fontSize: fontSize))),
-              // using SizedBox for spacing purposes
-              SizedBox(
-                height: 250,
-                // width: 100,
-                // page view to show images
-                child: Image.network(product!.imageUrl!),
+                      style: const TextStyle(fontSize: mainFontSize))),
+
+              const SizedBox(height: 10),
+
+              // STACK IS PRODUCT IMAGE + WHITE BACKGROUND
+              Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Container(
+                    height: height * 0.4,
+                    width: width,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                    ),
+                  ),
+                  Image.network(
+                    height: height * 0.4,
+                    product!.imageUrl!,
+                  ),
+                ],
               ),
-              PriceWidget(product: product!),
+
+              const SizedBox(height: 10),
+
+              // Price of product
+              PriceWidget(price: product!.price!),
+
+              // Warehouse Availability, i.e. 'In Stock' or 'Only 3 left in stock.', etc.
               Container(
                 padding: const EdgeInsets.all(10),
                 child: Text(
@@ -101,15 +120,20 @@ class _ProductPageState extends State<ProductPage> {
                   style: const TextStyle(fontSize: 20, color: Colors.green),
                 ),
               ),
+
+              // Add to cart and add to wishlist buttons
               Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                 buildAddToCartButton(context),
                 // SizedBox(width: 20,),
                 buildAddToWishListButton(context)
               ]),
+
               const Divider(
                 height: 50,
                 thickness: 2,
               ),
+
+              // Product Details
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -117,8 +141,8 @@ class _ProductPageState extends State<ProductPage> {
                     padding: const EdgeInsets.all(10),
                     child: Text(
                       FlutterI18n.translate(context, "ProductPage.detail"),
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: fontSize),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: mainFontSize),
                     ),
                   ),
                   // looping through productDetails and
@@ -131,7 +155,12 @@ class _ProductPageState extends State<ProductPage> {
                         Flexible(
                           child: Container(
                               padding: const EdgeInsets.all(10),
-                              child: Text("${detail['name']}")),
+                              child: Text(
+                                "${detail['name']}",
+                                style: const TextStyle(
+                                  fontSize: subFontSize,
+                                ),
+                              )),
                         ),
                         const SizedBox(
                           width: 100,
@@ -139,34 +168,56 @@ class _ProductPageState extends State<ProductPage> {
                         Flexible(
                             child: Container(
                                 padding: const EdgeInsets.all(10),
-                                child: Text("${detail['value']}")))
+                                child: Text(
+                                  "${detail['value']}",
+                                  style: const TextStyle(
+                                    fontSize: subFontSize,
+                                  ),
+                                )))
                       ],
                     ))
                 ],
               ),
+
               const Divider(
                 height: 30,
                 thickness: 2,
               ),
+
+              // Product description
               Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                   child: Text(
                     FlutterI18n.translate(context, "ProductPage.description"),
-                    style: TextStyle(fontSize: fontSize),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: mainFontSize,
+                    ),
                   )),
               Container(
                   padding: const EdgeInsets.all(10),
-                  child: Text("${product!.productDescription}")),
+                  child: Text(
+                    "${product!.productDescription}",
+                    style: const TextStyle(
+                      fontSize: subFontSize,
+                    ),
+                  )),
+
               const Divider(
                 height: 30,
                 thickness: 2,
               ),
+
+              // Product features
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
                 child: Text(
                   FlutterI18n.translate(context, "ProductPage.feature"),
-                  style: TextStyle(fontSize: fontSize),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: mainFontSize,
+                  ),
                 ),
               ),
               for (String feature in product!.features!)
@@ -174,16 +225,30 @@ class _ProductPageState extends State<ProductPage> {
                   margin:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: (Row(
-                    children: [const Text("• "), Text(feature)],
+                    children: [
+                      const Text(
+                        "• ",
+                        style: TextStyle(
+                          fontSize: subFontSize,
+                        ),
+                      ),
+                      Text(
+                        feature,
+                        style: const TextStyle(
+                          fontSize: subFontSize,
+                        ),
+                      )
+                    ],
                   )),
                 ),
+
               // button that scrolls back to top of page
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       fixedSize: Size(width, 50),
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.zero),
-                      backgroundColor: Colors.blueGrey),
+                      backgroundColor: Colors.orangeAccent),
                   onPressed: () {
                     setState(() {
                       scrollController.animateTo(0.0,
@@ -193,8 +258,9 @@ class _ProductPageState extends State<ProductPage> {
                   },
                   child: Column(
                     children: [
-                      Icon(Icons.keyboard_double_arrow_up),
-                      Text(FlutterI18n.translate(context, "ProductPage.back_to_top")),
+                      const Icon(Icons.keyboard_double_arrow_up),
+                      Text(FlutterI18n.translate(
+                          context, "ProductPage.back_to_top")),
                     ],
                   ))
             ],
@@ -211,7 +277,10 @@ class _ProductPageState extends State<ProductPage> {
         onPressed: () {
           setState(() {
             if (!_isWishListButtonPressed) {
-              showSnackBar(context, FlutterI18n.translate(context, "ProductPage.added_to_wishlist"));
+              showSnackBar(
+                  context,
+                  FlutterI18n.translate(
+                      context, "ProductPage.added_to_wishlist"));
               _isWishListButtonPressed = true;
               _scwlModel.addToCartWishList(product!, "wishList");
             }
@@ -240,7 +309,7 @@ class _ProductPageState extends State<ProductPage> {
           // if (!_isAddToCartButtonPressed) {
           int? value = 1;
           if (product!.sizeSelection!.length > 1) {
-            int? value =
+            value =
                 await showSizePickerDialog(context, product!.sizeSelection!);
           }
           setState(() {
@@ -248,7 +317,8 @@ class _ProductPageState extends State<ProductPage> {
           });
           if (value != null) {
             if (!mounted) return;
-            showSnackBar(context, FlutterI18n.translate(context, "ProductPage.added_to_cart"));
+            showSnackBar(context,
+                FlutterI18n.translate(context, "ProductPage.added_to_cart"));
             _isAddToCartButtonPressed =
                 _isAddToCartButtonPressed ? false : true;
             _scwlModel.addToCartWishList(product!, "shoppingCart",
@@ -257,7 +327,10 @@ class _ProductPageState extends State<ProductPage> {
         },
         child: Text(
           FlutterI18n.translate(context, "ProductPage.add_to_cart"),
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(
+            color: Colors.black,
+            fontSize: mainFontSize,
+          ),
         ));
   }
 }

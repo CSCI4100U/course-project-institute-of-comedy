@@ -51,30 +51,59 @@ class CustomSearchDelegate extends SearchDelegate {
 
     List<Product> matches = [];
     for (var product in productList) {
-      List lowers =
+      List categoriesInLowercase =
           product.categories!.map((cat) => cat.toLowerCase()).toList();
 
-      if (lowers.any((cat) => cat.contains(query.toLowerCase()))) {
+      if (categoriesInLowercase
+              .any((cat) => cat.contains(query.toLowerCase())) ||
+          product.title!.toLowerCase().contains(query.toLowerCase())) {
         matches.add(product);
       }
     }
 
+    // remove duplicate items
+    matches = matches.toSet().toList();
+
     //after finding matches, build a listview of all matched products
-    return ListView.builder(
+    return ListView.separated(
+      // if empty, then itemCount is 1 and its just listtile "no products found"
       itemCount: (matches.isNotEmpty) ? matches.length : 1,
+      separatorBuilder: (context, index) {
+        return const Divider(
+          thickness: 3,
+        );
+      },
       itemBuilder: (context, index) {
         return (matches.isNotEmpty)
             ? ListTile(
-                title: Image.network(matches[index].imageUrl!),
-                subtitle: Text(matches[index].title!),
+                title: SizedBox(
+                  height: 200,
+                  child: Image.network(matches[index].imageUrl!),
+                ),
+                subtitle: Text(
+                  matches[index].title!,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                  ),
+                ),
                 onTap: () {
-                  // when item is tapped, close the search bar and return user choice
-                  query = matches[index].title!;
-                  close(context, matches[index]);
+                  // when a product is tapped, show that product's page
+                  Navigator.pushNamed(
+                    context,
+                    "/ProductPage",
+                    arguments: {
+                      'title': 'Product',
+                      'product': matches[index],
+                    },
+                  );
                 },
               )
             : const ListTile(
-                title: Text("No Terms/Products Found"),
+                title: Text(
+                  "No Terms/Products Found",
+                  style: TextStyle(fontSize: 20),
+                ),
               );
       },
     );
@@ -83,6 +112,7 @@ class CustomSearchDelegate extends SearchDelegate {
   // shows suggestions for user when typing
   @override
   Widget buildSuggestions(BuildContext context) {
+    List<Product> products = Provider.of<List<Product>>(context);
     List<String> matches = [];
     for (var term in searchTerms) {
       if (term.toLowerCase().contains(query.toLowerCase())) {
@@ -90,21 +120,39 @@ class CustomSearchDelegate extends SearchDelegate {
       }
     }
 
+    if (query.isNotEmpty) {
+      for (var product in products) {
+        if (product.title!.toLowerCase().contains(query.toLowerCase())) {
+          matches.add(product.title!);
+        }
+      }
+    }
+
+    matches = matches.toSet().toList();
+
     //after finding matches, build a listview of all matches
     return ListView.builder(
       itemCount: (matches.isNotEmpty) ? matches.length : 1,
       itemBuilder: (context, index) {
         return (matches.isNotEmpty)
             ? ListTile(
-                title: Text(matches[index]),
+                title: Text(
+                  matches[index],
+                  style: const TextStyle(fontSize: 20),
+                ),
                 onTap: () {
-                  // when item is tapped, close the search bar and return user choice
+                  // when item is tapped, close the search bar and return user's
+                  // choice which is then used to push route to the selected
+                  //product's page
                   query = matches[index];
                   showResults(context);
                 },
               )
             : const ListTile(
-                title: Text("No Terms/Products Found"),
+                title: Text(
+                  "No Terms/Products Found",
+                  style: TextStyle(fontSize: 20),
+                ),
               );
       },
     );

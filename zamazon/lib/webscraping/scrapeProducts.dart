@@ -32,7 +32,7 @@ class WebScraper {
       final sizeOptions =
           (term == 'clothes' || term == 'shoes') ? [1, 2, 3, 4] : [1];
       final categories = [term];
-      print('${term}: ${products.length}');
+      print('$term: ${products.length}');
 
       for (var item in products) {
         print('soup');

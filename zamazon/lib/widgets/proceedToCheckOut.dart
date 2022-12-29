@@ -27,11 +27,9 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 60),
       // height: MediaQuery.of(context).size.height/3,
-      decoration: BoxDecoration(
-          color: Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
-              ? Colors.grey[500]
-              : Colors.orange,
-          borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+          color: Colors.orange,
+          borderRadius: BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           )),
@@ -43,13 +41,17 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(
               FlutterI18n.translate(context, "ProceedToCheckOut.total"),
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+              ),
             ),
             Text(
               '\$${cartSum.toStringAsFixed(2)}',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
+                color: Colors.black,
               ),
             )
           ]),
@@ -77,8 +79,9 @@ class _ProceedToCheckOutWidgetState extends State<ProceedToCheckOutWidget> {
                   },
                 );
               },
-              child: Text(FlutterI18n.translate(context, "ProceedToCheckOut.proceed"),
-                  style: TextStyle(color: Colors.white)))
+              child: Text(
+                  FlutterI18n.translate(context, "ProceedToCheckOut.proceed"),
+                  style: const TextStyle(color: Colors.white)))
         ],
       ),
     );

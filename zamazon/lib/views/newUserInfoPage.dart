@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zamazon/controllers/userInfoForm.dart';
-
-import '../themes.dart';
+import 'package:zamazon/models/themeBLoC.dart';
 
 class NewUserInfoPage extends StatefulWidget {
   const NewUserInfoPage({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ class _NewUserInfoPageState extends State<NewUserInfoPage> {
   @override
   Widget build(BuildContext context) {
     final containerTheme =
-        Provider.of<ThemeProvider>(context).themeMode == ThemeMode.dark
+        Provider.of<ThemeBLoC>(context).themeMode == ThemeMode.dark
             ? Colors.grey[900]
             : Colors.white;
 
@@ -32,24 +31,27 @@ class _NewUserInfoPageState extends State<NewUserInfoPage> {
           child: SingleChildScrollView(
             child: SafeArea(
               child: Container(
-                padding:  const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text("Enter Your Name And Shipping Address", style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 30
-                        ), textAlign: TextAlign.center,),
-                    UserInfoForm(
-                      buttonText: 'Confirm',
-                      initialName: '',
-                      initialAddress: '',
-                    ),
-                  ]),
+                    children: const [
+                      Text(
+                        "Enter Your Name And Shipping Address",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 30),
+                        textAlign: TextAlign.center,
+                      ),
+                      UserInfoForm(
+                        buttonText: 'Confirm',
+                        initialName: '',
+                        initialAddress: '',
+                      ),
+                    ]),
               ),
             ),
-            ),
+          ),
         ),
-        ),
+      ),
     );
   }
 }

@@ -46,6 +46,7 @@ class BuildCartItem extends StatelessWidget {
               Column(
                 children: [
                   Container(
+                    height: 125,
                     width: width / 2.5,
                     margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
                     child: ClipRRect(
@@ -89,8 +90,9 @@ class BuildCartItem extends StatelessWidget {
                     ),
                     scwlItem.size != 0
                         ? Text.rich(TextSpan(children: [
-                          TextSpan(
-                                text: FlutterI18n.translate(context, "BuildCartItem.size"),
+                            TextSpan(
+                                text: FlutterI18n.translate(
+                                    context, "BuildCartItem.size"),
                                 style: TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold)),
                             TextSpan(

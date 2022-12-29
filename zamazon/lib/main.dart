@@ -11,6 +11,7 @@ import 'package:zamazon/controllers/SignInForm.dart';
 import 'package:zamazon/views/checkoutPage.dart';
 import 'package:zamazon/views/homePage.dart';
 import 'package:zamazon/views/ProductPage.dart';
+import 'package:zamazon/views/viewAllCategoryProducts.dart';
 import 'package:zamazon/webscraping/scrapeProducts.dart';
 import 'package:zamazon/views/newUserInfoPage.dart';
 import 'package:zamazon/views/orderTrackMap.dart';
@@ -51,6 +52,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeBLoC>(context);
+    print('MAIN THEME: ${themeProvider.getCurrentTheme().toString()}');
 
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
@@ -63,7 +65,7 @@ class MyApp extends StatelessWidget {
           home: (snapshot.hasData)
               ? const HomePage()
               : const SignInWidget(
-                  title: 'Welcome \n Please Sign In',
+                  title: 'Sign In',
                 ),
           onGenerateRoute: (settings) {
             final String routeName = settings.name!;
@@ -76,6 +78,12 @@ class MyApp extends StatelessWidget {
                   return ProductPage(
                     title: arguments['title'],
                     product: arguments['product'],
+                  );
+                });
+              case '/CategoryPage':
+                return MaterialPageRoute(builder: (context) {
+                  return ViewAllCategoryProducts(
+                    specificProducts: arguments['specificProducts'],
                   );
                 });
               case '/CheckOut':
@@ -98,7 +106,7 @@ class MyApp extends StatelessWidget {
                 const SettingsPageWidget(title: 'Settings'),
             '/NewUserInfoPage': (context) => const NewUserInfoPage(),
             '/SignIn': (context) => const SignInWidget(title: 'Sign In'),
-            '/SignUp': (context) => const SignUpWidget(title: 'Sign Up'),
+            '/SignUp': (context) => const SignInWidget(title: 'Sign Up'),
             '/OrderTrackMap': (context) => const OrderTrackMap(),
           },
           localizationsDelegates: [
